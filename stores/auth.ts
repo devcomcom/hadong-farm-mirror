@@ -12,9 +12,10 @@ interface AuthStore {
 export const useAuthStore = create<AuthStore>((set) => ({
     isAuthenticated: true, // 초기 인증 상태는 true
     userRole: "FARMER", // 초기 사용자 역할은 FARMER
+    // 인증 상태를 토글하는 함수로 현재 인증 상태를 반전시킴
     toggleAuth: () =>
-        set(() => ({
-            isAuthenticated: true, // 임시로 로그인 상태로 설정
+        set((state) => ({
+            isAuthenticated: !state.isAuthenticated,
         })),
     setRole: (role) => set({ userRole: role }), // 주어진 역할로 사용자 역할 설정
 }));

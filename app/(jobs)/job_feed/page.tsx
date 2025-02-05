@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-// import InfiniteScroll from "react-infinite-scroll-component";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 // 임포트할 컴포넌트 (구현되어 있다고 가정)
 // import FilterSection from "@/components/jobs/FilterSection";
 // import ViewToggle from "@/components/jobs/ViewToggle";
 import JobCard from "@/components/jobs/job_card";
-// import LoadingCard from "@/components/jobs/loading_card";
+import LoadingCard from "@/components/jobs/loading_card";
 
 // 구인 목록 아이템 인터페이스 (명세서 참고)
 interface JobListItem {
@@ -78,20 +78,20 @@ export default function JobFeedPage() {
                 {/* <FilterSection /> */}
                 {/* <ViewToggle /> */}
             </div>
-            {/* <InfiniteScroll
+            <InfiniteScroll
                 dataLength={items.length}
                 next={fetchNextPage}
                 hasMore={hasMore}
                 loader={<LoadingCard />}
-            > */}
-            {items.map((job) => (
-                <JobCard
-                    key={job.id} // 구인 아이디를 키로 사용
-                    job={job} // JobCard에 구인 데이터 전달
-                    onClick={() => router.push(`/jobs/${job.id}`)} // 클릭 시 구인 상세 페이지로 이동
-                />
-            ))}
-            {/* </InfiniteScroll> */}
+            >
+                {items.map((job) => (
+                    <JobCard
+                        key={job.id} // 구인 아이디를 키로 사용
+                        job={job} // JobCard에 구인 데이터 전달
+                        onClick={() => router.push(`/jobs/${job.id}`)} // 클릭 시 구인 상세 페이지로 이동
+                    />
+                ))}
+            </InfiniteScroll>
         </div>
     );
 }

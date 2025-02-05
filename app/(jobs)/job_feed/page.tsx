@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 // 임포트할 컴포넌트
-// import FilterSection from "@/components/jobs/filter_section";
+import FilterSection from "@/components/jobs/filter_section";
 // import ViewToggle from "@/components/jobs/ViewToggle";
 import JobCard from "@/components/jobs/job_card";
 import LoadingCard from "@/components/jobs/loading_card";
+import { DateRange } from "@/components/common/date_range_picker"; // DateRange 타입 임포트
 
 // 구인 목록 아이템 인터페이스 (명세서 참고)
 interface JobListItem {
@@ -66,6 +67,7 @@ export default function JobFeedPage() {
     const [items, setItems] = useState<JobListItem[]>([]); // 구인 목록 상태
     const [page, setPage] = useState(1); // 현재 페이지 상태
     const [hasMore, setHasMore] = useState(true); // 더 많은 데이터 여부 상태
+    const [dateRange, setDateRange] = useState<DateRange>({ start: null, end: null }); // 날짜 범위 상태 추가
 
     // 다음 페이지 데이터를 불러오는 함수
     const fetchNextPage = async () => {
@@ -79,19 +81,29 @@ export default function JobFeedPage() {
         fetchNextPage(); // 컴포넌트 마운트 시 데이터 fetching
     }, []);
 
+    // 날짜 범위와 겹치는 아이템 필터링
+    const filteredItems = items.filter((job) => {
+        if (!dateRange.start || !dateRange.end) return true; // 날짜 범위가 설정되지 않은 경우 모든 아이템 표시
+        const jobStart = new Date(job.workDate.start);
+        const jobEnd = new Date(job.workDate.end);
+        return (
+            (jobStart <= dateRange.end && jobEnd >= dateRange.start) // 날짜 범위와 겹치는지 확인
+        );
+    });
+
     return (
         <div className="space-y-4">
             <div className="flex justify-between">
-                {/* {<FilterSection />} */}
+                <FilterSection dateRange={dateRange} setDateRange={setDateRange} /> {/* 날짜 범위 상태 전달 */}
                 {/* <ViewToggle /> */}
             </div>
             <InfiniteScroll
-                dataLength={items.length}
+                dataLength={filteredItems.length}
                 next={fetchNextPage}
                 hasMore={hasMore}
                 loader={<LoadingCard />}
             >
-                {items.map((job) => (
+                {filteredItems.map((job) => (
                     <JobCard
                         key={job.id} // 구인 아이디를 키로 사용
                         job={job} // JobCard에 구인 데이터 전달

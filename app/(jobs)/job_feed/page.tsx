@@ -43,7 +43,7 @@ async function fakeFetchJobs(page: number): Promise<{ items: JobListItem[]; hasM
             farmName: `Farm ${id}`, // 농장 이름
             location: { address: "Some Address", distance: 5 }, // 위치 정보
             workDate: { start: "2023-10-01", end: "2023-10-02" }, // 근무 기간
-            payment: { amount: 100, unit: "DAY" }, // 급여 정보
+            payment: { amount: 120000, unit: "DAY" }, // 급여 정보
             status: "OPEN", // 구인 상태
             createdAt: new Date().toISOString(), // 작성일
         };

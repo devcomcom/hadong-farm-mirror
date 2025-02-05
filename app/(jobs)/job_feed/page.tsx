@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-// 임포트할 컴포넌트 (구현되어 있다고 가정)
-// import FilterSection from "@/components/jobs/FilterSection";
+// 임포트할 컴포넌트
+// import FilterSection from "@/components/jobs/filter_section";
 // import ViewToggle from "@/components/jobs/ViewToggle";
 import JobCard from "@/components/jobs/job_card";
 import LoadingCard from "@/components/jobs/loading_card";
@@ -36,14 +36,21 @@ interface JobListItem {
 async function fakeFetchJobs(page: number): Promise<{ items: JobListItem[]; hasMore: boolean }> {
     const dummyItems: JobListItem[] = Array.from({ length: 10 }).map((_, index) => {
         const id = ((page - 1) * 10 + index + 1).toString(); // 구인 아이디 생성
+
+        const startDate = new Date(2025, 0, 1); // 2025년 1월 1일
+        const endDate = new Date(2025, 2, 30); // 2025년 3월 30일
+        const randomDate = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
+        const formattedStartDate = randomDate.toISOString().split('T')[0]; // ISO 형식으로 변환 후 날짜 부분만 추출
+        const formattedEndDate = new Date(randomDate.getTime() + 24 * 60 * 60 * 1000 * 7).toISOString().split('T')[0]; // 랜덤 날짜의 다음 날
+
         return {
             id,
             type: "FARMER", // 기본 구인 유형
             title: `Job ${id}`, // 구인 제목
             farmName: `Farm ${id}`, // 농장 이름
             location: { address: "Some Address", distance: 5 }, // 위치 정보
-            workDate: { start: "2023-10-01", end: "2023-10-02" }, // 근무 기간
-            payment: { amount: 120000, unit: "DAY" }, // 급여 정보
+            workDate: { start: formattedStartDate, end: formattedEndDate }, // 근무 기간
+            payment: { amount: Math.floor(Math.random() * (200000 - 120000 + 1)) + 120000, unit: "DAY" }, // 급여 정보
             status: "OPEN", // 구인 상태
             createdAt: new Date().toISOString(), // 작성일
         };
@@ -75,7 +82,7 @@ export default function JobFeedPage() {
     return (
         <div className="space-y-4">
             <div className="flex justify-between">
-                {/* <FilterSection /> */}
+                {/* {<FilterSection />} */}
                 {/* <ViewToggle /> */}
             </div>
             <InfiniteScroll

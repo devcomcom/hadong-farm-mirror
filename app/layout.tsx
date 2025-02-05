@@ -1,6 +1,6 @@
 import "./globals.css";
 
-import RoleToggle from "@/components/common/role-toggle";
+import RoleToggle from "@/components/common/role_toggle";
 
 export const metadata = {
     title: "My Next.js App",
@@ -34,5 +34,7 @@ export default function RootLayout({
             </body>
         </html>
     );
+}
+
 
 

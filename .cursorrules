@@ -19,7 +19,7 @@
   # 프로젝트 초기 설정
   npm create next-app@latest --typescript --tailwind --app
   npm install @clerk/nextjs
-  npx shadcn-ui@latest init
+  npx shadcn@latest init
   npm install zustand
   ```
 

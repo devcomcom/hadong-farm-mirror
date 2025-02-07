@@ -69,12 +69,16 @@ export default function JobFeedPage() {
     const [hasMore, setHasMore] = useState(true); // 더 많은 데이터 여부 상태
     const [dateRange, setDateRange] = useState<DateRange>({ start: null, end: null }); // 날짜 범위 상태 추가
 
-    // 다음 페이지 데이터를 불러오는 함수
+    // 다음 페이지 데이터를 불러오는 함수 (에러 핸들링 추가)
     const fetchNextPage = async () => {
-        const data = await fakeFetchJobs(page); // 데이터 fetching
-        setItems((prev) => [...prev, ...data.items]); // 기존 목록에 새 데이터 추가
-        setHasMore(data.hasMore); // 더 많은 데이터 여부 업데이트
-        setPage((prev) => prev + 1); // 페이지 증가
+        try {
+            const data = await fakeFetchJobs(page); // 데이터 fetching
+            setItems((prev) => [...prev, ...data.items]); // 기존 목록에 새 데이터 추가
+            setHasMore(data.hasMore); // 더 많은 데이터 여부 업데이트
+            setPage((prev) => prev + 1); // 페이지 증가
+        } catch (error) {
+            console.error("Failed to fetch jobs", error);
+        }
     };
 
     useEffect(() => {
@@ -92,24 +96,38 @@ export default function JobFeedPage() {
     });
 
     return (
-        <div className="space-y-4">
-            <div className="flex justify-between">
+        <div className="space-y-4 p-4">
+            <div className="flex flex-col md:flex-row md:justify-between items-start gap-4">
                 <FilterSection dateRange={dateRange} setDateRange={setDateRange} /> {/* 날짜 범위 상태 전달 */}
-                {/* <ViewToggle /> */}
+                <button
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    onClick={() => router.push("/jobs/new")}
+                    aria-label="새 구인 글 작성"
+                >
+                    새 글 작성
+                </button>
             </div>
             <InfiniteScroll
                 dataLength={filteredItems.length}
                 next={fetchNextPage}
                 hasMore={hasMore}
                 loader={<LoadingCard />}
+                scrollThreshold={0.9}
+                endMessage={
+                    <p className="text-center py-4 text-gray-500">
+                        더 이상 구인 글이 없습니다.
+                    </p>
+                }
             >
-                {filteredItems.map((job) => (
-                    <JobCard
-                        key={job.id} // 구인 아이디를 키로 사용
-                        job={job} // JobCard에 구인 데이터 전달
-                        onClick={() => router.push(`/jobs/${job.id}`)} // 클릭 시 구인 상세 페이지로 이동
-                    />
-                ))}
+                <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                    {filteredItems.map((job, index) => (
+                        <JobCard
+                            key={`${job.id}-${index}`} // 구인 아이디를 키로 사용
+                            job={job} // JobCard에 구인 데이터 전달
+                            onClick={() => router.push(`/job_feed/${job.id}`)} // 클릭 시 구인 상세 페이지로 이동
+                        />
+                    ))}
+                </div>
             </InfiniteScroll>
         </div>
     );

@@ -69,21 +69,44 @@ export default function WorkerFeedPage() {
     }, []);
 
     return (
-        <div className="space-y-4">
+        <main className="container mx-auto px-4 py-6">
+            <header className="mb-6">
+                <h1 className="text-3xl font-bold text-center">구해요 피드</h1>
+                <p className="text-center text-gray-600 mt-2">
+                    현재 구직중인 포스트들을 확인하세요.
+                </p>
+            </header>
             <InfiniteScroll
                 dataLength={items.length}
                 next={fetchNextPage}
                 hasMore={hasMore}
                 loader={<LoadingCard />}
+                endMessage={
+                    <p className="text-center py-4 text-gray-500">
+                        모든 구해요 포스트를 불러왔습니다.
+                    </p>
+                }
             >
-                {items.map((job) => (
-                    <JobCard
-                        key={job.id} // 구직 아이디를 키로 사용
-                        job={job} // 구직 데이터 전달
-                        onClick={() => router.push(`/jobs/${job.id}`)} // 클릭 시 상세 페이지로 이동
-                    />
-                ))}
+                <div className="space-y-4">
+                    {items.map((job) => (
+                        <JobCard
+                            key={job.id} // 구직 아이디를 키로 사용
+                            job={job} // 구직 데이터 전달
+                            onClick={() => router.push(`/jobs/${job.id}`)} // 클릭 시 상세 페이지로 이동
+                        />
+                    ))}
+                </div>
             </InfiniteScroll>
-        </div>
+            {items.length > 0 && (
+                <div className="fixed bottom-8 right-8">
+                    <button
+                        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition"
+                    >
+                        ↑ Top
+                    </button>
+                </div>
+            )}
+        </main>
     );
 } 

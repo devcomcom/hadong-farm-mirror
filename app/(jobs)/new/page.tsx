@@ -40,7 +40,18 @@ export default function JobPostCreationPage() {
         try {
             // 실제 API 호출 부분으로 변경 가능 (예: fetch POST 요청)
             console.log("Submitting data:", data);
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            const response = await fetch('/api/set_post', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+            if (!response.ok) {
+                throw new Error("Failed to create job posting");
+            }
+            const result = await response.json();
+            console.log("Job posting created:", result);
             alert("구해요 포스트가 성공적으로 작성되었습니다.");
             // router.push("/jobs"); // 작성 완료 후 구해요 목록 페이지로 이동
         } catch (error) {

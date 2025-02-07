@@ -71,7 +71,7 @@ export default function WorkerFeedPage() {
     return (
         <main className="container mx-auto px-4 py-6">
             <header className="mb-6">
-                <h1 className="text-3xl font-bold text-center">구해요 피드</h1>
+                <h1 className="text-3xl font-bold text-center">갈게요 피드</h1>
                 <p className="text-center text-gray-600 mt-2">
                     현재 구직중인 포스트들을 확인하세요.
                 </p>

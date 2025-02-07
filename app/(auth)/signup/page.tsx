@@ -153,7 +153,7 @@ export default function SignupPage() {
                 <div className="text-center">
                     <p className="text-sm">
                         이미 계정이 있으신가요?{" "}
-                        <a href="/auth/login" className="text-blue-600 hover:underline">
+                        <a href="/login" className="text-blue-600 hover:underline">
                             로그인
                         </a>
                     </p>

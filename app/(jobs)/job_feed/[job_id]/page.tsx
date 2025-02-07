@@ -1,181 +1,148 @@
 "use client";
 
+// 필요한 훅을 임포트합니다.
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 
-
+// 구인 게시물 상세 정보를 위한 인터페이스 정의
 interface JobPostingDetail {
-    id: string;
-    type: "FARMER" | "WORKER";
-    title: string;
-    description: string;
+    id: string; // 구인 게시물 ID
+    type: "FARMER" | "WORKER"; // 구인 유형
+    title: string; // 구인 제목
+    description: string; // 구인 설명
     author: {
-        id: string;
-        name: string;
-        profileImage?: string;
+        id: string; // 작성자 ID
+        name: string; // 작성자 이름
+        profileImage?: string; // 작성자 프로필 이미지 (선택적)
     };
     workDate: {
-        start: string;
-        end: string;
+        start: string; // 근무 시작일
+        end: string; // 근무 종료일
     };
     payment: {
-        amount: number;
-        unit: "DAY" | "HOUR";
+        amount: number; // 급여 금액
+        unit: "DAY" | "HOUR"; // 급여 단위 (일/시간)
     };
     location: {
-        address: string;
-        latitude: number;
-        longitude: number;
-        farmName?: string;
+        address: string; // 위치 주소
+        latitude: number; // 위도
+        longitude: number; // 경도
+        farmName?: string; // 농장 이름 (선택적)
     };
-    status: "OPEN" | "CLOSED" | "COMPLETED";
-    matchStatus?: "NONE" | "PENDING" | "ACCEPTED" | "REJECTED";
+    status: "OPEN" | "CLOSED" | "COMPLETED"; // 구인 상태
+    matchStatus?: "NONE" | "PENDING" | "ACCEPTED" | "REJECTED"; // 매칭 상태 (선택적)
     applicants?: {
-        total: number;
-        accepted: number;
+        total: number; // 총 지원자 수
+        accepted: number; // 수락된 지원자 수
     };
-    createdAt: string;
-    updatedAt: string;
+    createdAt: string; // 작성일
+    updatedAt: string; // 수정일
 }
 
+// 구인 게시물 상세 페이지 컴포넌트
 export default function JobDetailPage() {
-    const router = useRouter();
-    const params = useParams();
-    const { job_id } = params;
-    const [jobData, setJobData] = useState<JobPostingDetail | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const router = useRouter(); // 라우터 훅 사용
+    const params = useParams(); // URL 파라미터 가져오기
+    const { job_id } = params; // job_id 추출
+    const [jobData, setJobData] = useState<JobPostingDetail | null>(null); // 구인 데이터 상태
+    const [isLoading, setIsLoading] = useState<boolean>(true); // 로딩 상태
+    const [error, setError] = useState<string | null>(null); // 에러 상태
 
+    // 구인 상세 정보를 가져오는 useEffect
     useEffect(() => {
-        // const fetchJobDetail = async () => {
-        //     try {
-        //         const res = await fetch(`/api/jobs/${job_id}`);
-        //         if (!res.ok) {
-        //             throw new Error("Failed to fetch job detail");
-        //         }
-        //         const data = await res.json();
-        //         // data.job 로 전달된 구인 상세 정보를 사용
-        //         setJobData(data.job);
-        //     } catch (err: any) {
-        //         setError(err.message);
-        //     } finally {
-        //         setIsLoading(false);
-        //     }
-        // };
-        // 더미 데이터를 정의합니다.
-        const dummyJobData: JobPostingDetail = {
-            id: "job-001",
-            type: "FARMER",
-            title: "더미 수확 도우미 필요",
-            description: "이것은 테스트 목적으로 작성된 더미 구인 게시물 설명입니다.",
-            author: {
-                id: "author-001",
-                name: "John Farmer",
-                profileImage: "",
-            },
-            workDate: {
-                start: "2025-09-01T00:00:00.000Z",
-                end: "2025-09-30T00:00:00.000Z",
-            },
-            payment: {
-                amount: 150,
-                unit: "DAY",
-            },
-            location: {
-                address: "123 농장 도로, 시골",
-                latitude: 35.6895,
-                longitude: 139.6917,
-                farmName: "햇살 농장",
-            },
-            status: "OPEN",
-            matchStatus: "PENDING",
-            applicants: {
-                total: 5,
-                accepted: 2,
-            },
-            createdAt: "2023-10-06T12:00:00.000Z",
-            updatedAt: "2023-10-06T12:00:00.000Z",
+        const fetchJobDetail = async () => {
+            try {
+                const res = await fetch('/api/mock_data'); // API 엔드포인트로 수정
+                if (!res.ok) {
+                    throw new Error("Failed to fetch job detail"); // 에러 발생 시 메시지
+                }
+                const data = await res.json(); // JSON 데이터 파싱
+                console.log(data); // 데이터 확인용 로그
+                // data.job 로 전달된 구인 상세 정보를 사용
+                setJobData(data.JobPostingDetail); // 구인 데이터 설정
+            } catch (err: any) {
+                setError(err.message); // 에러 메시지 설정
+            } finally {
+                setIsLoading(false); // 로딩 상태 종료
+            }
         };
 
-        // 500ms 후에 더미 데이터를 상태로 설정 (네트워크 딜레이 시뮬레이션)
-        const timer = setTimeout(() => {
-            setJobData(dummyJobData);
-            setIsLoading(false);
-        }, 500);
-
-        // if (job_id) {
-        //     fetchJobDetail();
-        // }
-        return () => clearTimeout(timer);
+        if (job_id) {
+            fetchJobDetail(); // job_id가 있을 경우 상세 정보 가져오기
+        }
     }, [job_id]);
 
+    // 로딩 중일 때 표시할 내용
     if (isLoading) {
         return <div className="p-4">Loading...</div>;
     }
 
+    // 에러 발생 시 표시할 내용
     if (error) {
         return <div className="p-4 text-red-500">Error: {error}</div>;
     }
 
+    // 구인 데이터가 없을 경우 표시할 내용
     if (!jobData) {
         return <div className="p-4">No job data found.</div>;
     }
 
+    // 구인 상세 정보 렌더링
     return (
         <div className="min-h-screen flex flex-col p-6 max-w-3xl mx-auto">
             <button
                 className="mb-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-                onClick={() => router.back()}
+                onClick={() => router.back()} // 뒤로가기 버튼 클릭 시 이전 페이지로 이동
                 aria-label="뒤로가기"
             >
                 ← 뒤로가기
             </button>
             <div className="bg-white shadow rounded p-6 flex-1">
-                <h1 className="text-3xl font-bold mb-2">{jobData.title}</h1>
-                <p className="text-gray-600 mb-4">Posted by {jobData.author.name}</p>
+                <h1 className="text-3xl font-bold mb-2">{jobData.title}</h1> {/* 구인 제목 */}
+                <p className="text-gray-600 mb-4">Posted by {jobData.author.name}</p> {/* 작성자 이름 */}
                 <div className="mb-4">
-                    <h2 className="text-xl font-semibold mb-2">Job Description</h2>
-                    <p className="text-gray-700 leading-relaxed">{jobData.description}</p>
+                    <h2 className="text-xl font-semibold mb-2">Job Description</h2> {/* 구인 설명 제목 */}
+                    <p className="text-gray-700 leading-relaxed">{jobData.description}</p> {/* 구인 설명 내용 */}
                 </div>
                 <div className="mb-4">
-                    <h2 className="text-xl font-semibold mb-2">Work Date</h2>
+                    <h2 className="text-xl font-semibold mb-2">Work Date</h2> {/* 근무 날짜 제목 */}
                     <p className="text-gray-700">
                         {new Date(jobData.workDate.start).toLocaleDateString()} -{" "}
-                        {new Date(jobData.workDate.end).toLocaleDateString()}
+                        {new Date(jobData.workDate.end).toLocaleDateString()} {/* 근무 시작일과 종료일 */}
                     </p>
                 </div>
                 <div className="mb-4">
-                    <h2 className="text-xl font-semibold mb-2">Payment</h2>
+                    <h2 className="text-xl font-semibold mb-2">Payment</h2> {/* 급여 제목 */}
                     <p className="text-gray-700">
                         {jobData.payment.amount}{" "}
-                        {jobData.payment.unit === "DAY" ? "per day" : "per hour"}
+                        {jobData.payment.unit === "DAY" ? "per day" : "per hour"} {/* 급여 단위에 따른 표시 */}
                     </p>
                 </div>
                 <div className="mb-4">
-                    <h2 className="text-xl font-semibold mb-2">Location</h2>
-                    <p className="text-gray-700">{jobData.location.address}</p>
+                    <h2 className="text-xl font-semibold mb-2">Location</h2> {/* 위치 제목 */}
+                    <p className="text-gray-700">{jobData.location.address}</p> {/* 위치 주소 */}
                     {jobData.location.farmName && (
-                        <p className="text-gray-700">Farm: {jobData.location.farmName}</p>
+                        <p className="text-gray-700">Farm: {jobData.location.farmName}</p> // 농장 이름 (선택적)
                     )}
                     <p className="mt-2 text-gray-600">
-                        Latitude: {jobData.location.latitude}, Longitude: {jobData.location.longitude}
+                        Latitude: {jobData.location.latitude}, Longitude: {jobData.location.longitude} {/* 위도 및 경도 */}
                     </p>
                 </div>
                 <div className="mb-4">
-                    <h2 className="text-xl font-semibold mb-2">Status</h2>
-                    <p className="text-gray-700">{jobData.status}</p>
+                    <h2 className="text-xl font-semibold mb-2">Status</h2> {/* 상태 제목 */}
+                    <p className="text-gray-700">{jobData.status}</p> {/* 구인 상태 */}
                 </div>
                 {jobData.matchStatus && (
                     <div className="mb-4">
-                        <h2 className="text-xl font-semibold mb-2">Match Status</h2>
-                        <p className="text-gray-700">{jobData.matchStatus}</p>
+                        <h2 className="text-xl font-semibold mb-2">Match Status</h2> {/* 매칭 상태 제목 */}
+                        <p className="text-gray-700">{jobData.matchStatus}</p> {/* 매칭 상태 내용 */}
                     </div>
                 )}
                 {jobData.applicants && (
                     <div className="mb-4">
-                        <h2 className="text-xl font-semibold mb-2">Applicants</h2>
+                        <h2 className="text-xl font-semibold mb-2">Applicants</h2> {/* 지원자 제목 */}
                         <p className="text-gray-700">
-                            Total: {jobData.applicants.total}, Accepted: {jobData.applicants.accepted}
+                            Total: {jobData.applicants.total}, Accepted: {jobData.applicants.accepted} {/* 총 지원자 수 및 수락된 지원자 수 */}
                         </p>
                     </div>
                 )}
@@ -183,7 +150,7 @@ export default function JobDetailPage() {
             <div className="mt-4">
                 <button
                     className="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition duration-200"
-                    onClick={() => alert("지원하기 기능을 구현해주세요")}
+                    onClick={() => alert("지원하기 기능을 구현해주세요")} // 지원하기 버튼 클릭 시 알림
                 >
                     지원하기
                 </button>

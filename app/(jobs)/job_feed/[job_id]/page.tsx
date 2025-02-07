@@ -3,6 +3,7 @@
 // 필요한 훅을 임포트합니다.
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import KakaoMap from "@/components/common/kakao_map";
 
 // 구인 게시물 상세 정보를 위한 인터페이스 정의
 interface JobPostingDetail {
@@ -124,8 +125,10 @@ export default function JobDetailPage() {
                     {jobData.location.farmName && (
                         <p className="text-gray-700">Farm: {jobData.location.farmName}</p> // 농장 이름 (선택적)
                     )}
+                    <KakaoMap latitude={jobData.location.latitude} longitude={jobData.location.longitude} />
                     <p className="mt-2 text-gray-600">
                         Latitude: {jobData.location.latitude}, Longitude: {jobData.location.longitude} {/* 위도 및 경도 */}
+
                     </p>
                 </div>
                 <div className="mb-4">

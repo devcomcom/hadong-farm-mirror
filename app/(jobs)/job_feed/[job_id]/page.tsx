@@ -51,26 +51,27 @@ export default function JobDetailPage() {
 
     // 구인 상세 정보를 가져오는 useEffect
     useEffect(() => {
-        const fetchJobDetail = async () => {
+        const fetchJobData = async () => {
             try {
-                const res = await fetch('/api/mock_data'); // API 엔드포인트로 수정
-                if (!res.ok) {
-                    throw new Error("Failed to fetch job detail"); // 에러 발생 시 메시지
+                const res = await fetch(`/api/get_post_list`); // 구인 목록 API 호출
+                if (res.ok) {
+                    const data = await res.json(); // JSON 데이터 파싱
+                    const jobPosting = data.jobPostings.find((job: any) => job.id === job_id); // job_id에 해당하는 구인 데이터 찾기
+
+                    if (jobPosting) {
+                        setJobData(jobPosting); // 구인 데이터 설정
+                    } else {
+                        // job_id에 해당하는 구인 데이터가 없을 경우 JobPostingDetail 사용
+                        setJobData(data.JobPostingDetail); // JobPostingDetail 배열 변수를 구인 데이터로 설정
+                    }
                 }
-                const data = await res.json(); // JSON 데이터 파싱
-                console.log(data); // 데이터 확인용 로그
-                // data.job 로 전달된 구인 상세 정보를 사용
-                setJobData(data.JobPostingDetail); // 구인 데이터 설정
             } catch (err: any) {
                 setError(err.message); // 에러 메시지 설정
             } finally {
                 setIsLoading(false); // 로딩 상태 종료
             }
         };
-
-        if (job_id) {
-            fetchJobDetail(); // job_id가 있을 경우 상세 정보 가져오기
-        }
+        fetchJobData();
     }, [job_id]);
 
     // 로딩 중일 때 표시할 내용
@@ -100,7 +101,6 @@ export default function JobDetailPage() {
             </button>
             <div className="bg-white shadow rounded p-6 flex-1">
                 <h1 className="text-3xl font-bold mb-2">{jobData.title}</h1> {/* 구인 제목 */}
-                <p className="text-gray-600 mb-4">Posted by {jobData.author.name}</p> {/* 작성자 이름 */}
                 <div className="mb-4">
                     <h2 className="text-xl font-semibold mb-2">Job Description</h2> {/* 구인 설명 제목 */}
                     <p className="text-gray-700 leading-relaxed">{jobData.description}</p> {/* 구인 설명 내용 */}

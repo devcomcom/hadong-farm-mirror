@@ -39,9 +39,6 @@ const Header = () => {
                             <a href="/worker_feed" className="text-blue-600 hover:underline">갈게요 피드</a>
                         </li>
                         <li>
-                            <a href="/job_feed/1" className="text-blue-600 hover:underline">구해요 상세</a>
-                        </li>
-                        <li>
                             <a href="/new" className="text-blue-600 hover:underline">게시물 작성</a>
                         </li>
                         <li>

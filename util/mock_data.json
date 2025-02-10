@@ -1,1248 +1,1247 @@
 {
-    "users": [
+  "users": [
+    {
+      "id": "user1",
+      "email": "f@a.com",
+      "password": "aaaaaa",
+      "name": "John Farmer",
+      "contact": "010-1234-5678",
+      "isActive": false,
+      "createdAt": "2023-10-06T12:00:00.000Z",
+      "updatedAt": "2023-10-06T12:00:00.000Z",
+      "roles": [
         {
-            "id": "user1",
-            "email": "f@a.com",
-            "password": "aaaaaa",
-            "name": "John Farmer",
-            "contact": "010-1234-5678",
-            "isActive": true,
-            "createdAt": "2023-10-06T12:00:00.000Z",
-            "updatedAt": "2023-10-06T12:00:00.000Z",
-            "roles": [
-                {
-                    "id": "role1",
-                    "userId": "id1",
-                    "role": "FARMER",
-                    "isActive": true,
-                    "createdAt": "2023-10-06T12:00:00.000Z",
-                    "updatedAt": "2023-10-06T12:00:00.000Z"
-                }
-            ]
-        },
-        {
-            "id": "user2",
-            "email": "w@a.com",
-            "password": "aaaaaa",
-            "name": "Alice Worker",
-            "contact": "010-9876-5432",
-            "isActive": false,
-            "createdAt": "2023-10-06T12:00:00.000Z",
-            "updatedAt": "2023-10-06T12:00:00.000Z",
-            "roles": [
-                {
-                    "id": "role2",
-                    "userId": "id2",
-                    "role": "WORKER",
-                    "isActive": true,
-                    "createdAt": "2023-10-06T12:00:00.000Z",
-                    "updatedAt": "2023-10-06T12:00:00.000Z"
-                }
-            ]
+          "id": "role1",
+          "userId": "id1",
+          "role": "FARMER",
+          "isActive": true,
+          "createdAt": "2023-10-06T12:00:00.000Z",
+          "updatedAt": "2023-10-06T12:00:00.000Z"
         }
-    ],
-    "farmList": [
-        {
-            "id": "farm1",
-            "ownerId": "user1",
-            "name": "Sunny Farm",
-            "latitude": 33.5563,
-            "longitude": 126.79581,
-            "address": "123 Farm Road, Countryside",
-            "description": "A beautiful farm located in the countryside.",
-            "createdAt": "2023-10-06T12:00:00.000Z",
-            "updatedAt": "2023-10-06T12:00:00.000Z"
-        }
-    ],
-    "workerList": [
-        {
-            "id": "worker1",
-            "userId": "user2",
-            "role": "WORKER",
-            "isActive": true,
-            "latitude": 33.5563,
-            "longitude": 126.79581,
-            "address": "123 Farm Road, Countryside",
-            "createdAt": "2023-10-06T12:00:00.000Z",
-            "updatedAt": "2023-10-06T12:00:00.000Z"
-        }
-    ],
-
-    "jobPostings": [
-        {
-            "id": "job1",
-            "type": "FARMER",
-            "userId": "id1",
-            "farmId": "farm1",
-            "title": "Harvest Season Helper Needed",
-            "description": "We are looking for experienced season workers during the harvest season.",
-            "workDate": {
-                "start": "2025-09-01T00:00:00.000Z",
-                "end": "2025-09-30T00:00:00.000Z"
-            },
-            "payment": {
-                "amount": 150,
-                "unit": "DAY"
-            },
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.33554118941988,
-                "longitude": 127.78202251588115,
-                "farmName": "햇살 농장"
-            },
-            "status": "OPEN",
-            "createdAt": "2023-10-06T12:00:00.000Z",
-            "updatedAt": "2023-10-06T12:00:00.000Z"
-        },
-        {
-            "id": "job2",
-            "type": "WORKER",
-            "userId": "id2",
-            "farmId": null,
-            "title": "Looking for Farm Work",
-            "description": "I have past experience in farm work and I am available for seasonal tasks.",
-            "workDate": {
-                "start": "2025-08-15T00:00:00.000Z",
-                "end": "2025-08-20T00:00:00.000Z"
-            },
-            "payment": {
-                "amount": 100,
-                "unit": "DAY"
-            },
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.666915902592486,
-                "longitude": 131.06749372151432,
-                "farmName": "햇살 농장"
-            },
-            "status": "OPEN",
-            "createdAt": "2023-10-06T12:00:00.000Z",
-            "updatedAt": "2023-10-06T12:00:00.000Z"
-        },
-        {
-            "id": "job3",
-            "type": "WORKER",
-            "userId": "id2",
-            "farmId": null,
-            "title": "테스트 222",
-            "description": "테스트 222",
-            "workDate": {
-                "start": "2025-02-04",
-                "end": "2025-02-20"
-            },
-            "payment": {
-                "amount": 10000,
-                "unit": "HOUR"
-            },
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.16880254626705,
-                "longitude": 128.28529732487758,
-                "farmName": "햇살 농장"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-07T11:45:31.561Z",
-            "updatedAt": "2025-02-07T11:45:31.561Z"
-        },
-        {
-            "id": "job4",
-            "type": "WORKER",
-            "userId": "id2",
-            "farmId": null,
-            "title": "테스트 222",
-            "description": "테스트 222",
-            "workDate": {
-                "start": "2025-02-04",
-                "end": "2025-02-20"
-            },
-            "payment": {
-                "amount": 10000,
-                "unit": "HOUR"
-            },
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.11199655284226,
-                "longitude": 127.91445033566882,
-                "farmName": "햇살 농장"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-07T11:45:46.981Z",
-            "updatedAt": "2025-02-07T11:45:46.981Z"
-        },
-        {
-            "id": "5",
-            "type": "FARMER",
-            "title": "Job 5",
-            "farmName": "Farm 5",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.70170900572304,
-                "longitude": 130.59023547957344,
-                "distance": 25
-            },
-            "workDate": {
-                "start": "2025-01-29",
-                "end": "2025-02-04"
-            },
-            "payment": {
-                "amount": 190000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-05T00:00:00Z"
-        },
-        {
-            "id": "6",
-            "type": "FARMER",
-            "title": "Job 6",
-            "farmName": "Farm 6",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.762196349751775,
-                "longitude": 128.73658300773224,
-                "distance": 30
-            },
-            "workDate": {
-                "start": "2025-02-05",
-                "end": "2025-02-11"
-            },
-            "payment": {
-                "amount": 200000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-06T00:00:00Z"
-        },
-        {
-            "id": "7",
-            "type": "FARMER",
-            "title": "Job 7",
-            "farmName": "Farm 7",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.55238797990534,
-                "longitude": 128.63583828335283,
-                "distance": 35
-            },
-            "workDate": {
-                "start": "2025-02-12",
-                "end": "2025-02-18"
-            },
-            "payment": {
-                "amount": 210000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-07T00:00:00Z"
-        },
-        {
-            "id": "8",
-            "type": "FARMER",
-            "title": "Job 8",
-            "farmName": "Farm 8",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.47834633113535,
-                "longitude": 128.72629526825258,
-                "distance": 40
-            },
-            "workDate": {
-                "start": "2025-02-19",
-                "end": "2025-02-25"
-            },
-            "payment": {
-                "amount": 220000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-08T00:00:00Z"
-        },
-        {
-            "id": "9",
-            "type": "FARMER",
-            "title": "Job 9",
-            "farmName": "Farm 9",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.86382830339196,
-                "longitude": 133.51850598906967,
-                "distance": 45
-            },
-            "workDate": {
-                "start": "2025-02-26",
-                "end": "2025-03-04"
-            },
-            "payment": {
-                "amount": 230000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-09T00:00:00Z"
-        },
-        {
-            "id": "10",
-            "type": "FARMER",
-            "title": "Job 10",
-            "farmName": "Farm 10",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.89417209605404,
-                "longitude": 130.445976095707,
-                "distance": 50
-            },
-            "workDate": {
-                "start": "2025-03-05",
-                "end": "2025-03-11"
-            },
-            "payment": {
-                "amount": 240000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-10T00:00:00Z"
-        },
-        {
-            "id": "11",
-            "type": "FARMER",
-            "title": "Job 11",
-            "farmName": "Farm 11",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.52392541834522,
-                "longitude": 129.1564648477755,
-                "distance": 55
-            },
-            "workDate": {
-                "start": "2025-03-12",
-                "end": "2025-03-18"
-            },
-            "payment": {
-                "amount": 250000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-11T00:00:00Z"
-        },
-        {
-            "id": "12",
-            "type": "FARMER",
-            "title": "Job 12",
-            "farmName": "Farm 12",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.285778610141385,
-                "longitude": 128.18088059121388,
-                "distance": 60
-            },
-            "workDate": {
-                "start": "2025-03-19",
-                "end": "2025-03-25"
-            },
-            "payment": {
-                "amount": 260000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-12T00:00:00Z"
-        },
-        {
-            "id": "13",
-            "type": "FARMER",
-            "title": "Job 13",
-            "farmName": "Farm 13",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.84971204488078,
-                "longitude": 133.50327021558124,
-                "distance": 65
-            },
-            "workDate": {
-                "start": "2025-03-26",
-                "end": "2025-04-01"
-            },
-            "payment": {
-                "amount": 270000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-13T00:00:00Z"
-        },
-        {
-            "id": "14",
-            "type": "FARMER",
-            "title": "Job 14",
-            "farmName": "Farm 14",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.96075664132582,
-                "longitude": 130.26499744942555,
-                "distance": 70
-            },
-            "workDate": {
-                "start": "2025-04-02",
-                "end": "2025-04-08"
-            },
-            "payment": {
-                "amount": 280000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-14T00:00:00Z"
-        },
-        {
-            "id": "15",
-            "type": "FARMER",
-            "title": "Job 15",
-            "farmName": "Farm 15",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.656465126859814,
-                "longitude": 131.6458161520225,
-                "distance": 75
-            },
-            "workDate": {
-                "start": "2025-04-09",
-                "end": "2025-04-15"
-            },
-            "payment": {
-                "amount": 290000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-15T00:00:00Z"
-        },
-        {
-            "id": "16",
-            "type": "FARMER",
-            "title": "Job 16",
-            "farmName": "Farm 16",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.84926389457866,
-                "longitude": 131.74812802199196,
-                "distance": 80
-            },
-            "workDate": {
-                "start": "2025-04-16",
-                "end": "2025-04-22"
-            },
-            "payment": {
-                "amount": 300000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-16T00:00:00Z"
-        },
-        {
-            "id": "17",
-            "type": "FARMER",
-            "title": "Job 17",
-            "farmName": "Farm 17",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.58541499296093,
-                "longitude": 129.93221862190742,
-                "distance": 85
-            },
-            "workDate": {
-                "start": "2025-04-23",
-                "end": "2025-04-29"
-            },
-            "payment": {
-                "amount": 310000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-17T00:00:00Z"
-        },
-        {
-            "id": "18",
-            "type": "FARMER",
-            "title": "Job 18",
-            "farmName": "Farm 18",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.22075907666009,
-                "longitude": 128.78583651805513,
-                "distance": 90
-            },
-            "workDate": {
-                "start": "2025-04-30",
-                "end": "2025-05-06"
-            },
-            "payment": {
-                "amount": 320000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-18T00:00:00Z"
-        },
-        {
-            "id": "19",
-            "type": "FARMER",
-            "title": "Job 19",
-            "farmName": "Farm 19",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.5004567965802,
-                "longitude": 129.672085757613,
-                "distance": 95
-            },
-            "workDate": {
-                "start": "2025-05-07",
-                "end": "2025-05-13"
-            },
-            "payment": {
-                "amount": 330000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-19T00:00:00Z"
-        },
-        {
-            "id": "20",
-            "type": "FARMER",
-            "title": "Job 20",
-            "farmName": "Farm 20",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.94125256229117,
-                "longitude": 132.36890201000242,
-                "distance": 100
-            },
-            "workDate": {
-                "start": "2025-05-14",
-                "end": "2025-05-20"
-            },
-            "payment": {
-                "amount": 340000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-20T00:00:00Z"
-        },
-        {
-            "id": "21",
-            "type": "FARMER",
-            "title": "Job 21",
-            "farmName": "Farm 21",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.25186598970013,
-                "longitude": 128.1559541881163,
-                "distance": 105
-            },
-            "workDate": {
-                "start": "2025-05-21",
-                "end": "2025-05-27"
-            },
-            "payment": {
-                "amount": 350000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-21T00:00:00Z"
-        },
-        {
-            "id": "22",
-            "type": "FARMER",
-            "title": "Job 22",
-            "farmName": "Farm 22",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.221596335788554,
-                "longitude": 127.76858580859422,
-                "distance": 110
-            },
-            "workDate": {
-                "start": "2025-05-28",
-                "end": "2025-06-03"
-            },
-            "payment": {
-                "amount": 360000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-22T00:00:00Z"
-        },
-        {
-            "id": "23",
-            "type": "FARMER",
-            "title": "Job 23",
-            "farmName": "Farm 23",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.74075669851089,
-                "longitude": 130.27064556050513,
-                "distance": 115
-            },
-            "workDate": {
-                "start": "2025-06-04",
-                "end": "2025-06-10"
-            },
-            "payment": {
-                "amount": 370000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-23T00:00:00Z"
-        },
-        {
-            "id": "24",
-            "type": "FARMER",
-            "title": "Job 24",
-            "farmName": "Farm 24",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.635649558023054,
-                "longitude": 129.57541913820785,
-                "distance": 120
-            },
-            "workDate": {
-                "start": "2025-06-11",
-                "end": "2025-06-17"
-            },
-            "payment": {
-                "amount": 380000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-24T00:00:00Z"
-        },
-        {
-            "id": "25",
-            "type": "FARMER",
-            "title": "Job 25",
-            "farmName": "Farm 25",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.52374864891023,
-                "longitude": 128.00454472646496,
-                "distance": 125
-            },
-            "workDate": {
-                "start": "2025-06-18",
-                "end": "2025-06-24"
-            },
-            "payment": {
-                "amount": 390000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-25T00:00:00Z"
-        },
-        {
-            "id": "26",
-            "type": "FARMER",
-            "title": "Job 26",
-            "farmName": "Farm 26",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.149400919201625,
-                "longitude": 128.38292356287,
-                "distance": 130
-            },
-            "workDate": {
-                "start": "2025-06-25",
-                "end": "2025-07-01"
-            },
-            "payment": {
-                "amount": 400000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-26T00:00:00Z"
-        },
-        {
-            "id": "27",
-            "type": "FARMER",
-            "title": "Job 27",
-            "farmName": "Farm 27",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.82138868516104,
-                "longitude": 132.65233223831413,
-                "distance": 135
-            },
-            "workDate": {
-                "start": "2025-07-02",
-                "end": "2025-07-08"
-            },
-            "payment": {
-                "amount": 410000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-27T00:00:00Z"
-        },
-        {
-            "id": "28",
-            "type": "FARMER",
-            "title": "Job 28",
-            "farmName": "Farm 28",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.83390978964351,
-                "longitude": 129.3584762386719,
-                "distance": 140
-            },
-            "workDate": {
-                "start": "2025-07-09",
-                "end": "2025-07-15"
-            },
-            "payment": {
-                "amount": 420000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-28T00:00:00Z"
-        },
-        {
-            "id": "29",
-            "type": "FARMER",
-            "title": "Job 29",
-            "farmName": "Farm 29",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.96140405200087,
-                "longitude": 131.13285334602796,
-                "distance": 145
-            },
-            "workDate": {
-                "start": "2025-07-16",
-                "end": "2025-07-22"
-            },
-            "payment": {
-                "amount": 430000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-29T00:00:00Z"
-        },
-        {
-            "id": "30",
-            "type": "FARMER",
-            "title": "Job 30",
-            "farmName": "Farm 30",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.20322210993049,
-                "longitude": 128.21460950165874,
-                "distance": 150
-            },
-            "workDate": {
-                "start": "2025-07-23",
-                "end": "2025-07-29"
-            },
-            "payment": {
-                "amount": 440000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-30T00:00:00Z"
-        },
-        {
-            "id": "31",
-            "type": "FARMER",
-            "title": "Job 31",
-            "farmName": "Farm 31",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.48620075933753,
-                "longitude": 130.19044176611112,
-                "distance": 155
-            },
-            "workDate": {
-                "start": "2025-07-30",
-                "end": "2025-08-05"
-            },
-            "payment": {
-                "amount": 450000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-01-31T00:00:00Z"
-        },
-        {
-            "id": "32",
-            "type": "FARMER",
-            "title": "Job 32",
-            "farmName": "Farm 32",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.66625729752391,
-                "longitude": 131.62283901784687,
-                "distance": 160
-            },
-            "workDate": {
-                "start": "2025-08-06",
-                "end": "2025-08-12"
-            },
-            "payment": {
-                "amount": 460000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-01T00:00:00Z"
-        },
-        {
-            "id": "33",
-            "type": "FARMER",
-            "title": "Job 33",
-            "farmName": "Farm 33",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.63013445012765,
-                "longitude": 130.7881969183308,
-                "distance": 165
-            },
-            "workDate": {
-                "start": "2025-08-13",
-                "end": "2025-08-19"
-            },
-            "payment": {
-                "amount": 470000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-02T00:00:00Z"
-        },
-        {
-            "id": "34",
-            "type": "FARMER",
-            "title": "Job 34",
-            "farmName": "Farm 34",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.21263826192155,
-                "longitude": 128.06882808906798,
-                "distance": 170
-            },
-            "workDate": {
-                "start": "2025-08-20",
-                "end": "2025-08-26"
-            },
-            "payment": {
-                "amount": 480000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-03T00:00:00Z"
-        },
-        {
-            "id": "35",
-            "type": "FARMER",
-            "title": "Job 35",
-            "farmName": "Farm 35",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.77949673075679,
-                "longitude": 132.4898577480491,
-                "distance": 175
-            },
-            "workDate": {
-                "start": "2025-08-27",
-                "end": "2025-09-02"
-            },
-            "payment": {
-                "amount": 490000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-04T00:00:00Z"
-        },
-        {
-            "id": "36",
-            "type": "FARMER",
-            "title": "Job 36",
-            "farmName": "Farm 36",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.59487174715256,
-                "longitude": 130.96817889742633,
-                "distance": 180
-            },
-            "workDate": {
-                "start": "2025-09-03",
-                "end": "2025-09-09"
-            },
-            "payment": {
-                "amount": 500000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-05T00:00:00Z"
-        },
-        {
-            "id": "37",
-            "type": "FARMER",
-            "title": "Job 37",
-            "farmName": "Farm 37",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.47239021670129,
-                "longitude": 128.31741401211212,
-                "distance": 185
-            },
-            "workDate": {
-                "start": "2025-09-10",
-                "end": "2025-09-16"
-            },
-            "payment": {
-                "amount": 510000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-06T00:00:00Z"
-        },
-        {
-            "id": "38",
-            "type": "FARMER",
-            "title": "Job 38",
-            "farmName": "Farm 38",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.70416661204915,
-                "longitude": 131.46692611613196,
-                "distance": 190
-            },
-            "workDate": {
-                "start": "2025-09-17",
-                "end": "2025-09-23"
-            },
-            "payment": {
-                "amount": 520000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-07T00:00:00Z"
-        },
-        {
-            "id": "39",
-            "type": "FARMER",
-            "title": "Job 39",
-            "farmName": "Farm 39",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.58798272140479,
-                "longitude": 131.36833262644166,
-                "distance": 195
-            },
-            "workDate": {
-                "start": "2025-09-24",
-                "end": "2025-09-30"
-            },
-            "payment": {
-                "amount": 530000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-08T00:00:00Z"
-        },
-        {
-            "id": "40",
-            "type": "FARMER",
-            "title": "Job 40",
-            "farmName": "Farm 40",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.731053034505706,
-                "longitude": 130.32491872470007,
-                "distance": 200
-            },
-            "workDate": {
-                "start": "2025-10-01",
-                "end": "2025-10-07"
-            },
-            "payment": {
-                "amount": 540000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-09T00:00:00Z"
-        },
-        {
-            "id": "41",
-            "type": "FARMER",
-            "title": "Job 41",
-            "farmName": "Farm 41",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.58247387174672,
-                "longitude": 131.6235731884454,
-                "distance": 205
-            },
-            "workDate": {
-                "start": "2025-10-08",
-                "end": "2025-10-14"
-            },
-            "payment": {
-                "amount": 550000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-10T00:00:00Z"
-        },
-        {
-            "id": "42",
-            "type": "FARMER",
-            "title": "Job 42",
-            "farmName": "Farm 42",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.74075669851089,
-                "longitude": 130.27064556050513,
-                "distance": 210
-            },
-            "workDate": {
-                "start": "2025-10-15",
-                "end": "2025-10-21"
-            },
-            "payment": {
-                "amount": 560000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-11T00:00:00Z"
-        },
-        {
-            "id": "43",
-            "type": "FARMER",
-            "title": "Job 43",
-            "farmName": "Farm 43",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.66625729752391,
-                "longitude": 131.62283901784687,
-                "distance": 215
-            },
-            "workDate": {
-                "start": "2025-10-22",
-                "end": "2025-10-28"
-            },
-            "payment": {
-                "amount": 570000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-12T00:00:00Z"
-        },
-        {
-            "id": "44",
-            "type": "FARMER",
-            "title": "Job 44",
-            "farmName": "Farm 44",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.63013445012765,
-                "longitude": 130.7881969183308,
-                "distance": 220
-            },
-            "workDate": {
-                "start": "2025-10-29",
-                "end": "2025-11-04"
-            },
-            "payment": {
-                "amount": 580000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-13T00:00:00Z"
-        },
-        {
-            "id": "45",
-            "type": "FARMER",
-            "title": "Job 45",
-            "farmName": "Farm 45",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.149400919201625,
-                "longitude": 128.38292356287,
-                "distance": 225
-            },
-            "workDate": {
-                "start": "2025-11-05",
-                "end": "2025-11-11"
-            },
-            "payment": {
-                "amount": 590000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-14T00:00:00Z"
-        },
-        {
-            "id": "46",
-            "type": "FARMER",
-            "title": "Job 46",
-            "farmName": "Farm 46",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.666915902592486,
-                "longitude": 131.06749372151432,
-                "distance": 230
-            },
-            "workDate": {
-                "start": "2025-11-12",
-                "end": "2025-11-18"
-            },
-            "payment": {
-                "amount": 600000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-15T00:00:00Z"
-        },
-        {
-            "id": "47",
-            "type": "FARMER",
-            "title": "Job 47",
-            "farmName": "Farm 47",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.58247387174672,
-                "longitude": 131.6235731884454,
-                "distance": 235
-            },
-            "workDate": {
-                "start": "2025-11-19",
-                "end": "2025-11-25"
-            },
-            "payment": {
-                "amount": 610000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-16T00:00:00Z"
-        },
-        {
-            "id": "48",
-            "type": "FARMER",
-            "title": "Job 48",
-            "farmName": "Farm 48",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.14926389457866,
-                "longitude": 131.74812802199196,
-                "distance": 240
-            },
-            "workDate": {
-                "start": "2025-11-26",
-                "end": "2025-12-02"
-            },
-            "payment": {
-                "amount": 620000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-17T00:00:00Z"
-        },
-        {
-            "id": "49",
-            "type": "FARMER",
-            "title": "Job 49",
-            "farmName": "Farm 49",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.66625729752391,
-                "longitude": 131.62283901784687,
-                "distance": 245
-            },
-            "workDate": {
-                "start": "2025-12-03",
-                "end": "2025-12-09"
-            },
-            "payment": {
-                "amount": 630000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-18T00:00:00Z"
-        },
-        {
-            "id": "50",
-            "type": "FARMER",
-            "title": "Job 50",
-            "farmName": "Farm 50",
-            "location": {
-                "address": "123 농장 도로, 시골",
-                "latitude": 35.731053034505706,
-                "longitude": 130.32491872470007,
-                "distance": 250
-            },
-            "workDate": {
-                "start": "2025-12-10",
-                "end": "2025-12-16"
-            },
-            "payment": {
-                "amount": 640000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-19T00:00:00Z"
-        }
-    ],
-    "JobPostingDetail": {
-        "id": "job-001",
-        "type": "FARMER",
-        "title": "더미 수확 도우미 필요",
-        "description": "이것은 테스트 목적으로 작성된 더미 구인 게시물 설명입니다.",
-        "author": {
-            "id": "author-001",
-            "name": "John Farmer",
-            "profileImage": ""
-        },
-        "workDate": {
-            "start": "2025-09-01T00:00:00.000Z",
-            "end": "2025-09-30T00:00:00.000Z"
-        },
-        "payment": {
-            "amount": 150,
-            "unit": "DAY"
-        },
-        "location": {
-            "address": "123 농장 도로, 시골",
-            "latitude": 33.5563,
-            "longitude": 126.79581,
-            "farmName": "햇살 농장"
-        },
-        "status": "OPEN",
-        "matchStatus": "PENDING",
-        "applicants": {
-            "total": 5,
-            "accepted": 2
-        },
-        "createdAt": "2023-10-06T12:00:00.000Z",
-        "updatedAt": "2023-10-06T12:00:00.000Z"
+      ]
     },
-    "openApplicants": [
+    {
+      "id": "user2",
+      "email": "w@a.com",
+      "password": "aaaaaa",
+      "name": "Alice Worker",
+      "contact": "010-9876-5432",
+      "isActive": false,
+      "createdAt": "2023-10-06T12:00:00.000Z",
+      "updatedAt": "2023-10-06T12:00:00.000Z",
+      "roles": [
         {
-            "id": "applicant1",
-            "userId": "user2",
-            "workDate": {
-                "start": "2025-12-10",
-                "end": "2025-12-16"
-            },
-            "payment": {
-                "amount": 640000,
-                "unit": "DAY"
-            },
-            "status": "OPEN",
-            "createdAt": "2025-02-19T00:00:00Z"
+          "id": "role2",
+          "userId": "id2",
+          "role": "WORKER",
+          "isActive": true,
+          "createdAt": "2023-10-06T12:00:00.000Z",
+          "updatedAt": "2023-10-06T12:00:00.000Z"
         }
-    ],
-    "matches": [
-        {
-            "id": "match1",
-            "jobPostingId": "job1",
-            "formerId": "user1",
-            "workerId": "user2",
-            "status": "COMPLETED",
-            "workerScore": 4.5,
-            "farmerScore": 4.0,
-            "appliedAt": "2023-10-06T12:00:00.000Z",
-            "updatedAt": "2023-10-06T12:00:00.000Z",
-            "completedAt": "2023-10-06T12:00:00.000Z"
-        }
-    ]
+      ]
+    }
+  ],
+  "farmList": [
+    {
+      "id": "farm1",
+      "ownerId": "user1",
+      "name": "Sunny Farm",
+      "latitude": 33.5563,
+      "longitude": 126.79581,
+      "address": "123 Farm Road, Countryside",
+      "description": "A beautiful farm located in the countryside.",
+      "createdAt": "2023-10-06T12:00:00.000Z",
+      "updatedAt": "2023-10-06T12:00:00.000Z"
+    }
+  ],
+  "workerList": [
+    {
+      "id": "worker1",
+      "userId": "user2",
+      "role": "WORKER",
+      "isActive": true,
+      "latitude": 33.5563,
+      "longitude": 126.79581,
+      "address": "123 Farm Road, Countryside",
+      "createdAt": "2023-10-06T12:00:00.000Z",
+      "updatedAt": "2023-10-06T12:00:00.000Z"
+    }
+  ],
+  "jobPostings": [
+    {
+      "id": "1",
+      "type": "FARMER",
+      "userId": "id1",
+      "farmId": "farm1",
+      "title": "Harvest Season Helper Needed",
+      "description": "We are looking for experienced season workers during the harvest season.",
+      "workDate": {
+        "start": "2025-09-01T00:00:00.000Z",
+        "end": "2025-09-30T00:00:00.000Z"
+      },
+      "payment": {
+        "amount": 150,
+        "unit": "DAY"
+      },
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.33554118941988,
+        "longitude": 127.78202251588115,
+        "farmName": "햇살 농장"
+      },
+      "status": "OPEN",
+      "createdAt": "2023-10-06T12:00:00.000Z",
+      "updatedAt": "2023-10-06T12:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "type": "WORKER",
+      "userId": "id2",
+      "farmId": null,
+      "title": "Looking for Farm Work",
+      "description": "I have past experience in farm work and I am available for seasonal tasks.",
+      "workDate": {
+        "start": "2025-08-15T00:00:00.000Z",
+        "end": "2025-08-20T00:00:00.000Z"
+      },
+      "payment": {
+        "amount": 100,
+        "unit": "DAY"
+      },
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.666915902592486,
+        "longitude": 131.06749372151432,
+        "farmName": "햇살 농장"
+      },
+      "status": "OPEN",
+      "createdAt": "2023-10-06T12:00:00.000Z",
+      "updatedAt": "2023-10-06T12:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "type": "WORKER",
+      "userId": "id2",
+      "farmId": null,
+      "title": "테스트 222",
+      "description": "테스트 222",
+      "workDate": {
+        "start": "2025-02-04",
+        "end": "2025-02-20"
+      },
+      "payment": {
+        "amount": 10000,
+        "unit": "HOUR"
+      },
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.16880254626705,
+        "longitude": 128.28529732487758,
+        "farmName": "햇살 농장"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-07T11:45:31.561Z",
+      "updatedAt": "2025-02-07T11:45:31.561Z"
+    },
+    {
+      "id": "4",
+      "type": "WORKER",
+      "userId": "id2",
+      "farmId": null,
+      "title": "테스트 222",
+      "description": "테스트 222",
+      "workDate": {
+        "start": "2025-02-04",
+        "end": "2025-02-20"
+      },
+      "payment": {
+        "amount": 10000,
+        "unit": "HOUR"
+      },
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.11199655284226,
+        "longitude": 127.91445033566882,
+        "farmName": "햇살 농장"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-07T11:45:46.981Z",
+      "updatedAt": "2025-02-07T11:45:46.981Z"
+    },
+    {
+      "id": "5",
+      "type": "FARMER",
+      "title": "Job 5",
+      "farmName": "Farm 5",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.70170900572304,
+        "longitude": 130.59023547957344,
+        "distance": 25
+      },
+      "workDate": {
+        "start": "2025-01-29",
+        "end": "2025-02-04"
+      },
+      "payment": {
+        "amount": 190000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-05T00:00:00Z"
+    },
+    {
+      "id": "6",
+      "type": "FARMER",
+      "title": "Job 6",
+      "farmName": "Farm 6",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.762196349751775,
+        "longitude": 128.73658300773224,
+        "distance": 30
+      },
+      "workDate": {
+        "start": "2025-02-05",
+        "end": "2025-02-11"
+      },
+      "payment": {
+        "amount": 200000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-06T00:00:00Z"
+    },
+    {
+      "id": "7",
+      "type": "FARMER",
+      "title": "Job 7",
+      "farmName": "Farm 7",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.55238797990534,
+        "longitude": 128.63583828335283,
+        "distance": 35
+      },
+      "workDate": {
+        "start": "2025-02-12",
+        "end": "2025-02-18"
+      },
+      "payment": {
+        "amount": 210000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-07T00:00:00Z"
+    },
+    {
+      "id": "8",
+      "type": "FARMER",
+      "title": "Job 8",
+      "farmName": "Farm 8",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.47834633113535,
+        "longitude": 128.72629526825258,
+        "distance": 40
+      },
+      "workDate": {
+        "start": "2025-02-19",
+        "end": "2025-02-25"
+      },
+      "payment": {
+        "amount": 220000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-08T00:00:00Z"
+    },
+    {
+      "id": "9",
+      "type": "FARMER",
+      "title": "Job 9",
+      "farmName": "Farm 9",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.86382830339196,
+        "longitude": 133.51850598906967,
+        "distance": 45
+      },
+      "workDate": {
+        "start": "2025-02-26",
+        "end": "2025-03-04"
+      },
+      "payment": {
+        "amount": 230000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-09T00:00:00Z"
+    },
+    {
+      "id": "10",
+      "type": "FARMER",
+      "title": "Job 10",
+      "farmName": "Farm 10",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.89417209605404,
+        "longitude": 130.445976095707,
+        "distance": 50
+      },
+      "workDate": {
+        "start": "2025-03-05",
+        "end": "2025-03-11"
+      },
+      "payment": {
+        "amount": 240000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-10T00:00:00Z"
+    },
+    {
+      "id": "11",
+      "type": "FARMER",
+      "title": "Job 11",
+      "farmName": "Farm 11",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.52392541834522,
+        "longitude": 129.1564648477755,
+        "distance": 55
+      },
+      "workDate": {
+        "start": "2025-03-12",
+        "end": "2025-03-18"
+      },
+      "payment": {
+        "amount": 250000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-11T00:00:00Z"
+    },
+    {
+      "id": "12",
+      "type": "FARMER",
+      "title": "Job 12",
+      "farmName": "Farm 12",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.285778610141385,
+        "longitude": 128.18088059121388,
+        "distance": 60
+      },
+      "workDate": {
+        "start": "2025-03-19",
+        "end": "2025-03-25"
+      },
+      "payment": {
+        "amount": 260000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-12T00:00:00Z"
+    },
+    {
+      "id": "13",
+      "type": "FARMER",
+      "title": "Job 13",
+      "farmName": "Farm 13",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.84971204488078,
+        "longitude": 133.50327021558124,
+        "distance": 65
+      },
+      "workDate": {
+        "start": "2025-03-26",
+        "end": "2025-04-01"
+      },
+      "payment": {
+        "amount": 270000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-13T00:00:00Z"
+    },
+    {
+      "id": "14",
+      "type": "FARMER",
+      "title": "Job 14",
+      "farmName": "Farm 14",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.96075664132582,
+        "longitude": 130.26499744942555,
+        "distance": 70
+      },
+      "workDate": {
+        "start": "2025-04-02",
+        "end": "2025-04-08"
+      },
+      "payment": {
+        "amount": 280000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-14T00:00:00Z"
+    },
+    {
+      "id": "15",
+      "type": "FARMER",
+      "title": "Job 15",
+      "farmName": "Farm 15",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.656465126859814,
+        "longitude": 131.6458161520225,
+        "distance": 75
+      },
+      "workDate": {
+        "start": "2025-04-09",
+        "end": "2025-04-15"
+      },
+      "payment": {
+        "amount": 290000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-15T00:00:00Z"
+    },
+    {
+      "id": "16",
+      "type": "FARMER",
+      "title": "Job 16",
+      "farmName": "Farm 16",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.84926389457866,
+        "longitude": 131.74812802199196,
+        "distance": 80
+      },
+      "workDate": {
+        "start": "2025-04-16",
+        "end": "2025-04-22"
+      },
+      "payment": {
+        "amount": 300000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-16T00:00:00Z"
+    },
+    {
+      "id": "17",
+      "type": "FARMER",
+      "title": "Job 17",
+      "farmName": "Farm 17",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.58541499296093,
+        "longitude": 129.93221862190742,
+        "distance": 85
+      },
+      "workDate": {
+        "start": "2025-04-23",
+        "end": "2025-04-29"
+      },
+      "payment": {
+        "amount": 310000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-17T00:00:00Z"
+    },
+    {
+      "id": "18",
+      "type": "FARMER",
+      "title": "Job 18",
+      "farmName": "Farm 18",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.22075907666009,
+        "longitude": 128.78583651805513,
+        "distance": 90
+      },
+      "workDate": {
+        "start": "2025-04-30",
+        "end": "2025-05-06"
+      },
+      "payment": {
+        "amount": 320000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-18T00:00:00Z"
+    },
+    {
+      "id": "19",
+      "type": "FARMER",
+      "title": "Job 19",
+      "farmName": "Farm 19",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.5004567965802,
+        "longitude": 129.672085757613,
+        "distance": 95
+      },
+      "workDate": {
+        "start": "2025-05-07",
+        "end": "2025-05-13"
+      },
+      "payment": {
+        "amount": 330000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-19T00:00:00Z"
+    },
+    {
+      "id": "20",
+      "type": "FARMER",
+      "title": "Job 20",
+      "farmName": "Farm 20",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.94125256229117,
+        "longitude": 132.36890201000242,
+        "distance": 100
+      },
+      "workDate": {
+        "start": "2025-05-14",
+        "end": "2025-05-20"
+      },
+      "payment": {
+        "amount": 340000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-20T00:00:00Z"
+    },
+    {
+      "id": "21",
+      "type": "FARMER",
+      "title": "Job 21",
+      "farmName": "Farm 21",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.25186598970013,
+        "longitude": 128.1559541881163,
+        "distance": 105
+      },
+      "workDate": {
+        "start": "2025-05-21",
+        "end": "2025-05-27"
+      },
+      "payment": {
+        "amount": 350000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-21T00:00:00Z"
+    },
+    {
+      "id": "22",
+      "type": "FARMER",
+      "title": "Job 22",
+      "farmName": "Farm 22",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.221596335788554,
+        "longitude": 127.76858580859422,
+        "distance": 110
+      },
+      "workDate": {
+        "start": "2025-05-28",
+        "end": "2025-06-03"
+      },
+      "payment": {
+        "amount": 360000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-22T00:00:00Z"
+    },
+    {
+      "id": "23",
+      "type": "FARMER",
+      "title": "Job 23",
+      "farmName": "Farm 23",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.74075669851089,
+        "longitude": 130.27064556050513,
+        "distance": 115
+      },
+      "workDate": {
+        "start": "2025-06-04",
+        "end": "2025-06-10"
+      },
+      "payment": {
+        "amount": 370000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-23T00:00:00Z"
+    },
+    {
+      "id": "24",
+      "type": "FARMER",
+      "title": "Job 24",
+      "farmName": "Farm 24",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.635649558023054,
+        "longitude": 129.57541913820785,
+        "distance": 120
+      },
+      "workDate": {
+        "start": "2025-06-11",
+        "end": "2025-06-17"
+      },
+      "payment": {
+        "amount": 380000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-24T00:00:00Z"
+    },
+    {
+      "id": "25",
+      "type": "FARMER",
+      "title": "Job 25",
+      "farmName": "Farm 25",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.52374864891023,
+        "longitude": 128.00454472646496,
+        "distance": 125
+      },
+      "workDate": {
+        "start": "2025-06-18",
+        "end": "2025-06-24"
+      },
+      "payment": {
+        "amount": 390000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-25T00:00:00Z"
+    },
+    {
+      "id": "26",
+      "type": "FARMER",
+      "title": "Job 26",
+      "farmName": "Farm 26",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.149400919201625,
+        "longitude": 128.38292356287,
+        "distance": 130
+      },
+      "workDate": {
+        "start": "2025-06-25",
+        "end": "2025-07-01"
+      },
+      "payment": {
+        "amount": 400000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-26T00:00:00Z"
+    },
+    {
+      "id": "27",
+      "type": "FARMER",
+      "title": "Job 27",
+      "farmName": "Farm 27",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.82138868516104,
+        "longitude": 132.65233223831413,
+        "distance": 135
+      },
+      "workDate": {
+        "start": "2025-07-02",
+        "end": "2025-07-08"
+      },
+      "payment": {
+        "amount": 410000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-27T00:00:00Z"
+    },
+    {
+      "id": "28",
+      "type": "FARMER",
+      "title": "Job 28",
+      "farmName": "Farm 28",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.83390978964351,
+        "longitude": 129.3584762386719,
+        "distance": 140
+      },
+      "workDate": {
+        "start": "2025-07-09",
+        "end": "2025-07-15"
+      },
+      "payment": {
+        "amount": 420000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-28T00:00:00Z"
+    },
+    {
+      "id": "29",
+      "type": "FARMER",
+      "title": "Job 29",
+      "farmName": "Farm 29",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.96140405200087,
+        "longitude": 131.13285334602796,
+        "distance": 145
+      },
+      "workDate": {
+        "start": "2025-07-16",
+        "end": "2025-07-22"
+      },
+      "payment": {
+        "amount": 430000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-29T00:00:00Z"
+    },
+    {
+      "id": "30",
+      "type": "FARMER",
+      "title": "Job 30",
+      "farmName": "Farm 30",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.20322210993049,
+        "longitude": 128.21460950165874,
+        "distance": 150
+      },
+      "workDate": {
+        "start": "2025-07-23",
+        "end": "2025-07-29"
+      },
+      "payment": {
+        "amount": 440000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-30T00:00:00Z"
+    },
+    {
+      "id": "31",
+      "type": "FARMER",
+      "title": "Job 31",
+      "farmName": "Farm 31",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.48620075933753,
+        "longitude": 130.19044176611112,
+        "distance": 155
+      },
+      "workDate": {
+        "start": "2025-07-30",
+        "end": "2025-08-05"
+      },
+      "payment": {
+        "amount": 450000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-01-31T00:00:00Z"
+    },
+    {
+      "id": "32",
+      "type": "FARMER",
+      "title": "Job 32",
+      "farmName": "Farm 32",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.66625729752391,
+        "longitude": 131.62283901784687,
+        "distance": 160
+      },
+      "workDate": {
+        "start": "2025-08-06",
+        "end": "2025-08-12"
+      },
+      "payment": {
+        "amount": 460000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-01T00:00:00Z"
+    },
+    {
+      "id": "33",
+      "type": "FARMER",
+      "title": "Job 33",
+      "farmName": "Farm 33",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.63013445012765,
+        "longitude": 130.7881969183308,
+        "distance": 165
+      },
+      "workDate": {
+        "start": "2025-08-13",
+        "end": "2025-08-19"
+      },
+      "payment": {
+        "amount": 470000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-02T00:00:00Z"
+    },
+    {
+      "id": "34",
+      "type": "FARMER",
+      "title": "Job 34",
+      "farmName": "Farm 34",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.21263826192155,
+        "longitude": 128.06882808906798,
+        "distance": 170
+      },
+      "workDate": {
+        "start": "2025-08-20",
+        "end": "2025-08-26"
+      },
+      "payment": {
+        "amount": 480000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-03T00:00:00Z"
+    },
+    {
+      "id": "35",
+      "type": "FARMER",
+      "title": "Job 35",
+      "farmName": "Farm 35",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.77949673075679,
+        "longitude": 132.4898577480491,
+        "distance": 175
+      },
+      "workDate": {
+        "start": "2025-08-27",
+        "end": "2025-09-02"
+      },
+      "payment": {
+        "amount": 490000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-04T00:00:00Z"
+    },
+    {
+      "id": "36",
+      "type": "FARMER",
+      "title": "Job 36",
+      "farmName": "Farm 36",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.59487174715256,
+        "longitude": 130.96817889742633,
+        "distance": 180
+      },
+      "workDate": {
+        "start": "2025-09-03",
+        "end": "2025-09-09"
+      },
+      "payment": {
+        "amount": 500000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-05T00:00:00Z"
+    },
+    {
+      "id": "37",
+      "type": "FARMER",
+      "title": "Job 37",
+      "farmName": "Farm 37",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.47239021670129,
+        "longitude": 128.31741401211212,
+        "distance": 185
+      },
+      "workDate": {
+        "start": "2025-09-10",
+        "end": "2025-09-16"
+      },
+      "payment": {
+        "amount": 510000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-06T00:00:00Z"
+    },
+    {
+      "id": "38",
+      "type": "FARMER",
+      "title": "Job 38",
+      "farmName": "Farm 38",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.70416661204915,
+        "longitude": 131.46692611613196,
+        "distance": 190
+      },
+      "workDate": {
+        "start": "2025-09-17",
+        "end": "2025-09-23"
+      },
+      "payment": {
+        "amount": 520000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-07T00:00:00Z"
+    },
+    {
+      "id": "39",
+      "type": "FARMER",
+      "title": "Job 39",
+      "farmName": "Farm 39",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.58798272140479,
+        "longitude": 131.36833262644166,
+        "distance": 195
+      },
+      "workDate": {
+        "start": "2025-09-24",
+        "end": "2025-09-30"
+      },
+      "payment": {
+        "amount": 530000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-08T00:00:00Z"
+    },
+    {
+      "id": "40",
+      "type": "FARMER",
+      "title": "Job 40",
+      "farmName": "Farm 40",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.731053034505706,
+        "longitude": 130.32491872470007,
+        "distance": 200
+      },
+      "workDate": {
+        "start": "2025-10-01",
+        "end": "2025-10-07"
+      },
+      "payment": {
+        "amount": 540000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-09T00:00:00Z"
+    },
+    {
+      "id": "41",
+      "type": "FARMER",
+      "title": "Job 41",
+      "farmName": "Farm 41",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.58247387174672,
+        "longitude": 131.6235731884454,
+        "distance": 205
+      },
+      "workDate": {
+        "start": "2025-10-08",
+        "end": "2025-10-14"
+      },
+      "payment": {
+        "amount": 550000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-10T00:00:00Z"
+    },
+    {
+      "id": "42",
+      "type": "FARMER",
+      "title": "Job 42",
+      "farmName": "Farm 42",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.74075669851089,
+        "longitude": 130.27064556050513,
+        "distance": 210
+      },
+      "workDate": {
+        "start": "2025-10-15",
+        "end": "2025-10-21"
+      },
+      "payment": {
+        "amount": 560000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-11T00:00:00Z"
+    },
+    {
+      "id": "43",
+      "type": "FARMER",
+      "title": "Job 43",
+      "farmName": "Farm 43",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.66625729752391,
+        "longitude": 131.62283901784687,
+        "distance": 215
+      },
+      "workDate": {
+        "start": "2025-10-22",
+        "end": "2025-10-28"
+      },
+      "payment": {
+        "amount": 570000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-12T00:00:00Z"
+    },
+    {
+      "id": "44",
+      "type": "FARMER",
+      "title": "Job 44",
+      "farmName": "Farm 44",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.63013445012765,
+        "longitude": 130.7881969183308,
+        "distance": 220
+      },
+      "workDate": {
+        "start": "2025-10-29",
+        "end": "2025-11-04"
+      },
+      "payment": {
+        "amount": 580000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-13T00:00:00Z"
+    },
+    {
+      "id": "45",
+      "type": "FARMER",
+      "title": "Job 45",
+      "farmName": "Farm 45",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.149400919201625,
+        "longitude": 128.38292356287,
+        "distance": 225
+      },
+      "workDate": {
+        "start": "2025-11-05",
+        "end": "2025-11-11"
+      },
+      "payment": {
+        "amount": 590000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-14T00:00:00Z"
+    },
+    {
+      "id": "46",
+      "type": "FARMER",
+      "title": "Job 46",
+      "farmName": "Farm 46",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.666915902592486,
+        "longitude": 131.06749372151432,
+        "distance": 230
+      },
+      "workDate": {
+        "start": "2025-11-12",
+        "end": "2025-11-18"
+      },
+      "payment": {
+        "amount": 600000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-15T00:00:00Z"
+    },
+    {
+      "id": "47",
+      "type": "FARMER",
+      "title": "Job 47",
+      "farmName": "Farm 47",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.58247387174672,
+        "longitude": 131.6235731884454,
+        "distance": 235
+      },
+      "workDate": {
+        "start": "2025-11-19",
+        "end": "2025-11-25"
+      },
+      "payment": {
+        "amount": 610000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-16T00:00:00Z"
+    },
+    {
+      "id": "48",
+      "type": "FARMER",
+      "title": "Job 48",
+      "farmName": "Farm 48",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.14926389457866,
+        "longitude": 131.74812802199196,
+        "distance": 240
+      },
+      "workDate": {
+        "start": "2025-11-26",
+        "end": "2025-12-02"
+      },
+      "payment": {
+        "amount": 620000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-17T00:00:00Z"
+    },
+    {
+      "id": "49",
+      "type": "FARMER",
+      "title": "Job 49",
+      "farmName": "Farm 49",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.66625729752391,
+        "longitude": 131.62283901784687,
+        "distance": 245
+      },
+      "workDate": {
+        "start": "2025-12-03",
+        "end": "2025-12-09"
+      },
+      "payment": {
+        "amount": 630000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-18T00:00:00Z"
+    },
+    {
+      "id": "50",
+      "type": "FARMER",
+      "title": "Job 50",
+      "farmName": "Farm 50",
+      "location": {
+        "address": "123 농장 도로, 시골",
+        "latitude": 35.731053034505706,
+        "longitude": 130.32491872470007,
+        "distance": 250
+      },
+      "workDate": {
+        "start": "2025-12-10",
+        "end": "2025-12-16"
+      },
+      "payment": {
+        "amount": 640000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-19T00:00:00Z"
+    }
+  ],
+  "JobPostingDetail": {
+    "id": "job-001",
+    "type": "FARMER",
+    "title": "더미 수확 도우미 필요",
+    "description": "이것은 테스트 목적으로 작성된 더미 구인 게시물 설명입니다.",
+    "author": {
+      "id": "author-001",
+      "name": "John Farmer",
+      "profileImage": ""
+    },
+    "workDate": {
+      "start": "2025-09-01T00:00:00.000Z",
+      "end": "2025-09-30T00:00:00.000Z"
+    },
+    "payment": {
+      "amount": 150,
+      "unit": "DAY"
+    },
+    "location": {
+      "address": "123 농장 도로, 시골",
+      "latitude": 33.5563,
+      "longitude": 126.79581,
+      "farmName": "햇살 농장"
+    },
+    "status": "OPEN",
+    "matchStatus": "PENDING",
+    "applicants": {
+      "total": 5,
+      "accepted": 2
+    },
+    "createdAt": "2023-10-06T12:00:00.000Z",
+    "updatedAt": "2023-10-06T12:00:00.000Z"
+  },
+  "openApplicants": [
+    {
+      "id": "applicant1",
+      "userId": "user2",
+      "workDate": {
+        "start": "2025-12-10",
+        "end": "2025-12-16"
+      },
+      "payment": {
+        "amount": 640000,
+        "unit": "DAY"
+      },
+      "status": "OPEN",
+      "createdAt": "2025-02-19T00:00:00Z"
+    }
+  ],
+  "matches": [
+    {
+      "id": "match1",
+      "jobPostingId": "job1",
+      "formerId": "user1",
+      "workerId": "user2",
+      "status": "COMPLETED",
+      "workerScore": 4.5,
+      "farmerScore": 4,
+      "appliedAt": "2023-10-06T12:00:00.000Z",
+      "updatedAt": "2023-10-06T12:00:00.000Z",
+      "completedAt": "2023-10-06T12:00:00.000Z"
+    }
+  ]
 }

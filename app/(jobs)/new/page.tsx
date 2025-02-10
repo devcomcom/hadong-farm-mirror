@@ -16,7 +16,6 @@ interface JobPostFormValues {
 }
 
 export default function JobPostCreationPage() {
-    const router = useRouter();
     const {
         register,
         handleSubmit,

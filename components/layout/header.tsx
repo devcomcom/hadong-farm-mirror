@@ -1,8 +1,27 @@
 "use client"
 
 import RoleToggle from "@/components/common/role_toggle";
+import { useEffect } from "react";
 
 const Header = () => {
+    const checkUserStatus = async () => {
+        const isLoginPage = window.location.pathname === '/login' || window.location.pathname === '/'; // 현재 페이지가 로그인 페이지 또는 루트 페이지인지 확인
+        if (!isLoginPage) {
+            const response = await fetch('/api/get_auth'); // 사용자 정보를 가져오는 API 호출
+            if (response.ok) {
+                const userData = await response.json();
+                if (!userData.isActive) {
+                    alert("로그아웃 상태입니다."); // 로그아웃 상태 메시지 출력
+                    window.location.href = '/login'; // 로그인 페이지로 리다이렉트
+                }
+            }
+        }
+    };
+
+    useEffect(() => {
+        checkUserStatus();
+    }, []);
+
     return (
         <header className="bg-white shadow">
             <div className="container mx-auto px-4 py-6">
@@ -55,7 +74,6 @@ const Header = () => {
                     </ul>
                 </nav>
             </div>
-
         </header>
     );
 };

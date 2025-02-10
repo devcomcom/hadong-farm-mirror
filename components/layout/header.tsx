@@ -1,9 +1,11 @@
 "use client"
 
 import RoleToggle from "@/components/common/role_toggle";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Header = () => {
+    const [userRole, setUserRole] = useState<string | null>(null); // 사용자 역할 상태 관리
+
     const checkUserStatus = async () => {
         const isLoginPage = window.location.pathname === '/login' || window.location.pathname === '/'; // 현재 페이지가 로그인 페이지 또는 루트 페이지인지 확인
         if (!isLoginPage) {
@@ -13,6 +15,12 @@ const Header = () => {
                 if (!userData.isActive) {
                     alert("로그아웃 상태입니다."); // 로그아웃 상태 메시지 출력
                     window.location.href = '/login'; // 로그인 페이지로 리다이렉트
+                }
+                if (userData.user.roles.length > 0) {
+                    console.log(userData.user.roles[0]); // 첫 번째 역할 출력
+                    setUserRole(userData.user.roles[0].role); // 첫 번째 역할 설정
+                } else {
+                    alert("사용자의 역할을 찾을 수 없습니다."); // 역할이 없을 경우 메시지 출력
                 }
             }
         }
@@ -26,6 +34,7 @@ const Header = () => {
         <header className="bg-white shadow">
             <div className="container mx-auto px-4 py-6">
                 <h1 className="text-2xl font-bold">품앗이</h1>
+                {userRole && <p className="text-sm text-gray-600">로그인 상태의 유저 역할: {userRole}</p>}
                 <RoleToggle />
                 <nav className="mt-4">
                     <ul className="flex space-x-4">

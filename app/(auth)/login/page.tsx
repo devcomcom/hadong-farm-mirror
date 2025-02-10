@@ -23,16 +23,22 @@ export default function LoginPage() {
         setIsSubmitting(true);
         setLoginError("");
         try {
-            console.log("Logging in with:", data);
-            // 실제 로그인 API 호출 부분으로 변경 가능합니다.
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            const response = await fetch("/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
 
-            // 예시: 비밀번호가 "password"가 아닐 경우 에러 발생
-            if (data.password !== "password") {
-                throw new Error("이메일 또는 비밀번호가 올바르지 않습니다.");
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || "로그인에 실패하였습니다.");
             }
 
-            router.push("/"); // 로그인 성공 시 홈 페이지로 이동
+            // 로그인 성공 시 홈 페이지로 이동
+            router.push("/");
         } catch (error: any) {
             setLoginError(error.message || "로그인에 실패하였습니다.");
         } finally {

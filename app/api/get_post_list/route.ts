@@ -8,7 +8,10 @@ export async function GET() {
         const mockDataPath = path.join(process.cwd(), "util", "mock_data.json");
         const mockData = JSON.parse(fs.readFileSync(mockDataPath, "utf-8"));
 
-        return NextResponse.json({ jobPostings: mockData.jobPostings });
+        return NextResponse.json({
+            jobPostings: mockData.jobPostings,
+            matches: mockData.matches,
+        });
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }

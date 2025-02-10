@@ -59,10 +59,14 @@ export default function JobDetailPage() {
                 const res = await fetch(`/api/get_post_list`); // 구인 목록 API 호출
                 if (res.ok) {
                     const data = await res.json(); // JSON 데이터 파싱
-                    const jobPosting = data.jobPostings.find((job: any) => job.id === job_id); // job_id에 해당하는 구인 데이터 찾기
+                    const jobPosting = data.jobPostings.find((job: JobPostingDetail) => job.id === job_id); // job_id에 해당하는 구인 데이터 찾기
 
                     if (jobPosting) {
                         setJobData(jobPosting); // 구인 데이터 설정
+                        const matchData = data.matches.find((match: any) => match.jobPostingId === job_id); // 해당 job의 match 데이터 찾기
+                        if (matchData) {
+                            setIsApplied(true); // match 데이터가 있으면 지원 완료 상태를 true로 설정
+                        }
                     } else {
                         // job_id에 해당하는 구인 데이터가 없을 경우 JobPostingDetail 사용
                         setJobData(data.JobPostingDetail); // JobPostingDetail 배열 변수를 구인 데이터로 설정

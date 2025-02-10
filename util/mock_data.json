@@ -26,7 +26,7 @@
       "password": "aaaaaa",
       "name": "Alice Worker",
       "contact": "010-9876-5432",
-      "isActive": false,
+      "isActive": true,
       "createdAt": "2023-10-06T12:00:00.000Z",
       "updatedAt": "2023-10-06T12:00:00.000Z",
       "roles": [
@@ -71,7 +71,7 @@
     {
       "id": "1",
       "type": "FARMER",
-      "userId": "id1",
+      "userId": "user1",
       "farmId": "farm1",
       "title": "Harvest Season Helper Needed",
       "description": "We are looking for experienced season workers during the harvest season.",
@@ -96,7 +96,7 @@
     {
       "id": "2",
       "type": "WORKER",
-      "userId": "id2",
+      "userId": "user1",
       "farmId": null,
       "title": "Looking for Farm Work",
       "description": "I have past experience in farm work and I am available for seasonal tasks.",
@@ -121,7 +121,7 @@
     {
       "id": "3",
       "type": "WORKER",
-      "userId": "id2",
+      "userId": "user1",
       "farmId": null,
       "title": "테스트 222",
       "description": "테스트 222",
@@ -146,7 +146,7 @@
     {
       "id": "4",
       "type": "WORKER",
-      "userId": "id2",
+      "userId": "user1",
       "farmId": null,
       "title": "테스트 222",
       "description": "테스트 222",
@@ -171,6 +171,8 @@
     {
       "id": "5",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 5",
       "farmName": "Farm 5",
       "location": {
@@ -215,6 +217,8 @@
     {
       "id": "7",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 7",
       "farmName": "Farm 7",
       "location": {
@@ -237,6 +241,8 @@
     {
       "id": "8",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 8",
       "farmName": "Farm 8",
       "location": {
@@ -259,6 +265,8 @@
     {
       "id": "9",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 9",
       "farmName": "Farm 9",
       "location": {
@@ -281,6 +289,8 @@
     {
       "id": "10",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 10",
       "farmName": "Farm 10",
       "location": {
@@ -303,6 +313,8 @@
     {
       "id": "11",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 11",
       "farmName": "Farm 11",
       "location": {
@@ -325,6 +337,8 @@
     {
       "id": "12",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 12",
       "farmName": "Farm 12",
       "location": {
@@ -347,6 +361,8 @@
     {
       "id": "13",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 13",
       "farmName": "Farm 13",
       "location": {
@@ -369,6 +385,8 @@
     {
       "id": "14",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 14",
       "farmName": "Farm 14",
       "location": {
@@ -391,6 +409,8 @@
     {
       "id": "15",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 15",
       "farmName": "Farm 15",
       "location": {
@@ -413,6 +433,8 @@
     {
       "id": "16",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 16",
       "farmName": "Farm 16",
       "location": {
@@ -435,6 +457,8 @@
     {
       "id": "17",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 17",
       "farmName": "Farm 17",
       "location": {
@@ -457,6 +481,8 @@
     {
       "id": "18",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 18",
       "farmName": "Farm 18",
       "location": {
@@ -479,6 +505,8 @@
     {
       "id": "19",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 19",
       "farmName": "Farm 19",
       "location": {
@@ -501,6 +529,8 @@
     {
       "id": "20",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 20",
       "farmName": "Farm 20",
       "location": {
@@ -545,6 +575,8 @@
     {
       "id": "22",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 22",
       "farmName": "Farm 22",
       "location": {
@@ -567,6 +599,8 @@
     {
       "id": "23",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 23",
       "farmName": "Farm 23",
       "location": {
@@ -589,6 +623,8 @@
     {
       "id": "24",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 24",
       "farmName": "Farm 24",
       "location": {
@@ -611,6 +647,8 @@
     {
       "id": "25",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 25",
       "farmName": "Farm 25",
       "location": {
@@ -633,6 +671,8 @@
     {
       "id": "26",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 26",
       "farmName": "Farm 26",
       "location": {
@@ -655,6 +695,8 @@
     {
       "id": "27",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 27",
       "farmName": "Farm 27",
       "location": {
@@ -677,6 +719,8 @@
     {
       "id": "28",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 28",
       "farmName": "Farm 28",
       "location": {
@@ -699,6 +743,8 @@
     {
       "id": "29",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 29",
       "farmName": "Farm 29",
       "location": {
@@ -721,6 +767,8 @@
     {
       "id": "30",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 30",
       "farmName": "Farm 30",
       "location": {
@@ -743,6 +791,8 @@
     {
       "id": "31",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 31",
       "farmName": "Farm 31",
       "location": {
@@ -765,6 +815,8 @@
     {
       "id": "32",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 32",
       "farmName": "Farm 32",
       "location": {
@@ -787,6 +839,8 @@
     {
       "id": "33",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 33",
       "farmName": "Farm 33",
       "location": {
@@ -809,6 +863,8 @@
     {
       "id": "34",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 34",
       "farmName": "Farm 34",
       "location": {
@@ -831,6 +887,8 @@
     {
       "id": "35",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 35",
       "farmName": "Farm 35",
       "location": {
@@ -853,6 +911,8 @@
     {
       "id": "36",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 36",
       "farmName": "Farm 36",
       "location": {
@@ -897,6 +957,8 @@
     {
       "id": "38",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 38",
       "farmName": "Farm 38",
       "location": {
@@ -919,6 +981,8 @@
     {
       "id": "39",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 39",
       "farmName": "Farm 39",
       "location": {
@@ -963,6 +1027,8 @@
     {
       "id": "41",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 41",
       "farmName": "Farm 41",
       "location": {
@@ -985,6 +1051,8 @@
     {
       "id": "42",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 42",
       "farmName": "Farm 42",
       "location": {
@@ -1007,6 +1075,8 @@
     {
       "id": "43",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 43",
       "farmName": "Farm 43",
       "location": {
@@ -1029,6 +1099,8 @@
     {
       "id": "44",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 44",
       "farmName": "Farm 44",
       "location": {
@@ -1051,6 +1123,8 @@
     {
       "id": "45",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 45",
       "farmName": "Farm 45",
       "location": {
@@ -1073,6 +1147,8 @@
     {
       "id": "46",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 46",
       "farmName": "Farm 46",
       "location": {
@@ -1095,6 +1171,8 @@
     {
       "id": "47",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 47",
       "farmName": "Farm 47",
       "location": {
@@ -1117,6 +1195,8 @@
     {
       "id": "48",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 48",
       "farmName": "Farm 48",
       "location": {
@@ -1139,6 +1219,8 @@
     {
       "id": "49",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 49",
       "farmName": "Farm 49",
       "location": {
@@ -1161,6 +1243,8 @@
     {
       "id": "50",
       "type": "FARMER",
+      "userId": "user1",
+      "farmId": null,
       "title": "Job 50",
       "farmName": "Farm 50",
       "location": {
@@ -1233,7 +1317,7 @@
   "matches": [
     {
       "id": "match1",
-      "jobPostingId": "job1",
+      "jobPostingId": "1",
       "formerId": "user1",
       "workerId": "user2",
       "status": "COMPLETED",
@@ -1242,6 +1326,18 @@
       "appliedAt": "2023-10-06T12:00:00.000Z",
       "updatedAt": "2023-10-06T12:00:00.000Z",
       "completedAt": "2023-10-06T12:00:00.000Z"
+    },
+    {
+      "id": "match2",
+      "jobPostingId": "3",
+      "formerId": "user1",
+      "workerId": "user2",
+      "status": "PENDING",
+      "workerScore": null,
+      "farmerScore": null,
+      "appliedAt": "2025-02-10T13:16:34.451Z",
+      "updatedAt": "2025-02-10T13:16:34.451Z",
+      "completedAt": null
     }
   ]
 }

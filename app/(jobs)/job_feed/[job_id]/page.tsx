@@ -50,6 +50,7 @@ export default function JobDetailPage() {
     const [isLoading, setIsLoading] = useState<boolean>(true); // 로딩 상태
     const [error, setError] = useState<string | null>(null); // 에러 상태
     const { userRole } = useAuthStore(); // Zustand 스토어에서 userRole 가져오기
+    const [isApplied, setIsApplied] = useState<boolean>(false); // 지원 완료 상태 관리
 
     // 구인 상세 정보를 가져오는 useEffect
     useEffect(() => {
@@ -157,9 +158,34 @@ export default function JobDetailPage() {
                 <div className="mt-4">
                     <button
                         className="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition duration-200"
-                        onClick={() => alert("지원하기 기능을 구현해주세요")} // 지원하기 버튼 클릭 시 알림
+                        onClick={async () => {
+                            try {
+                                const response = await fetch('/api/set_match', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        jobPostingId: jobData.id,
+                                        workerId: "user2" // 실제 사용자 ID로 변경 필요
+                                    }),
+                                });
+
+                                if (!response.ok) {
+                                    throw new Error("지원하기 요청 실패");
+                                }
+
+                                const result = await response.json();
+                                alert(result.message); // 성공 메시지 출력
+                                setIsApplied(true); // 지원 완료 상태로 변경
+                            } catch (error) {
+                                console.error("Error:", error);
+                                alert("지원하기 중 오류가 발생했습니다.");
+                            }
+                        }}
+                        disabled={isApplied} // 지원 완료 시 버튼 비활성화
                     >
-                        지원하기
+                        {isApplied ? "지원하기 완료" : "지원하기"} {/* 버튼 텍스트 변경 */}
                     </button>
                 </div>
             )}

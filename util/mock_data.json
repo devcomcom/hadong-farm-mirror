@@ -6,7 +6,7 @@
       "password": "aaaaaa",
       "name": "John Farmer",
       "contact": "010-1234-5678",
-      "isActive": false,
+      "isActive": true,
       "createdAt": "2023-10-06T12:00:00.000Z",
       "updatedAt": "2023-10-06T12:00:00.000Z",
       "roles": [
@@ -26,7 +26,7 @@
       "password": "aaaaaa",
       "name": "Alice Worker",
       "contact": "010-9876-5432",
-      "isActive": true,
+      "isActive": false,
       "createdAt": "2023-10-06T12:00:00.000Z",
       "updatedAt": "2023-10-06T12:00:00.000Z",
       "roles": [
@@ -139,7 +139,7 @@
         "longitude": 128.28529732487758,
         "farmName": "햇살 농장"
       },
-      "status": "OPEN",
+      "status": "COMPLETED",
       "createdAt": "2025-02-07T11:45:31.561Z",
       "updatedAt": "2025-02-07T11:45:31.561Z"
     },
@@ -1332,7 +1332,7 @@
       "jobPostingId": "3",
       "formerId": "user1",
       "workerId": "user2",
-      "status": "PENDING",
+      "status": "COMPLETED",
       "workerScore": null,
       "farmerScore": null,
       "appliedAt": "2025-02-10T13:16:34.451Z",

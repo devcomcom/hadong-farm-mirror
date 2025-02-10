@@ -51,6 +51,7 @@ export default function JobDetailPage() {
     const [error, setError] = useState<string | null>(null); // 에러 상태
     const { userRole } = useAuthStore(); // Zustand 스토어에서 userRole 가져오기
     const [isApplied, setIsApplied] = useState<boolean>(false); // 지원 완료 상태 관리
+    const [isCompleted, setIsCompleted] = useState<boolean>(false); // 작업 완료 상태 관리
 
     // 구인 상세 정보를 가져오는 useEffect
     useEffect(() => {
@@ -66,6 +67,9 @@ export default function JobDetailPage() {
                         const matchData = data.matches.find((match: any) => match.jobPostingId === job_id); // 해당 job의 match 데이터 찾기
                         if (matchData) {
                             setIsApplied(true); // match 데이터가 있으면 지원 완료 상태를 true로 설정
+                        }
+                        if (jobPosting.status === "COMPLETED") {
+                            setIsCompleted(true); // 작업 완료 상태일 때 작업 완료 상태를 true로 설정
                         }
                     } else {
                         // job_id에 해당하는 구인 데이터가 없을 경우 JobPostingDetail 사용
@@ -193,6 +197,41 @@ export default function JobDetailPage() {
                     </button>
                 </div>
             )}
+            {userRole === 'FARMER' && isApplied ? (
+                <div className="mt-4">
+                    <button
+                        className="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition duration-200"
+                        onClick={async () => {
+                            try {
+                                const response = await fetch('/api/finish_job', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        jobPostingId: jobData.id,
+                                        workerId: "user2" // 실제 사용자 ID로 변경 필요
+                                    }),
+                                });
+
+                                if (!response.ok) {
+                                    throw new Error("작업 완료 요청 실패");
+                                }
+
+                                const result = await response.json();
+                                alert(result.message); // 성공 메시지 출력
+                                setIsCompleted(false); // 작업 완료 상태로 변경
+                            } catch (error) {
+                                console.error("Error:", error);
+                                alert("작업 완료 중 오류가 발생했습니다.");
+                            }
+                        }}
+                        disabled={isCompleted} // 작업 완료 상태일 때 버튼 활성화
+                    >
+                        작업 완료
+                    </button>
+                </div>
+            ) : ''}
         </div>
     );
 }

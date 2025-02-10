@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import KakaoMap from "@/components/common/kakao_map";
+import { useAuthStore } from "@/stores/auth";
 
 // 구인 게시물 상세 정보를 위한 인터페이스 정의
 interface JobPostingDetail {
@@ -48,6 +49,7 @@ export default function JobDetailPage() {
     const [jobData, setJobData] = useState<JobPostingDetail | null>(null); // 구인 데이터 상태
     const [isLoading, setIsLoading] = useState<boolean>(true); // 로딩 상태
     const [error, setError] = useState<string | null>(null); // 에러 상태
+    const { userRole } = useAuthStore(); // Zustand 스토어에서 userRole 가져오기
 
     // 구인 상세 정보를 가져오는 useEffect
     useEffect(() => {
@@ -72,6 +74,7 @@ export default function JobDetailPage() {
             }
         };
         fetchJobData();
+
     }, [job_id]);
 
     // 로딩 중일 때 표시할 내용
@@ -128,7 +131,6 @@ export default function JobDetailPage() {
                     <KakaoMap latitude={jobData.location.latitude} longitude={jobData.location.longitude} />
                     <p className="mt-2 text-gray-600">
                         Latitude: {jobData.location.latitude}, Longitude: {jobData.location.longitude} {/* 위도 및 경도 */}
-
                     </p>
                 </div>
                 <div className="mb-4">
@@ -150,14 +152,17 @@ export default function JobDetailPage() {
                     </div>
                 )}
             </div>
-            <div className="mt-4">
-                <button
-                    className="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition duration-200"
-                    onClick={() => alert("지원하기 기능을 구현해주세요")} // 지원하기 버튼 클릭 시 알림
-                >
-                    지원하기
-                </button>
-            </div>
+
+            {userRole === 'WORKER' && (
+                <div className="mt-4">
+                    <button
+                        className="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition duration-200"
+                        onClick={() => alert("지원하기 기능을 구현해주세요")} // 지원하기 버튼 클릭 시 알림
+                    >
+                        지원하기
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

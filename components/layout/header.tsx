@@ -9,7 +9,7 @@ const Header = () => {
     const { setRole } = useAuthStore(); // Zustand 스토어에서 setRole 함수 가져오기
 
     const checkUserStatus = async () => {
-        const isLoginPage = window.location.pathname === '/login' || window.location.pathname === '/'; // 현재 페이지가 로그인 페이지 또는 루트 페이지인지 확인
+        const isLoginPage = window.location.pathname === '/login'; // 현재 페이지가 로그인 페이지인지 확인
         if (!isLoginPage) {
             const response = await fetch('/api/get_auth'); // 사용자 정보를 가져오는 API 호출
             if (response.ok) {
@@ -65,22 +65,29 @@ const Header = () => {
                             <a href="/profile" className="text-blue-600 hover:underline">프로필</a>
                         </li>
                         <li>
-                            <button
-                                onClick={async () => {
-                                    const response = await fetch('/api/logout', {
-                                        method: 'POST',
-                                    });
-                                    if (response.ok) {
-                                        // 로그아웃 성공 시 리다이렉트 또는 상태 업데이트
-                                        window.location.href = '/login'; // 로그인 페이지로 리다이렉트
-                                    } else {
-                                        alert("로그아웃 중 오류가 발생했습니다.");
-                                    }
-                                }}
-                                className="mt-4 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
-                            >
-                                로그아웃
-                            </button>
+                            {userRoleLocal && (
+                                <button
+                                    onClick={async () => {
+                                        const response = await fetch('/api/logout', {
+                                            method: 'POST',
+                                        });
+                                        if (response.ok) {
+                                            // 로그아웃 성공 시 리다이렉트 또는 상태 업데이트
+                                            window.location.href = '/login'; // 로그인 페이지로 리다이렉트
+                                        } else {
+                                            alert("로그아웃 중 오류가 발생했습니다.");
+                                        }
+                                    }}
+                                    className="mt-4 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
+                                >
+                                    로그아웃
+                                </button>
+                            )}
+                            {!userRoleLocal && (
+                                <a href="/login" className="mt-4 px-4 py-2 text-sm font-medium text-blue-600 bg-white border border-blue-600 rounded-md hover:bg-blue-600 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    로그인
+                                </a>
+                            )}
                         </li>
                     </ul>
                 </nav>

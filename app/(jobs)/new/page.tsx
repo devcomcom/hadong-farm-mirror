@@ -3,6 +3,8 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import KakaoMap from "@/components/common/kakao_map_location";
+import { useLocationStore } from "@/stores/location";
 
 interface JobPostFormValues {
     title: string;
@@ -13,6 +15,8 @@ interface JobPostFormValues {
     paymentAmount: number;
     paymentUnit: "DAY" | "HOUR";
     address: string;
+    latitude: number;
+    longitude: number;
 }
 
 export default function JobPostCreationPage() {
@@ -30,6 +34,8 @@ export default function JobPostCreationPage() {
             paymentAmount: 0,
             paymentUnit: "DAY",
             address: "",
+            latitude: 0,
+            longitude: 0,
         },
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -75,7 +81,7 @@ export default function JobPostCreationPage() {
                         {...register("jobType", { required: "게시물 유형을 선택해주세요." })}
                     >
                         <option value="FARMER">농장주</option>
-                        <option value="WORKER">근로자</option>
+                        {/* <option value="WORKER">근로자</option> */}
                     </select>
                     {errors.jobType && (
                         <p className="text-red-500 text-sm mt-1">
@@ -181,11 +187,26 @@ export default function JobPostCreationPage() {
                         placeholder="예: 123 농장 도로, 시골"
                         {...register("address", { required: "주소를 입력해주세요." })}
                     />
+                    <input
+                        type="number"
+                        className="w-full border border-gray-300 rounded p-2"
+                        placeholder="위도 입력"
+                        value={useLocationStore((state) => state.latitude)} // Zustand 상태값으로 변경
+                        {...register("latitude", { required: "주소를 입력해주세요." })}
+                    />
+                    <input
+                        type="number"
+                        className="w-full border border-gray-300 rounded p-2"
+                        placeholder="경도 입력"
+                        value={useLocationStore((state) => state.longitude)} // Zustand 상태값으로 변경
+                        {...register("longitude", { required: "주소를 입력해주세요." })}
+                    />
                     {errors.address && (
                         <p className="text-red-500 text-sm mt-1">
                             {errors.address.message}
                         </p>
                     )}
+                    <KakaoMap latitudeLocal={35.0634} longitudeLocal={127.7532} />
                 </div>
                 <div>
                     <button

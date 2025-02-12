@@ -14,6 +14,8 @@ export async function POST(request: Request) {
             paymentAmount,
             paymentUnit,
             address,
+            latitude,
+            longitude,
         } = body;
 
         // 필수 항목 검증
@@ -39,12 +41,17 @@ export async function POST(request: Request) {
 
         // 새 구인 포스트 객체 생성
         const newJobPosting = {
-            id: `job${mockData.jobPostings.length + 1}`,
+            id: `${mockData.jobPostings.length + 1}`,
             type: jobType, // "FARMER" 또는 "WORKER"
-            userId: jobType === "FARMER" ? "id1" : "id2", // 예시 로직 (농장주/근로자)
+            userId: jobType === "FARMER" ? "user1" : "user2", // 예시 로직 (농장주/근로자)
             farmId: jobType === "FARMER" ? "farm1" : null,
             title,
             description,
+            location: {
+                address,
+                latitude,
+                longitude,
+            },
             workDate: {
                 start: startDate,
                 end: endDate,

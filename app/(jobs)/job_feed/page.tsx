@@ -8,6 +8,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import FilterSection from "@/components/jobs/filter_section";
 import JobCard from "@/components/jobs/job_card";
 import LoadingCard from "@/components/jobs/loading_card";
+import MapView from "./_components/map_view.tsx"; // 지도 뷰 컴포넌트 임포트
 import { DateRange } from "@/components/common/date_range_picker"; // DateRange 타입 임포트
 
 // 구인 목록 아이템 인터페이스 (명세서 참고)
@@ -47,6 +48,7 @@ export default function JobFeedPage() {
     const [items, setItems] = useState<JobListItem[]>([]); // 구인 목록 상태
     const [hasMore, setHasMore] = useState(true); // 더 많은 데이터 여부 상태
     const [dateRange, setDateRange] = useState<DateRange>({ start: null, end: null }); // 날짜 범위 상태 추가
+    const [viewMode, setViewMode] = useState<"list" | "map">("list"); // 뷰 모드 상태 추가
 
     // 다음 페이지 데이터를 불러오는 함수 (에러 핸들링 추가)
     const fetchNextPage = async () => {
@@ -84,29 +86,49 @@ export default function JobFeedPage() {
                 >
                     새 글 작성
                 </button>
-            </div>
-            <InfiniteScroll
-                dataLength={filteredItems.length}
-                next={fetchNextPage}
-                hasMore={hasMore}
-                loader={<LoadingCard />}
-                scrollThreshold={0.9}
-                endMessage={
-                    <p className="text-center py-4 text-gray-500">
-                        더 이상 구인 글이 없습니다.
-                    </p>
-                }
-            >
-                <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                    {filteredItems.map((job, index) => (
-                        <JobCard
-                            key={`${job.id}-${index}`} // 구인 아이디를 키로 사용
-                            job={job} // JobCard에 구인 데이터 전달
-                            onClick={() => router.push(`/job_feed/${job.id}`)} // 클릭 시 구인 상세 페이지로 이동
-                        />
-                    ))}
+                <div className="flex space-x-2">
+                    <button
+                        onClick={() => setViewMode("list")}
+                        className={`px-4 py-2 rounded-md ${viewMode === "list" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"}`}
+                    >
+                        목록 보기
+                    </button>
+                    <button
+                        onClick={() => setViewMode("map")}
+                        className={`px-4 py-2 rounded-md ${viewMode === "map" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"}`}
+                    >
+                        지도 보기
+                    </button>
                 </div>
-            </InfiniteScroll>
+            </div>
+            <div>
+                {viewMode === 'list' ? ( // 상태값에 따라 목록 뷰 출력
+                    <InfiniteScroll
+                        dataLength={filteredItems.length}
+                        next={fetchNextPage}
+                        hasMore={hasMore}
+                        loader={<LoadingCard />}
+                        scrollThreshold={0.9}
+                        endMessage={
+                            <p className="text-center py-4 text-gray-500">
+                                더 이상 구인 글이 없습니다.
+                            </p>
+                        }
+                    >
+                        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                            {filteredItems.map((job, index) => (
+                                <JobCard
+                                    key={`${job.id}-${index}`} // 구인 아이디를 키로 사용
+                                    job={job} // JobCard에 구인 데이터 전달
+                                    onClick={() => router.push(`/job_feed/${job.id}`)} // 클릭 시 구인 상세 페이지로 이동
+                                />
+                            ))}
+                        </div>
+                    </InfiniteScroll>
+                ) : (
+                    <MapView items={filteredItems} /> // 지도 뷰 출력
+                )}
+            </div>
         </div>
     );
 }

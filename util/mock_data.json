@@ -6,7 +6,7 @@
       "password": "aaaaaa",
       "name": "John Farmer",
       "contact": "010-1234-5678",
-      "isActive": true,
+      "isActive": false,
       "createdAt": "2023-10-06T12:00:00.000Z",
       "updatedAt": "2023-10-06T12:00:00.000Z",
       "roles": [
@@ -26,7 +26,7 @@
       "password": "aaaaaa",
       "name": "Alice Worker",
       "contact": "010-9876-5432",
-      "isActive": false,
+      "isActive": true,
       "createdAt": "2023-10-06T12:00:00.000Z",
       "updatedAt": "2023-10-06T12:00:00.000Z",
       "roles": [
@@ -189,7 +189,7 @@
         "amount": 190000,
         "unit": "DAY"
       },
-      "status": "OPEN",
+      "status": "COMPLETED",
       "createdAt": "2025-01-05T00:00:00Z"
     },
     {
@@ -283,7 +283,7 @@
         "amount": 230000,
         "unit": "DAY"
       },
-      "status": "OPEN",
+      "status": "COMPLETED",
       "createdAt": "2025-01-09T00:00:00Z"
     },
     {
@@ -1337,6 +1337,30 @@
       "farmerScore": null,
       "appliedAt": "2025-02-10T13:16:34.451Z",
       "updatedAt": "2025-02-10T13:16:34.451Z",
+      "completedAt": null
+    },
+    {
+      "id": "match3",
+      "jobPostingId": "5",
+      "formerId": "user1",
+      "workerId": "user2",
+      "status": "COMPLETED",
+      "workerScore": null,
+      "farmerScore": null,
+      "appliedAt": "2025-02-12T11:19:02.378Z",
+      "updatedAt": "2025-02-12T11:19:02.378Z",
+      "completedAt": null
+    },
+    {
+      "id": "match4",
+      "jobPostingId": "9",
+      "formerId": "user1",
+      "workerId": "user2",
+      "status": "COMPLETED",
+      "workerScore": null,
+      "farmerScore": null,
+      "appliedAt": "2025-02-12T11:19:26.092Z",
+      "updatedAt": "2025-02-12T11:19:26.092Z",
       "completedAt": null
     }
   ]

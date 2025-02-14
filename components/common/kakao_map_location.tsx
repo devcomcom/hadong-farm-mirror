@@ -4,7 +4,7 @@
 /*global kakao*/
 import Script from "next/script";
 import { useLocationStore } from "@/stores/location";
-
+import { useEffect, useState } from "react";
 declare global {
     interface Window {
         kakao: any;
@@ -14,6 +14,31 @@ declare global {
 // KakaoMap 컴포넌트 정의
 export default function KakaoMap({ latitudeLocal, longitudeLocal }: { latitudeLocal: number; longitudeLocal: number }) {
     const { setLocation } = useLocationStore();
+    const [address, setAddress] = useState('');
+    const [map, setMap] = useState<window.kakao.maps.Map | null>(null);
+    const [marker, setMarker] = useState<window.kakao.maps.Marker | null>(null);
+    const [geocoder, setGeocoder] = useState<window.kakao.maps.services.Geocoder | null>(null);
+    // 주소를 위경도로 변환하는 함수
+    const getCoordinates = (address: string) => {
+        if (!geocoder) {
+            console.error("Geocoder is not initialized.");
+            return;
+        }
+        geocoder.addressSearch(address, (result: any, status: any) => {
+            if (status === window.kakao.maps.services.Status.OK) {
+                const { x, y } = result[0]; // 경도, 위도
+                console.log('x, y', x, y);
+                setLocation(address, parseFloat(y).toFixed(6), parseFloat(x).toFixed(6)); // 상태 업데이트
+
+                map?.setCenter(new window.kakao.maps.LatLng(parseFloat(y), parseFloat(x)));
+
+                marker?.setPosition(new window.kakao.maps.LatLng(parseFloat(y), parseFloat(x)));
+            } else {
+                alert("주소를 찾을 수 없습니다.");
+            }
+        });
+    };
+
     // 카카오 맵 API 로드
     const loadKakaoMap = () => {
         if (!window.kakao) {
@@ -37,45 +62,25 @@ export default function KakaoMap({ latitudeLocal, longitudeLocal }: { latitudeLo
             const map = new window.kakao.maps.Map(container, mapOptions);
             map.setCenter(coords);
 
-            // 마커가 표시될 위치
-            const markerPosition = new window.kakao.maps.LatLng(latitudeLocal, longitudeLocal);
+            setMap(map);
 
-            // 마커를 생성
             const marker = new window.kakao.maps.Marker({
-                position: markerPosition
+                position: coords
             });
-
-            // 좌표를 주소로 변환하는 객체를 변수에 대입
-            const geocoder = new window.kakao.maps.services.Geocoder();
-
-            console.log('geocoder', geocoder);
-
-            // 마커가 지도 위에 표시되도록 설정
             marker.setMap(map);
 
-            // 지도가 이동, 확대, 축소로 인해 중심좌표가 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
-            let timeout: NodeJS.Timeout | null = null; // 쓰로틀링을 위한 타이머 변수
-
-            window.kakao.maps.event.addListener(map, 'center_changed', async function () {
-                if (timeout) {
-                    clearTimeout(timeout); // 이전 타이머 클리어
-                }
-
-                timeout = setTimeout(async () => {
-                    // 지도의 중심좌표를 얻어옵니다 
-                    const latlng = map.getCenter();
-
-                    marker.setPosition(new window.kakao.maps.LatLng(latlng.getLat(), latlng.getLng()));
-
-                    await geocoder.coord2RegionCode(latlng.getLng(), latlng.getLat(), (result: any, status: any) => {
-                        if (status === window.kakao.maps.services.Status.OK) {
-                            setLocation(result[0].address_name, latlng.getLat(), latlng.getLng());
-                        }
-                    });
-                }, 200); // 200ms 후에 실행
-            });
+            const geocoder = new window.kakao.maps.services.Geocoder();
+            setGeocoder(geocoder);
+            setMarker(marker);
         });
     };
+
+    useEffect(() => {
+        const address = useLocationStore.getState().address; // 현재 주소 가져오기
+        if (address) {
+            getCoordinates(address);
+        }
+    }, [useLocationStore((state) => state.address)]);
 
     return (
         <>

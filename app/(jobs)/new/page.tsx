@@ -45,6 +45,12 @@ export default function JobPostCreationPage() {
         try {
             // 실제 API 호출 부분으로 변경 가능 (예: fetch POST 요청)
             console.log("Submitting data:", data);
+
+            data.latitude = useLocationStore.getState().latitude;
+            data.longitude = useLocationStore.getState().longitude;
+
+            console.log("Submitting data:", data);
+
             const response = await fetch('/api/set_post', {
                 method: 'POST',
                 headers: {
@@ -183,13 +189,28 @@ export default function JobPostCreationPage() {
                     <label className="block font-semibold mb-1">위치 (주소)</label>
                     <input
                         type="text"
+                        id="addressInput"
                         className="w-full border border-gray-300 rounded p-2"
                         placeholder="예: 123 농장 도로, 시골"
-                        value={useLocationStore((state) => state.address) || ""} // Zustand 상태값으로 변경
                         {...register("address", { required: "주소를 입력해주세요." })}
                     />
+
+                    <button
+                        type="button"
+                        className="mt-2 w-full bg-green-600 text-white font-semibold py-2 rounded hover:bg-green-700 transition duration-200"
+                        onClick={() => {
+                            const addressInput = document.getElementById('addressInput') as HTMLInputElement;
+                            const address = addressInput.value;
+                            console.log(address);
+                            useLocationStore.getState().setAddress(address);
+                        }}
+                    >
+                        주소 입력
+                    </button>
+
                     <input
                         type="number"
+                        step="any"
                         className="w-full border border-gray-300 rounded p-2"
                         placeholder="위도 입력"
                         value={useLocationStore((state) => state.latitude) || 0} // Zustand 상태값으로 변경
@@ -197,6 +218,7 @@ export default function JobPostCreationPage() {
                     />
                     <input
                         type="number"
+                        step="any"
                         className="w-full border border-gray-300 rounded p-2"
                         placeholder="경도 입력"
                         value={useLocationStore((state) => state.longitude) || 0} // Zustand 상태값으로 변경

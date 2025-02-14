@@ -5,7 +5,7 @@
 import Script from "next/script";
 import { useLocationStore } from "@/stores/location";
 import { useEffect, useState } from "react";
-import React from 'react';
+import React from "react";
 
 declare global {
     interface Window {
@@ -14,7 +14,13 @@ declare global {
 }
 
 // KakaoMap 컴포넌트 정의
-export default function KakaoMap({ latitudeLocal, longitudeLocal }: { latitudeLocal: number; longitudeLocal: number }) {
+export default function KakaoMap({
+    latitudeLocal,
+    longitudeLocal,
+}: {
+    latitudeLocal: number;
+    longitudeLocal: number;
+}) {
     const { setLocation } = useLocationStore();
     const [jobPostings, setJobPostings] = useState<any[]>([]); // jobPostings 상태 추가
     const posts = useLocationStore((state) => state.posts); // 게시물 목록 가져오기
@@ -29,10 +35,13 @@ export default function KakaoMap({ latitudeLocal, longitudeLocal }: { latitudeLo
         //33.5563, 126.79581
         window.kakao.maps.load(() => {
             // 결과값 위치 좌표
-            const coords = new window.kakao.maps.LatLng(latitudeLocal, longitudeLocal);
+            const coords = new window.kakao.maps.LatLng(
+                latitudeLocal,
+                longitudeLocal
+            );
 
             // 지도를 담을 영역의 DOM 레퍼런스
-            const container = document.getElementById('map');
+            const container = document.getElementById("map");
 
             const mapOptions = {
                 center: coords,
@@ -50,11 +59,14 @@ export default function KakaoMap({ latitudeLocal, longitudeLocal }: { latitudeLo
             });
 
             // 마커가 표시될 위치
-            const markerPosition = new window.kakao.maps.LatLng(latitudeLocal, longitudeLocal);
+            const markerPosition = new window.kakao.maps.LatLng(
+                latitudeLocal,
+                longitudeLocal
+            );
 
             // 마커를 생성
             const marker = new window.kakao.maps.Marker({
-                position: markerPosition
+                position: markerPosition,
             });
 
             // 마커가 지도 위에 표시되도록 설정
@@ -63,51 +75,92 @@ export default function KakaoMap({ latitudeLocal, longitudeLocal }: { latitudeLo
             // 지도가 이동, 확대, 축소로 인해 중심좌표가 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
             let debounceTimer: NodeJS.Timeout;
 
-            window.kakao.maps.event.addListener(map, 'center_changed', function () {
-                clearTimeout(debounceTimer); // 이전 타이머 클리어
+            window.kakao.maps.event.addListener(
+                map,
+                "center_changed",
+                function () {
+                    clearTimeout(debounceTimer); // 이전 타이머 클리어
 
-                debounceTimer = setTimeout(() => {
-                    // 지도의 중심좌표를 얻어옵니다 
-                    const latlng = map.getCenter();
+                    debounceTimer = setTimeout(() => {
+                        // 지도의 중심좌표를 얻어옵니다
+                        const latlng = map.getCenter();
 
-                    marker.setPosition(new window.kakao.maps.LatLng(latlng.getLat(), latlng.getLng()));
-                    setLocation('address', latlng.getLat(), latlng.getLng());
+                        marker.setPosition(
+                            new window.kakao.maps.LatLng(
+                                latlng.getLat(),
+                                latlng.getLng()
+                            )
+                        );
+                        setLocation(
+                            "address",
+                            latlng.getLat(),
+                            latlng.getLng()
+                        );
 
-                    // 10km 이내의 구인 게시물 가져오기
-                    fetch(`/api/get_post_list_by_location?latitude=${latlng.getLat()}&longitude=${latlng.getLng()}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log("10km 이내의 구인 게시물:", data.jobPostings);
-                            setJobPostings(data.jobPostings); // jobPostings 상태 업데이트
+                        // 10km 이내의 구인 게시물 가져오기
+                        fetch(
+                            `/api/get_post_list_by_location?latitude=${latlng.getLat()}&longitude=${latlng.getLng()}`
+                        )
+                            .then((response) => response.json())
+                            .then((data) => {
+                                console.log(
+                                    "10km 이내의 구인 게시물:",
+                                    data.jobPostings
+                                );
+                                setJobPostings(data.jobPostings); // jobPostings 상태 업데이트
 
-                            // 마커 클러스터에 마커 추가
-                            const markers = data.jobPostings.map((job) => {
-                                const position = new window.kakao.maps.LatLng(job.location.latitude, job.location.longitude);
-                                const marker = new window.kakao.maps.Marker({
-                                    position: position,
-                                    title: job.title
+                                // 마커 클러스터에 마커 추가
+                                const markers = data.jobPostings.map((job) => {
+                                    const position =
+                                        new window.kakao.maps.LatLng(
+                                            job.location.latitude,
+                                            job.location.longitude
+                                        );
+                                    const marker = new window.kakao.maps.Marker(
+                                        {
+                                            position: position,
+                                            title: job.title,
+                                        }
+                                    );
+
+                                    // 인포윈도우 생성
+                                    const infowindow =
+                                        new window.kakao.maps.InfoWindow({
+                                            content: `<a href="http://localhost:3000/job_feed/${job.id}" style="color:blue"><div style="height: 50px; padding:5px;">${job.title}</div></a>`, // 인포윈도우에 표시할 내용
+                                            removable: true, // 인포윈도우를 닫을 수 있는 x버튼 표시
+                                        });
+
+                                    // 마커 클릭 이벤트 추가
+                                    window.kakao.maps.event.addListener(
+                                        marker,
+                                        "click",
+                                        () => {
+                                            infowindow.open(map, marker); // 마커 클릭 시 인포윈도우 열기
+                                        }
+                                    );
+
+                                    window.kakao.maps.event.addListener(
+                                        map,
+                                        "center_changed",
+                                        function () {
+                                            infowindow.close();
+                                        }
+                                    );
+                                    return marker;
                                 });
-
-                                // 인포윈도우 생성
-                                const infowindow = new window.kakao.maps.InfoWindow({
-                                    content: `<div style="padding:5px;">${job.title}</div>`, // 인포윈도우에 표시할 내용
-                                    removable: true // 인포윈도우를 닫을 수 있는 x버튼 표시
-                                });
-
-                                // 마커 클릭 이벤트 추가
-                                window.kakao.maps.event.addListener(marker, 'click', () => {
-                                    infowindow.open(map, marker); // 마커 클릭 시 인포윈도우 열기
-                                });
-
-                                return marker;
-                            });
-                            markerClusterer.clear();
-                            // 클러스터에 마커 추가
-                            markerClusterer.addMarkers(markers);
-                        })
-                        .catch(error => console.error("Error fetching job postings:", error));
-                }, 200); // 200ms 후에 실행
-            });
+                                markerClusterer.clear();
+                                // 클러스터에 마커 추가
+                                markerClusterer.addMarkers(markers);
+                            })
+                            .catch((error) =>
+                                console.error(
+                                    "Error fetching job postings:",
+                                    error
+                                )
+                            );
+                    }, 200); // 200ms 후에 실행
+                }
+            );
         });
     };
 
@@ -125,4 +178,3 @@ export default function KakaoMap({ latitudeLocal, longitudeLocal }: { latitudeLo
         </>
     );
 }
-

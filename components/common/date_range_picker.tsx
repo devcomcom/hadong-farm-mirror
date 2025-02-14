@@ -27,7 +27,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
     const displayValue =
         value.start && value.end
             ? `${format(value.start, "yyyy.MM.dd", { locale: ko })} - ${format(value.end, "yyyy.MM.dd", { locale: ko })}`
-            : "Pick a date range";
+            : "검색 기간 입력";
 
     return (
         <Popover>

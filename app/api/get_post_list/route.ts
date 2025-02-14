@@ -11,6 +11,7 @@ export async function GET() {
         return NextResponse.json({
             jobPostings: mockData.jobPostings,
             matches: mockData.matches,
+            applicants: mockData.users,
         });
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });

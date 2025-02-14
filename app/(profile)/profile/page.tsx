@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Tabs from "../_components/tap";
 import CompletedJobList from "../_components/complet_job_list";
-
+import ApplicantList from "../_components/applicant_list";
 interface UserProfile {
     name: string;
     email: string;
@@ -165,8 +165,11 @@ export default function ProfilePage() {
                             </div>
                         )}
                     </div>
-                    <div label="완료한 오세요 리스트">
+                    <div label="완료한 구해요 리스트">
                         <CompletedJobList />
+                    </div>
+                    <div label="지원자 리스트">
+                        <ApplicantList />
                     </div>
                 </Tabs>
             </div>

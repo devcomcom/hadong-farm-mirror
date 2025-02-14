@@ -45,17 +45,34 @@ export default function KakaoMap({ latitudeLocal, longitudeLocal }: { latitudeLo
                 position: markerPosition
             });
 
+            // 좌표를 주소로 변환하는 객체를 변수에 대입
+            const geocoder = new window.kakao.maps.services.Geocoder();
+
+            console.log('geocoder', geocoder);
+
             // 마커가 지도 위에 표시되도록 설정
             marker.setMap(map);
 
             // 지도가 이동, 확대, 축소로 인해 중심좌표가 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
-            window.kakao.maps.event.addListener(map, 'center_changed', function () {
+            let timeout: NodeJS.Timeout | null = null; // 쓰로틀링을 위한 타이머 변수
 
-                // 지도의 중심좌표를 얻어옵니다 
-                const latlng = map.getCenter();
+            window.kakao.maps.event.addListener(map, 'center_changed', async function () {
+                if (timeout) {
+                    clearTimeout(timeout); // 이전 타이머 클리어
+                }
 
-                marker.setPosition(new window.kakao.maps.LatLng(latlng.getLat(), latlng.getLng()));
-                setLocation('address', latlng.getLat(), latlng.getLng());
+                timeout = setTimeout(async () => {
+                    // 지도의 중심좌표를 얻어옵니다 
+                    const latlng = map.getCenter();
+
+                    marker.setPosition(new window.kakao.maps.LatLng(latlng.getLat(), latlng.getLng()));
+
+                    await geocoder.coord2RegionCode(latlng.getLng(), latlng.getLat(), (result: any, status: any) => {
+                        if (status === window.kakao.maps.services.Status.OK) {
+                            setLocation(result[0].address_name, latlng.getLat(), latlng.getLng());
+                        }
+                    });
+                }, 200); // 200ms 후에 실행
             });
         });
     };
@@ -66,7 +83,7 @@ export default function KakaoMap({ latitudeLocal, longitudeLocal }: { latitudeLo
             <Script
                 strategy="afterInteractive"
                 type="text/javascript"
-                src={`https://dapi.kakao.com/v2/maps/sdk.js?appkey=d023d1464e432f1c931e2527064cb25b&autoload=false`}
+                src={`https://dapi.kakao.com/v2/maps/sdk.js?appkey=d023d1464e432f1c931e2527064cb25b&libraries=services&autoload=false`}
                 onReady={loadKakaoMap} // 스크립트 로드 완료 시 로그 출력
             />
             {/* 지도가 표시될 div 요소 */}

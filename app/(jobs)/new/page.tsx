@@ -185,21 +185,22 @@ export default function JobPostCreationPage() {
                         type="text"
                         className="w-full border border-gray-300 rounded p-2"
                         placeholder="예: 123 농장 도로, 시골"
+                        value={useLocationStore((state) => state.address) || ""} // Zustand 상태값으로 변경
                         {...register("address", { required: "주소를 입력해주세요." })}
                     />
                     <input
                         type="number"
                         className="w-full border border-gray-300 rounded p-2"
                         placeholder="위도 입력"
-                        value={useLocationStore((state) => state.latitude)} // Zustand 상태값으로 변경
-                        {...register("latitude", { required: "주소를 입력해주세요." })}
+                        value={useLocationStore((state) => state.latitude) || 0} // Zustand 상태값으로 변경
+                        {...register("latitude", { required: "" })}
                     />
                     <input
                         type="number"
                         className="w-full border border-gray-300 rounded p-2"
                         placeholder="경도 입력"
-                        value={useLocationStore((state) => state.longitude)} // Zustand 상태값으로 변경
-                        {...register("longitude", { required: "주소를 입력해주세요." })}
+                        value={useLocationStore((state) => state.longitude) || 0} // Zustand 상태값으로 변경
+                        {...register("longitude", { required: "" })}
                     />
                     {errors.address && (
                         <p className="text-red-500 text-sm mt-1">

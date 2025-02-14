@@ -4,7 +4,6 @@
 /*global kakao*/
 import Script from "next/script";
 import { useLocationStore } from "@/stores/location";
-import { useEffect, useState } from "react";
 import React from "react";
 
 declare global {
@@ -22,8 +21,6 @@ export default function KakaoMap({
     longitudeLocal: number;
 }) {
     const { setLocation } = useLocationStore();
-    const [jobPostings, setJobPostings] = useState<any[]>([]); // jobPostings 상태 추가
-    const posts = useLocationStore((state) => state.posts); // 게시물 목록 가져오기
 
     // 카카오 맵 API 로드
     const loadKakaoMap = () => {
@@ -107,10 +104,9 @@ export default function KakaoMap({
                                     "10km 이내의 구인 게시물:",
                                     data.jobPostings
                                 );
-                                setJobPostings(data.jobPostings); // jobPostings 상태 업데이트
 
                                 // 마커 클러스터에 마커 추가
-                                const markers = data.jobPostings.map((job) => {
+                                const markers = data.jobPostings.map((job: any) => {
                                     const position =
                                         new window.kakao.maps.LatLng(
                                             job.location.latitude,

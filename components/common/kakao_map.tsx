@@ -30,6 +30,7 @@ export default function KakaoMap({ latitude, longitude }: { latitude: number; lo
             const mapOptions = {
                 center: coords,
                 level: 3,
+                draggable: false,
             };
 
             const map = new window.kakao.maps.Map(container, mapOptions);

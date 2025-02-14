@@ -57,6 +57,7 @@ export default function KakaoMap({ latitudeLocal, longitudeLocal }: { latitudeLo
             const mapOptions = {
                 center: coords,
                 level: 3,
+                draggable: false,
             };
 
             const map = new window.kakao.maps.Map(container, mapOptions);

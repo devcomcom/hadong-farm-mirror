@@ -1,7 +1,6 @@
 "use client";
 
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import KakaoMap from "@/components/common/kakao_map_location";
 import { useLocationStore } from "@/stores/location";

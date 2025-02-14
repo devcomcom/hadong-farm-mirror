@@ -5,6 +5,7 @@
 import Script from "next/script";
 import { useLocationStore } from "@/stores/location";
 import { useEffect, useState } from "react";
+import React from 'react';
 
 declare global {
     interface Window {
@@ -16,6 +17,7 @@ declare global {
 export default function KakaoMap({ latitudeLocal, longitudeLocal }: { latitudeLocal: number; longitudeLocal: number }) {
     const { setLocation } = useLocationStore();
     const [jobPostings, setJobPostings] = useState<any[]>([]); // jobPostings 상태 추가
+    const posts = useLocationStore((state) => state.posts); // 게시물 목록 가져오기
 
     // 카카오 맵 API 로드
     const loadKakaoMap = () => {
@@ -81,9 +83,23 @@ export default function KakaoMap({ latitudeLocal, longitudeLocal }: { latitudeLo
                             // 마커 클러스터에 마커 추가
                             const markers = data.jobPostings.map((job) => {
                                 const position = new window.kakao.maps.LatLng(job.location.latitude, job.location.longitude);
-                                return new window.kakao.maps.Marker({
+                                const marker = new window.kakao.maps.Marker({
                                     position: position,
+                                    title: job.title
                                 });
+
+                                // 인포윈도우 생성
+                                const infowindow = new window.kakao.maps.InfoWindow({
+                                    content: `<div style="padding:5px;">${job.title}</div>`, // 인포윈도우에 표시할 내용
+                                    removable: true // 인포윈도우를 닫을 수 있는 x버튼 표시
+                                });
+
+                                // 마커 클릭 이벤트 추가
+                                window.kakao.maps.event.addListener(marker, 'click', () => {
+                                    infowindow.open(map, marker); // 마커 클릭 시 인포윈도우 열기
+                                });
+
+                                return marker;
                             });
                             markerClusterer.clear();
                             // 클러스터에 마커 추가

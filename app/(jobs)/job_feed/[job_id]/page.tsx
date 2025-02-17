@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import KakaoMap from "@/components/common/kakao_map";
 import { useAuthStore } from "@/stores/auth";
+import Button from "@/components/common/button";
 
 // 구인 게시물 상세 정보를 위한 인터페이스 정의
 interface JobPostingDetail {
@@ -104,14 +105,14 @@ export default function JobDetailPage() {
     // 구인 상세 정보 렌더링
     return (
         <div className="min-h-screen flex flex-col p-6 max-w-3xl mx-auto">
-            <button
-                className="mb-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-                onClick={() => router.back()} // 뒤로가기 버튼 클릭 시 이전 페이지로 이동
-                aria-label="뒤로가기"
+            <Button
+                color="grey"
+                fullWidth={true}
+                onClick={() => router.back()}
             >
                 ← 뒤로가기
-            </button>
-            <div className="bg-white shadow rounded p-6 flex-1">
+            </Button>
+            <div className="bg-white shadow rounded p-6 flex-1 mt-4">
                 <h1 className="text-3xl font-bold mb-2">{jobData.title}</h1> {/* 구인 제목 */}
                 <div className="mb-4">
                     <h2 className="text-xl font-semibold mb-2">Job Description</h2> {/* 구인 설명 제목 */}
@@ -164,8 +165,9 @@ export default function JobDetailPage() {
 
             {userRole === 'WORKER' && (
                 <div className="mt-4">
-                    <button
-                        className="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition duration-200"
+                    <Button
+                        className="font-semibold py-3 hover:bg-blue-700 transition duration-200"
+                        color="blue"
                         onClick={async () => {
                             try {
                                 const response = await fetch('/api/set_match', {
@@ -192,9 +194,10 @@ export default function JobDetailPage() {
                             }
                         }}
                         disabled={isApplied} // 지원 완료 시 버튼 비활성화
+                        fullWidth={true}
                     >
                         {isApplied ? "지원하기 완료" : "지원하기"} {/* 버튼 텍스트 변경 */}
-                    </button>
+                    </Button>
                 </div>
             )}
             {userRole === 'FARMER' && isApplied ? (
@@ -230,6 +233,38 @@ export default function JobDetailPage() {
                     >
                         작업 완료
                     </button>
+                    <Button
+                        color="blue"
+                        fullWidth={true}
+                        onClick={async () => {
+                            try {
+                                const response = await fetch('/api/finish_job', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        jobPostingId: jobData.id,
+                                        workerId: "user2" // 실제 사용자 ID로 변경 필요
+                                    }),
+                                });
+
+                                if (!response.ok) {
+                                    throw new Error("작업 완료 요청 실패");
+                                }
+
+                                const result = await response.json();
+                                alert(result.message); // 성공 메시지 출력
+                                setIsCompleted(false); // 작업 완료 상태로 변경
+                            } catch (error) {
+                                console.error("Error:", error);
+                                alert("작업 완료 중 오류가 발생했습니다.");
+                            }
+                        }}
+                        disabled={isCompleted} // 작업 완료 상태일 때 버튼 활성화
+                    >
+                        작업 완료
+                    </Button>
                 </div>
             ) : ''}
         </div>

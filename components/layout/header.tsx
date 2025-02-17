@@ -3,6 +3,8 @@
 import RoleToggle from "@/components/common/role_toggle";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/stores/auth";
+import Text from '@/components/common/text'
+import Button from "@/components/common/button";
 
 const Header = () => {
     const [userRoleLocal, setUserRoleLocal] = useState<string | null>(null); // 사용자 역할 상태 관리
@@ -42,51 +44,56 @@ const Header = () => {
                 {/* 유저가 농장주와 근로자 역할이 둘 다 필요할 때까지 역할 토글 주석 처리 */}
                 {/* <RoleToggle /> */}
                 <nav className="mt-4">
-                    <ul className="flex space-x-4">
+                    <ul className="flex space-x-4 items-center">
                         <li>
-                            <a href="/" className="text-blue-600 hover:underline">홈</a>
+                            <a href="/" className="text-blue-600 hover:underline"><Text>홈</Text></a>
                         </li>
                         <li>
-                            <a href="/job_feed" className="text-blue-600 hover:underline">구해요 피드</a>
+                            <a href="/job_feed" className="text-blue-600 hover:underline"><Text>구해요 피드</Text></a>
                         </li>
                         <li>
-                            <a href="/worker_feed" className="text-blue-600 hover:underline">갈게요 피드</a>
+                            <a href="/worker_feed" className="text-blue-600 hover:underline"><Text>갈게요 피드</Text></a>
                         </li>
                         <li>
-                            <a href="/new" className="text-blue-600 hover:underline">게시물 작성</a>
+                            <a href="/new" className="text-blue-600 hover:underline"><Text>게시물 작성</Text></a>
                         </li>
                         <li>
-                            <a href="/signup" className="text-blue-600 hover:underline">회원가입</a>
+                            <a href="/signup" className="text-blue-600 hover:underline"><Text>회원가입</Text></a>
                         </li>
                         <li>
-                            <a href="/login" className="text-blue-600 hover:underline">로그인</a>
+                            <a href="/login" className="text-blue-600 hover:underline"><Text>로그인</Text></a>
                         </li>
                         <li>
-                            <a href="/profile" className="text-blue-600 hover:underline">프로필</a>
+                            <a href="/profile" className="text-blue-600 hover:underline"><Text>프로필</Text></a>
                         </li>
                         <li>
                             {userRoleLocal && (
-                                <button
-                                    onClick={async () => {
-                                        const response = await fetch('/api/logout', {
-                                            method: 'POST',
-                                        });
-                                        if (response.ok) {
-                                            // 로그아웃 성공 시 리다이렉트 또는 상태 업데이트
-                                            window.location.href = '/login'; // 로그인 페이지로 리다이렉트
-                                        } else {
-                                            alert("로그아웃 중 오류가 발생했습니다.");
-                                        }
-                                    }}
-                                    className="mt-4 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
-                                >
-                                    로그아웃
-                                </button>
+                                <>
+                                    <Button
+                                        color="red"
+                                        onClick={async () => {
+                                            const response = await fetch('/api/logout', {
+                                                method: 'POST',
+                                            });
+                                            if (response.ok) {
+                                                // 로그아웃 성공 시 리다이렉트 또는 상태 업데이트
+                                                window.location.href = '/login'; // 로그인 페이지로 리다이렉트
+                                            } else {
+                                                alert("로그아웃 중 오류가 발생했습니다.");
+                                            }
+                                        }}
+                                    >로그아웃</Button>
+                                </>
                             )}
                             {!userRoleLocal && (
-                                <a href="/login" className="mt-4 px-4 py-2 text-sm font-medium text-blue-600 bg-white border border-blue-600 rounded-md hover:bg-blue-600 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    로그인
-                                </a>
+                                <>
+                                    <Button
+                                        color="blue"
+                                        onClick={() => {
+                                            window.location.href = '/login';
+                                        }}
+                                    >로그인</Button>
+                                </>
                             )}
                         </li>
                     </ul>

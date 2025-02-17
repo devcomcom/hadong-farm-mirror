@@ -1,3 +1,6 @@
+import Button from "@/components/common/button";
+import Link from "next/link";
+
 export default function HomePage() {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-100 to-blue-200 text-center p-8">
@@ -8,18 +11,17 @@ export default function HomePage() {
                 당신의 농장과 일자리를 연결해드립니다.
             </p>
             <div className="flex space-x-4">
-                <a
-                    href="/job_feed"
-                    className="px-6 py-3 bg-blue-600 text-white rounded-md shadow-lg hover:bg-blue-700 transition-colors"
-                >
-                    구해요 피드 보기
-                </a>
-                <a
-                    href="/signup"
-                    className="px-6 py-3 bg-white text-blue-600 rounded-md shadow-lg hover:bg-gray-100 transition-colors"
-                >
-                    회원가입
-                </a>
+                <Link href="/job_feed">
+                    <Button
+                        color="blue"
+                    >구해요 피드 보기</Button>
+                </Link>
+
+                <Link href="/signup">
+                    <Button
+                        color="grey"
+                    >회원가입</Button>
+                </Link>
             </div>
         </div>
     );

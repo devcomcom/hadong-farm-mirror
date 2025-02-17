@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Tabs from "../_components/tap";
 import CompletedJobList from "../_components/complet_job_list";
 import ApplicantList from "../_components/applicant_list";
+import Button from "@/components/common/button";
 interface UserProfile {
     name: string;
     email: string;
@@ -115,10 +116,17 @@ export default function ProfilePage() {
                                     )}
                                 </div>
                                 <div className="flex gap-4">
-                                    <button type="submit" className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                                    <Button
+                                        color="blue"
+                                        fullWidth={true}
+                                        type="submit"
+                                    >
                                         저장
-                                    </button>
-                                    <button
+                                    </Button>
+
+                                    <Button
+                                        color="grey"
+                                        fullWidth={true}
                                         type="button"
                                         onClick={() => {
                                             setIsEditing(false);
@@ -127,7 +135,7 @@ export default function ProfilePage() {
                                         className="flex-1 bg-gray-300 text-gray-700 py-2 rounded hover:bg-gray-400"
                                     >
                                         취소
-                                    </button>
+                                    </Button>
                                 </div>
                             </form>
                         ) : (
@@ -156,12 +164,13 @@ export default function ProfilePage() {
                                         {profile?.role === "FARMER" ? "농장주" : "근로자"}
                                     </p>
                                 </div>
-                                <button
+                                <Button
+                                    color="blue"
+                                    fullWidth={true}
                                     onClick={() => setIsEditing(true)}
-                                    className="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition"
                                 >
                                     프로필 수정
-                                </button>
+                                </Button>
                             </div>
                         )}
                     </div>

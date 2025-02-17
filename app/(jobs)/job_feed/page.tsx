@@ -3,12 +3,13 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Button from "@/components/common/button";
 
 // 임포트할 컴포넌트
 import FilterSection from "@/components/jobs/filter_section";
 import JobCard from "@/components/jobs/job_card";
 import LoadingCard from "@/components/jobs/loading_card";
-import MapView from "./_components/map_view.tsx"; // 지도 뷰 컴포넌트 임포트
+import MapView from "./_components/map_view"; // 지도 뷰 컴포넌트 임포트
 import { DateRange } from "@/components/common/date_range_picker"; // DateRange 타입 임포트
 
 // 구인 목록 아이템 인터페이스 (명세서 참고)
@@ -79,26 +80,27 @@ export default function JobFeedPage() {
         <div className="space-y-4 p-4">
             <div className="flex flex-col md:flex-row md:justify-between items-start gap-4">
                 <FilterSection dateRange={dateRange} setDateRange={setDateRange} /> {/* 날짜 범위 상태 전달 */}
-                <button
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                <Button
+                    color="blue"
                     onClick={() => router.push("/new")}
-                    aria-label="새 구인 글 작성"
                 >
                     새 글 작성
-                </button>
+                </Button>
                 <div className="flex space-x-2">
-                    <button
+                    <Button
+                        color="grey"
+                        viewMode={viewMode === "list" ? "active" : "default"}
                         onClick={() => setViewMode("list")}
-                        className={`px-4 py-2 rounded-md ${viewMode === "list" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"}`}
                     >
                         목록 보기
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                        color="grey"
+                        viewMode={viewMode === "map" ? "active" : "default"}
                         onClick={() => setViewMode("map")}
-                        className={`px-4 py-2 rounded-md ${viewMode === "map" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"}`}
                     >
                         지도 보기
-                    </button>
+                    </Button>
                 </div>
             </div>
             <div>

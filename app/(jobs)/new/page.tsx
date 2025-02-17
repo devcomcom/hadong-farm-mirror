@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import KakaoMap from "@/components/common/kakao_map_location";
 import { useLocationStore } from "@/stores/location";
+import Button from "@/components/common/button";
 
 interface JobPostFormValues {
     title: string;
@@ -189,14 +190,15 @@ export default function JobPostCreationPage() {
                     <input
                         type="text"
                         id="addressInput"
-                        className="w-full border border-gray-300 rounded p-2"
+                        className="w-full border border-gray-300 rounded p-2 mb-2"
                         placeholder="예: 123 농장 도로, 시골"
                         {...register("address", { required: "주소를 입력해주세요." })}
                     />
-
-                    <button
+                    <Button
+                        color="green"
+                        fullWidth={true}
                         type="button"
-                        className="mt-2 w-full bg-green-600 text-white font-semibold py-2 rounded hover:bg-green-700 transition duration-200"
+                        disabled={isSubmitting}
                         onClick={() => {
                             const addressInput = document.getElementById('addressInput') as HTMLInputElement;
                             const address = addressInput.value;
@@ -205,12 +207,11 @@ export default function JobPostCreationPage() {
                         }}
                     >
                         주소 입력
-                    </button>
-
+                    </Button>
                     <input
                         type="number"
                         step="any"
-                        className="w-full border border-gray-300 rounded p-2"
+                        className="w-full border border-gray-300 rounded p-2 mb-2 mt-2"
                         placeholder="위도 입력"
                         value={useLocationStore((state) => state.latitude) || 0} // Zustand 상태값으로 변경
                         {...register("latitude", { required: "" })}
@@ -218,7 +219,7 @@ export default function JobPostCreationPage() {
                     <input
                         type="number"
                         step="any"
-                        className="w-full border border-gray-300 rounded p-2"
+                        className="w-full border border-gray-300 rounded p-2 mb-2"
                         placeholder="경도 입력"
                         value={useLocationStore((state) => state.longitude) || 0} // Zustand 상태값으로 변경
                         {...register("longitude", { required: "" })}
@@ -231,13 +232,14 @@ export default function JobPostCreationPage() {
                     <KakaoMap latitudeLocal={35.0634} longitudeLocal={127.7532} />
                 </div>
                 <div>
-                    <button
+                    <Button
+                        color="blue"
+                        fullWidth={true}
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition duration-200"
                     >
                         {isSubmitting ? "작성 중..." : "작성하기"}
-                    </button>
+                    </Button>
                 </div>
             </form>
         </div>

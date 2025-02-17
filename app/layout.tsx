@@ -8,6 +8,7 @@ import {
     SignedIn,
     SignedOut,
     UserButton,
+    SignOutButton,
 } from '@clerk/nextjs'
 
 export const metadata = {
@@ -23,10 +24,16 @@ export default function RootLayout({
     const currentYear = new Date().getFullYear();
 
     return (
-        <ClerkProvider>
+        <ClerkProvider >
             <html lang="ko">
                 <body className="min-h-screen bg-gray-100">
-                    <Header />
+                    <SignedOut>
+                        <Header SignedIn={SignInButton} />
+                    </SignedOut>
+                    <SignedIn>
+                        <Header SignedIn={SignOutButton} />
+                        <UserButton />
+                    </SignedIn>
                     <main className="container mx-auto px-4">
                         {children}
                     </main>

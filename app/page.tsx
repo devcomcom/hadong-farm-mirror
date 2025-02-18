@@ -16,12 +16,6 @@ export default function HomePage() {
                         color="blue"
                     >구해요 피드 보기</Button>
                 </Link>
-
-                <Link href="/signup">
-                    <Button
-                        color="grey"
-                    >회원가입</Button>
-                </Link>
             </div>
         </div>
     );

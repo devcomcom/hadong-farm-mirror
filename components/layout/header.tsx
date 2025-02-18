@@ -5,36 +5,40 @@ import { useEffect, useState } from "react";
 import { useAuthStore } from "@/stores/auth";
 import Text from "@/components/common/text";
 import Button from "@/components/common/button";
+import CustomLogoutButton from "@/components/common/button_logout";
+import CustomLoginButton from "@/components/common/button_login";
+import { useAuth } from "@clerk/nextjs";
 
-const Header = ({ SignedIn }: { SignedIn: any }) => {
+const Header = () => {
     const [userRoleLocal, setUserRoleLocal] = useState<string | null>(null); // 사용자 역할 상태 관리
     const { setRole } = useAuthStore(); // Zustand 스토어에서 setRole 함수 가져오기
+    const { isSignedIn } = useAuth();
 
-    const checkUserStatus = async () => {
-        const isLoginPage = window.location.pathname === "/login"; // 현재 페이지가 로그인 페이지인지 확인
-        if (!isLoginPage) {
-            const response = await fetch("/api/get_auth"); // 사용자 정보를 가져오는 API 호출
-            if (response.ok) {
-                const userData = await response.json();
-                if (!userData.isActive) {
-                    alert("로그아웃 상태입니다."); // 로그아웃 상태 메시지 출력
-                    window.location.href = "/login"; // 로그인 페이지로 리다이렉트
-                }
-                if (userData.user.roles.length > 0) {
-                    console.log(userData.user.roles[0]); // 첫 번째 역할 출력
+    // const checkUserStatus = async () => {
+    //     const isLoginPage = window.location.pathname === "/login"; // 현재 페이지가 로그인 페이지인지 확인
+    //     if (!isLoginPage) {
+    //         const response = await fetch("/api/get_auth"); // 사용자 정보를 가져오는 API 호출
+    //         if (response.ok) {
+    //             const userData = await response.json();
+    //             if (!userData.isActive) {
+    //                 alert("로그아웃 상태입니다."); // 로그아웃 상태 메시지 출력
+    //                 window.location.href = "/login"; // 로그인 페이지로 리다이렉트
+    //             }
+    //             if (userData.user.roles.length > 0) {
+    //                 console.log(userData.user.roles[0]); // 첫 번째 역할 출력
 
-                    setRole(userData.user.roles[0].role); // Zustand 스토어에 사용자 역할 설정
-                    setUserRoleLocal(userData.user.roles[0].role); // 첫 번째 역할 설정
-                } else {
-                    alert("사용자의 역할을 찾을 수 없습니다."); // 역할이 없을 경우 메시지 출력
-                }
-            }
-        }
-    };
+    //                 setRole(userData.user.roles[0].role); // Zustand 스토어에 사용자 역할 설정
+    //                 setUserRoleLocal(userData.user.roles[0].role); // 첫 번째 역할 설정
+    //             } else {
+    //                 alert("사용자의 역할을 찾을 수 없습니다."); // 역할이 없을 경우 메시지 출력
+    //             }
+    //         }
+    //     }
+    // };
 
-    useEffect(() => {
-        checkUserStatus();
-    }, []);
+    // useEffect(() => {
+    //     checkUserStatus();
+    // }, []);
 
     return (
         <header className="bg-white shadow">
@@ -83,22 +87,6 @@ const Header = ({ SignedIn }: { SignedIn: any }) => {
                         </li>
                         <li>
                             <a
-                                href="/signup"
-                                className="text-blue-600 hover:underline"
-                            >
-                                <Text>회원가입</Text>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="/login"
-                                className="text-blue-600 hover:underline"
-                            >
-                                <Text>로그인</Text>
-                            </a>
-                        </li>
-                        <li>
-                            <a
                                 href="/profile"
                                 className="text-blue-600 hover:underline"
                             >
@@ -106,44 +94,11 @@ const Header = ({ SignedIn }: { SignedIn: any }) => {
                             </a>
                         </li>
                         <li>
-                            {userRoleLocal && (
-                                <>
-                                    <Button
-                                        color="red"
-                                        onClick={async () => {
-                                            const response = await fetch(
-                                                "/api/logout",
-                                                {
-                                                    method: "POST",
-                                                }
-                                            );
-                                            if (response.ok) {
-                                                // 로그아웃 성공 시 리다이렉트 또는 상태 업데이트
-                                                window.location.href = "/login"; // 로그인 페이지로 리다이렉트
-                                            } else {
-                                                alert(
-                                                    "로그아웃 중 오류가 발생했습니다."
-                                                );
-                                            }
-                                        }}
-                                    >
-                                        로그아웃
-                                    </Button>
-                                </>
+                            {isSignedIn ? (
+                                <CustomLogoutButton />
+                            ) : (
+                                <CustomLoginButton />
                             )}
-                            {!userRoleLocal && (
-                                <>
-                                    <Button
-                                        color="blue"
-                                        onClick={() => {
-                                            window.location.href = "/login";
-                                        }}
-                                    >
-                                        로그인
-                                    </Button>
-                                </>
-                            )}
-                            <SignedIn></SignedIn>
                         </li>
                     </ul>
                 </nav>

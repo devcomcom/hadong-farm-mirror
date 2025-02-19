@@ -5,6 +5,7 @@ import { useState } from "react";
 import KakaoMap from "@/components/common/kakao_map_location";
 import { useLocationStore } from "@/stores/location";
 import Button from "@/components/common/button";
+import Input from "@/components/common/input";
 
 interface JobPostFormValues {
     title: string;
@@ -97,9 +98,11 @@ export default function JobPostCreationPage() {
                 </div>
                 <div>
                     <label className="block font-semibold mb-1">제목</label>
-                    <input
+                    <Input
                         type="text"
-                        className="w-full border border-gray-300 rounded p-2"
+                        fullWidth={true}
+                        color="grey"
+                        className="p-2"
                         placeholder="글 제목을 입력하세요."
                         {...register("title", { required: "제목은 필수입니다." })}
                     />
@@ -126,9 +129,11 @@ export default function JobPostCreationPage() {
                 <div className="flex gap-4">
                     <div className="flex-1">
                         <label className="block font-semibold mb-1">근무 시작일</label>
-                        <input
+                        <Input
                             type="date"
-                            className="w-full border border-gray-300 rounded p-2"
+                            fullWidth={true}
+                            color="grey"
+                            className="p-2 flex-direction-row justify-end"
                             {...register("startDate", { required: "시작일은 필수입니다." })}
                         />
                         {errors.startDate && (
@@ -139,9 +144,11 @@ export default function JobPostCreationPage() {
                     </div>
                     <div className="flex-1">
                         <label className="block font-semibold mb-1">근무 종료일</label>
-                        <input
+                        <Input
                             type="date"
-                            className="w-full border border-gray-300 rounded p-2"
+                            fullWidth={true}
+                            color="grey"
+                            className="p-2 flex-direction-row justify-end"
                             {...register("endDate", { required: "종료일은 필수입니다." })}
                         />
                         {errors.endDate && (
@@ -154,9 +161,11 @@ export default function JobPostCreationPage() {
                 <div className="flex gap-4">
                     <div className="flex-1">
                         <label className="block font-semibold mb-1">급여 금액</label>
-                        <input
+                        <Input
                             type="number"
-                            className="w-full border border-gray-300 rounded p-2"
+                            fullWidth={true}
+                            color="grey"
+                            className="p-2 flex-direction-row justify-end"
                             placeholder="급여 금액"
                             {...register("paymentAmount", {
                                 required: "급여 금액은 필수입니다.",
@@ -187,12 +196,16 @@ export default function JobPostCreationPage() {
                 </div>
                 <div>
                     <label className="block font-semibold mb-1">위치 (주소)</label>
-                    <input
+                    <Input
                         type="text"
+                        fullWidth={true}
                         id="addressInput"
-                        className="w-full border border-gray-300 rounded p-2 mb-2"
+                        color="grey"
+                        className="p-2 mb-2 flex-direction-row justify-end"
                         placeholder="예: 123 농장 도로, 시골"
-                        {...register("address", { required: "주소를 입력해주세요." })}
+                        {...register("address", {
+                            required: "주소를 입력해주세요.",
+                        })}
                     />
                     <Button
                         color="green"
@@ -208,21 +221,29 @@ export default function JobPostCreationPage() {
                     >
                         주소 입력
                     </Button>
-                    <input
+                    <Input
                         type="number"
                         step="any"
-                        className="w-full border border-gray-300 rounded p-2 mb-2 mt-2"
+                        fullWidth={true}
+                        color="grey"
+                        className="p-2 mt-2 flex-direction-row justify-end"
                         placeholder="위도 입력"
                         value={useLocationStore((state) => state.latitude) || 0} // Zustand 상태값으로 변경
-                        {...register("latitude", { required: "" })}
+                        {...register("latitude", {
+                            required: "",
+                        })}
                     />
-                    <input
+                    <Input
                         type="number"
                         step="any"
-                        className="w-full border border-gray-300 rounded p-2 mb-2"
+                        fullWidth={true}
+                        color="grey"
+                        className="p-2 mt-2 mb-2 flex-direction-row justify-end"
                         placeholder="경도 입력"
                         value={useLocationStore((state) => state.longitude) || 0} // Zustand 상태값으로 변경
-                        {...register("longitude", { required: "" })}
+                        {...register("longitude", {
+                            required: "",
+                        })}
                     />
                     {errors.address && (
                         <p className="text-red-500 text-sm mt-1">

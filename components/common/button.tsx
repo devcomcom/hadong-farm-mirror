@@ -26,21 +26,25 @@ export default function Button({
     fullWidth,
     viewMode = 'default',
     children,
+    className,
     ...props
 }: Props) {
     return (
         <ShadcnButton
             {...props}
-            className={classNames(`disabled:opacity-50 ${fullWidth ? 'w-full' : ''}`, {
-                'text-white': true,
-                'bg-black': color === 'black' && viewMode === 'default',
-                'bg-slate-300': color === 'grey' && viewMode === 'default',
-                'bg-orange-500': color === 'orange' && viewMode === 'default',
-                'bg-red-500': color === 'red' && viewMode === 'default',
-                'bg-blue-500': color === 'blue' && viewMode === 'default',
-                'bg-green-500': color === 'green' && viewMode === 'default',
-                'bg-blue-600': color === 'grey' && viewMode === 'active', // active 모드일 때 색상 변경
-            })}
+            className={classNames(
+                className,
+                `disabled:opacity-50 ${fullWidth ? 'w-full' : ''}`
+                , {
+                    'text-white': true,
+                    'bg-black-500 hover:bg-black-600': color === 'black' && viewMode === 'default',
+                    'bg-slate-300 hover:bg-slate-400': color === 'grey' && viewMode === 'default',
+                    'bg-orange-500 hover:bg-orange-600': color === 'orange' && viewMode === 'default',
+                    'bg-red-500 hover:bg-red-600': color === 'red' && viewMode === 'default',
+                    'bg-blue-500 hover:bg-blue-600': color === 'blue' && viewMode === 'default',
+                    'bg-green-500 hover:bg-green-600': color === 'green' && viewMode === 'default',
+                    'bg-blue-600 hover:bg-blue-700': color === 'grey' && viewMode === 'active', // active 모드일 때 색상 변경
+                })}
         >
             {children}
         </ShadcnButton>

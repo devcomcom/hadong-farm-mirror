@@ -28,11 +28,11 @@ export default function RootLayout({
             <html lang="ko">
                 <body className="min-h-screen bg-gray-100">
                     <SignedOut>
-                        <Header SignedIn={SignInButton} />
+                        <Header />
                     </SignedOut>
                     <SignedIn>
-                        <Header SignedIn={SignOutButton} />
                         <UserButton />
+                        <Header />
                     </SignedIn>
                     <main className="container mx-auto px-4">
                         {children}

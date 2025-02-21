@@ -4,41 +4,46 @@ import RoleToggle from "@/components/common/role_toggle";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/stores/auth";
 import Text from "@/components/common/text";
-import Button from "@/components/common/button";
 import CustomLogoutButton from "@/components/common/button_logout";
 import CustomLoginButton from "@/components/common/button_login";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 
 const Header = () => {
     const [userRoleLocal, setUserRoleLocal] = useState<string | null>(null); // 사용자 역할 상태 관리
     const { setRole } = useAuthStore(); // Zustand 스토어에서 setRole 함수 가져오기
     const { isSignedIn } = useAuth();
+    const { user } = useUser();
+    const checkUserStatus = async () => {
+        const isLoginPage = window.location.pathname === "/"; // 현재 페이지가 홈 페이지인지 확인
 
-    // const checkUserStatus = async () => {
-    //     const isLoginPage = window.location.pathname === "/login"; // 현재 페이지가 로그인 페이지인지 확인
-    //     if (!isLoginPage) {
-    //         const response = await fetch("/api/get_auth"); // 사용자 정보를 가져오는 API 호출
-    //         if (response.ok) {
-    //             const userData = await response.json();
-    //             if (!userData.isActive) {
-    //                 alert("로그아웃 상태입니다."); // 로그아웃 상태 메시지 출력
-    //                 window.location.href = "/login"; // 로그인 페이지로 리다이렉트
-    //             }
-    //             if (userData.user.roles.length > 0) {
-    //                 console.log(userData.user.roles[0]); // 첫 번째 역할 출력
+        console.log('checkUserStatus', isSignedIn);
+        if (!isLoginPage && isSignedIn) {
+            const email = user?.emailAddresses[0].emailAddress; // 이메일을 파라미터로 추가
+            const response = await fetch(`/api/get_auth?email=${encodeURIComponent(email as string)}`); // 사용자 정보를 가져오는 API 호출
 
-    //                 setRole(userData.user.roles[0].role); // Zustand 스토어에 사용자 역할 설정
-    //                 setUserRoleLocal(userData.user.roles[0].role); // 첫 번째 역할 설정
-    //             } else {
-    //                 alert("사용자의 역할을 찾을 수 없습니다."); // 역할이 없을 경우 메시지 출력
-    //             }
-    //         }
-    //     }
-    // };
 
-    // useEffect(() => {
-    //     checkUserStatus();
-    // }, []);
+            if (response.ok) {
+                const userData = await response.json();
+                console.log('userData', userData);
+                if (!userData) {
+                    alert("로그아웃 상태입니다."); // 로그아웃 상태 메시지 출력
+                    window.location.href = "/"; // 홈으로 리다이렉트
+                }
+                if (userData.user.roles.length > 0) {
+                    console.log(userData.user.roles[0]); // 첫 번째 역할 출력
+
+                    setRole(userData.user.roles[0].role); // Zustand 스토어에 사용자 역할 설정
+                    setUserRoleLocal(userData.user.roles[0].role); // 첫 번째 역할 설정
+                } else {
+                    alert("사용자의 역할을 찾을 수 없습니다."); // 역할이 없을 경우 메시지 출력
+                }
+            }
+        }
+    };
+
+    useEffect(() => {
+        checkUserStatus();
+    }, [isSignedIn]);
 
     return (
         <header className="bg-white shadow">
@@ -94,10 +99,28 @@ const Header = () => {
                             </a>
                         </li>
                         <li>
+                            <a
+                                href="/signup"
+                                className="text-blue-600 hover:underline"
+                            >
+                                <Text>회원가입</Text>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="/meta_data"
+                                className="text-blue-600 hover:underline"
+                            >
+                                <Text>메타데이터 확인</Text>
+                            </a>
+                        </li>
+                        <li>
                             {isSignedIn ? (
                                 <CustomLogoutButton />
                             ) : (
-                                <CustomLoginButton />
+                                <div>
+                                    <CustomLoginButton />
+                                </div>
                             )}
                         </li>
                     </ul>

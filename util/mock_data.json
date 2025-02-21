@@ -2,11 +2,11 @@
     "users": [
         {
             "id": "user1",
-            "email": "f@a.com",
+            "email": "damica9251@envoes.com",
             "password": "aaaaaa",
             "name": "John Farmer",
             "contact": "010-1234-5678",
-            "isActive": false,
+            "isActive": true,
             "createdAt": "2023-10-06T12:00:00.000Z",
             "updatedAt": "2023-10-06T12:00:00.000Z",
             "roles": [
@@ -22,11 +22,11 @@
         },
         {
             "id": "user2",
-            "email": "w@a.com",
+            "email": "renika3105@codverts.com",
             "password": "aaaaaa",
             "name": "Alice Worker",
             "contact": "010-9876-5432",
-            "isActive": true,
+            "isActive": false,
             "createdAt": "2023-10-06T12:00:00.000Z",
             "updatedAt": "2023-10-06T12:00:00.000Z",
             "roles": [

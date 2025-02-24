@@ -27,6 +27,7 @@ interface Job {
     status: string;
     isFarmerComment: boolean;
     isWorkerComment: boolean;
+    workerComment: string;
 }
 
 const CompletedJobListByFarmer: React.FC = () => {
@@ -48,7 +49,7 @@ const CompletedJobListByFarmer: React.FC = () => {
                 const match = matches.find((match: any) => match.jobPostingId === job.id);
                 job.isFarmerComment = !!match.farmerComment;
                 job.isWorkerComment = !!match.workerComment;
-                console.log(job);
+                job.workerComment = match.workerComment;
             });
         } catch (error) {
             console.error("Failed to fetch completed jobs:", error);
@@ -138,6 +139,33 @@ const CompletedJobListByFarmer: React.FC = () => {
                                             <Button color="blue" onClick={handleReviewSubmit}>
                                                 제출
                                             </Button>
+                                        </DialogFooter>
+                                    </DialogContent>
+                                </Dialog>
+                            )}
+                            {job.isWorkerComment && (
+                                <Dialog>
+                                    <DialogTrigger>
+                                        <Button
+                                            color="green"
+                                            className="px-4 py-2"
+                                            onClick={() => setSelectedJob(job)}
+                                        >
+                                            후기 확인
+                                        </Button>
+                                    </DialogTrigger>
+                                    <DialogContent>
+                                        <DialogHeader>
+                                            <DialogTitle>작성된 후기</DialogTitle>
+                                            <DialogDescription>
+                                                {job.title}에 대한 후기를 확인하세요.
+                                            </DialogDescription>
+                                        </DialogHeader>
+                                        <p>{job.workerComment}</p>
+                                        <DialogFooter>
+                                            <DialogClose asChild>
+                                                <Button color="grey">닫기</Button>
+                                            </DialogClose>
                                         </DialogFooter>
                                     </DialogContent>
                                 </Dialog>

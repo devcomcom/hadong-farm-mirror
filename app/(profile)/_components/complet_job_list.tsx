@@ -28,6 +28,7 @@ interface Job {
     status: string;
     isFarmerComment: boolean;
     isWorkerComment: boolean;
+    farmerComment: string;
 }
 
 const CompletedJobList: React.FC = () => {
@@ -55,6 +56,7 @@ const CompletedJobList: React.FC = () => {
                 } else {
                     job.isFarmerComment = !!match.farmerComment;
                     job.isWorkerComment = !!match.workerComment;
+                    job.farmerComment = match.farmerComment;
                 }
             });
             console.log('completed', completed);
@@ -147,6 +149,33 @@ const CompletedJobList: React.FC = () => {
                                             <Button color="blue" onClick={handleReviewSubmit}>
                                                 제출
                                             </Button>
+                                        </DialogFooter>
+                                    </DialogContent>
+                                </Dialog>
+                            )}
+                            {job.isFarmerComment && (
+                                <Dialog>
+                                    <DialogTrigger>
+                                        <Button
+                                            color="green"
+                                            className="px-4 py-2"
+                                            onClick={() => setSelectedJob(job)}
+                                        >
+                                            후기 확인
+                                        </Button>
+                                    </DialogTrigger>
+                                    <DialogContent>
+                                        <DialogHeader>
+                                            <DialogTitle>작성된 후기</DialogTitle>
+                                            <DialogDescription>
+                                                {job.title}에 대한 후기를 확인하세요.
+                                            </DialogDescription>
+                                        </DialogHeader>
+                                        <p>{job.farmerComment}</p>
+                                        <DialogFooter>
+                                            <DialogClose asChild>
+                                                <Button color="grey">닫기</Button>
+                                            </DialogClose>
                                         </DialogFooter>
                                     </DialogContent>
                                 </Dialog>

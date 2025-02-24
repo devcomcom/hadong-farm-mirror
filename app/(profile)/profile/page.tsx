@@ -6,6 +6,8 @@ import Tabs from "../_components/tap";
 import CompletedJobList from "../_components/complet_job_list";
 import ApplicantList from "../_components/applicant_list";
 import Button from "@/components/common/button";
+import { useAuth, useUser } from "@clerk/nextjs";
+
 interface UserProfile {
     name: string;
     email: string;
@@ -18,6 +20,8 @@ export default function ProfilePage() {
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const { isSignedIn } = useAuth();
+    const { user } = useUser();
 
     const {
         register,
@@ -26,21 +30,31 @@ export default function ProfilePage() {
         formState: { errors },
     } = useForm<UserProfile>();
 
-    useEffect(() => {
-        // 모의 API 호출을 통해 사용자 프로필 데이터를 불러옵니다.
-        setTimeout(() => {
-            const dummyProfile: UserProfile = {
-                name: "홍길동",
-                email: "hong@example.com",
-                contact: "010-1234-5678",
-                role: "FARMER",
-                profileImage: "", // 이미지 URL이 있다면 사용
+    const fetchUserProfile = async () => {
+        if (!isSignedIn) {
+            return;
+        }
+        const email = user?.emailAddresses[0].emailAddress; // 이메일을 파라미터로 추가
+        const response = await fetch(`/api/get_auth?email=${encodeURIComponent(email as string)}`); // 사용자 정보를 가져오는 API 호출
+
+        if (response.ok) {
+            const userData = await response.json();
+            console.log(userData);
+            const profile: UserProfile = {
+                name: userData.user.name,
+                email: userData.user.email,
+                contact: userData.user.contact,
+                role: userData.user.roles[0].role,
+                profileImage: userData.user.profileImage, // 이미지 URL이 있다면 사용
             };
-            setProfile(dummyProfile);
-            reset(dummyProfile); // 편집폼 기본값 설정
+            setProfile(profile);
             setIsLoading(false);
-        }, 1000);
-    }, [reset]);
+        }
+    };
+
+    useEffect(() => {
+        fetchUserProfile();
+    }, [isSignedIn]);
 
     const onSubmit: SubmitHandler<UserProfile> = (data) => {
         // 모의 API를 통해 업데이트한 후, 상태를 갱신합니다.

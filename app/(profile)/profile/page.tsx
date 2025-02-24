@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Tabs from "../_components/tap";
 import CompletedJobList from "../_components/complet_job_list";
+import CompletedJobListByFarmer from "../_components/complet_job_list_by_farmer";
 import ApplicantList from "../_components/applicant_list";
 import Button from "@/components/common/button";
 import { useAuth, useUser } from "@clerk/nextjs";
@@ -190,6 +191,9 @@ export default function ProfilePage() {
                     </div>
                     <div label="완료한 구해요 리스트">
                         <CompletedJobList />
+                    </div>
+                    <div label="완료한 구해요 리스트(농장주)">
+                        <CompletedJobListByFarmer />
                     </div>
                     <div label="지원자 리스트">
                         <ApplicantList />

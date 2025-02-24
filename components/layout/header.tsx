@@ -10,7 +10,7 @@ import { useAuth, useUser } from "@clerk/nextjs";
 
 const Header = () => {
     const [userRoleLocal, setUserRoleLocal] = useState<string | null>(null); // 사용자 역할 상태 관리
-    const { setRole } = useAuthStore(); // Zustand 스토어에서 setRole 함수 가져오기
+    const { setRole, setUserId } = useAuthStore(); // Zustand 스토어에서 setRole 함수 가져오기
     const { isSignedIn } = useAuth();
     const { user } = useUser();
     const checkUserStatus = async () => {
@@ -34,6 +34,7 @@ const Header = () => {
 
                     setRole(userData.user.roles[0].role); // Zustand 스토어에 사용자 역할 설정
                     setUserRoleLocal(userData.user.roles[0].role); // 첫 번째 역할 설정
+                    setUserId(userData.user.id); // 사용자 아이디 설정
                 } else {
                     alert("사용자의 역할을 찾을 수 없습니다."); // 역할이 없을 경우 메시지 출력
                 }

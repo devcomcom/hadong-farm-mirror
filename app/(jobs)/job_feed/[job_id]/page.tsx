@@ -202,40 +202,10 @@ export default function JobDetailPage() {
             )}
             {userRole === 'FARMER' && isApplied ? (
                 <div className="mt-4">
-                    <button
-                        className="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition duration-200"
-                        onClick={async () => {
-                            try {
-                                const response = await fetch('/api/finish_job', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify({
-                                        jobPostingId: jobData.id,
-                                        workerId: "user2" // 실제 사용자 ID로 변경 필요
-                                    }),
-                                });
-
-                                if (!response.ok) {
-                                    throw new Error("작업 완료 요청 실패");
-                                }
-
-                                const result = await response.json();
-                                alert(result.message); // 성공 메시지 출력
-                                setIsCompleted(false); // 작업 완료 상태로 변경
-                            } catch (error) {
-                                console.error("Error:", error);
-                                alert("작업 완료 중 오류가 발생했습니다.");
-                            }
-                        }}
-                        disabled={isCompleted} // 작업 완료 상태일 때 버튼 활성화
-                    >
-                        작업 완료
-                    </button>
                     <Button
                         color="blue"
                         fullWidth={true}
+                        className="py-3 transition duration-200"
                         onClick={async () => {
                             try {
                                 const response = await fetch('/api/finish_job', {
@@ -255,7 +225,7 @@ export default function JobDetailPage() {
 
                                 const result = await response.json();
                                 alert(result.message); // 성공 메시지 출력
-                                setIsCompleted(false); // 작업 완료 상태로 변경
+                                setIsCompleted(true); // 작업 완료 상태로 변경
                             } catch (error) {
                                 console.error("Error:", error);
                                 alert("작업 완료 중 오류가 발생했습니다.");

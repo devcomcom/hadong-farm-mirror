@@ -8,6 +8,7 @@ import CompletedJobListByFarmer from "../_components/complet_job_list_by_farmer"
 import ApplicantList from "../_components/applicant_list";
 import Button from "@/components/common/button";
 import { useAuth, useUser } from "@clerk/nextjs";
+import { useAuthStore } from "@/stores/auth";
 
 interface UserProfile {
     name: string;
@@ -23,6 +24,7 @@ export default function ProfilePage() {
     const [isLoading, setIsLoading] = useState(true);
     const { isSignedIn } = useAuth();
     const { user } = useUser();
+    const { userRole } = useAuthStore();
 
     const {
         register,
@@ -68,7 +70,7 @@ export default function ProfilePage() {
         }, 1000);
     };
 
-    if (isLoading) {
+    if (isLoading || !userRole) {
         return (
             <div className="flex items-center justify-center py-10">
                 <p>로딩 중...</p>
@@ -192,9 +194,11 @@ export default function ProfilePage() {
                     <div label="완료한 구해요 리스트">
                         <CompletedJobList />
                     </div>
-                    <div label="완료한 구해요 리스트(농장주)">
-                        <CompletedJobListByFarmer />
-                    </div>
+                    {userRole === "FARMER" && (
+                        <div label="완료한 구해요 리스트(농장주)">
+                            <CompletedJobListByFarmer />
+                        </div>
+                    )}
                     <div label="지원자 리스트">
                         <ApplicantList />
                     </div>

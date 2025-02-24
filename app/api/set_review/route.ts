@@ -25,19 +25,15 @@ export async function POST(request: Request) {
         // 역할에 따라 후기를 저장
         if (match.farmerId === user.id) {
             match.farmerComment = review; // 근로자의 후기를 저장
-            console.log(match);
         } else if (match.workerId === user.id) {
             match.workerComment = review; // 농장주의 후기를 저장
         }
 
-        console.log(match);
         mockData.matches.map((matchItem: any) => {
             if (matchItem.jobPostingId === jobId) {
                 matchItem = match;
             }
         });
-
-        // console.log(mockData.matches);
 
         // 수정된 데이터를 mock_data.json 파일에 저장
         fs.writeFileSync(mockDataPath, JSON.stringify(mockData, null, 2));

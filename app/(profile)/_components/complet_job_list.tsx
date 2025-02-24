@@ -45,7 +45,6 @@ const CompletedJobList: React.FC = () => {
             const completed = data.jobPostings.filter((job: Job) => job.status === "COMPLETED");
             const matches = data.matches.filter((match: any) => match.status === "COMPLETED" && match.workerId === userId);
             setCompletedJobs(completed);
-            console.log('matches', matches);
             completed.map((job: Job) => {
                 const match = matches.find((match: any) => match.jobPostingId === job.id);
                 console.log('match', match);
@@ -117,7 +116,7 @@ const CompletedJobList: React.FC = () => {
                         </p>
                         <p>Status: {job.status}</p>
                         <p>
-                            {job.isFarmerComment ? null : (
+                            {job.isWorkerComment ? null : (
                                 <Dialog>
                                     <DialogTrigger>
                                         <Button

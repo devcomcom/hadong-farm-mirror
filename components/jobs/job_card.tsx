@@ -19,6 +19,7 @@ export interface JobListItem {
         unit: "DAY" | "HOUR";
     };
     status: "OPEN" | "CLOSED";
+    quota: number;
     createdAt: string;
 }
 
@@ -63,6 +64,9 @@ const JobCard: React.FC<JobCardProps> = ({ job, onClick }) => {
             </p>
             <p className="text-sm">
                 급여: {job.payment.amount}원/{paymentUnitText}
+            </p>
+            <p className="text-sm">
+                모집 인원: {job.quota}명
             </p>
             <p className="text-xs text-gray-400">
                 작성일: {new Date(job.createdAt).toLocaleDateString()}

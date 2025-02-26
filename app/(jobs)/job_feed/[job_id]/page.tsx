@@ -38,6 +38,7 @@ interface JobPostingDetail {
         total: number; // 총 지원자 수
         accepted: number; // 수락된 지원자 수
     };
+    quota: number; // 모집 인원
     createdAt: string; // 작성일
     updatedAt: string; // 수정일
 }
@@ -119,21 +120,33 @@ export default function JobDetailPage() {
                     <p className="text-gray-700 leading-relaxed">{jobData.description}</p> {/* 구인 설명 내용 */}
                 </div>
                 <div className="mb-4">
-                    <h2 className="text-xl font-semibold mb-2">Work Date</h2> {/* 근무 날짜 제목 */}
+                    <h2 className="text-xl font-semibold mb-2">근무 기간</h2> {/* 근무 날짜 제목 */}
                     <p className="text-gray-700">
                         {new Date(jobData.workDate.start).toLocaleDateString()} -{" "}
                         {new Date(jobData.workDate.end).toLocaleDateString()} {/* 근무 시작일과 종료일 */}
                     </p>
                 </div>
                 <div className="mb-4">
-                    <h2 className="text-xl font-semibold mb-2">Payment</h2> {/* 급여 제목 */}
+                    <h2 className="text-xl font-semibold mb-2">급여</h2> {/* 급여 제목 */}
                     <p className="text-gray-700">
-                        {jobData.payment.amount}{" "}
-                        {jobData.payment.unit === "DAY" ? "per day" : "per hour"} {/* 급여 단위에 따른 표시 */}
+                        {jobData.payment.unit === "DAY" ? "일당 " : "시급 "}
+                        {jobData.payment.amount}원
                     </p>
                 </div>
                 <div className="mb-4">
-                    <h2 className="text-xl font-semibold mb-2">Location</h2> {/* 위치 제목 */}
+                    <h2 className="text-xl font-semibold mb-2">모집 인원</h2> {/* 모집 인원 제목 */}
+                    <p className="text-gray-700">{jobData.quota}명</p> {/* 모집 인원 내용 */}
+                </div>
+                {jobData.applicants && (
+                    <div className="mb-4">
+                        <h2 className="text-xl font-semibold mb-2">지원자 현황</h2> {/* 지원자 제목 */}
+                        <p className="text-gray-700">
+                            Total: {jobData.applicants.total}, Accepted: {jobData.applicants.accepted} {/* 총 지원자 수 및 수락된 지원자 수 */}
+                        </p>
+                    </div>
+                )}
+                <div className="mb-4">
+                    <h2 className="text-xl font-semibold mb-2">위치</h2> {/* 위치 제목 */}
                     <p className="text-gray-700">{jobData.location.address}</p> {/* 위치 주소 */}
                     {jobData.location.farmName && (
                         <p className="text-gray-700">Farm: {jobData.location.farmName}</p> // 농장 이름 (선택적)
@@ -144,23 +157,17 @@ export default function JobDetailPage() {
                     </p>
                 </div>
                 <div className="mb-4">
-                    <h2 className="text-xl font-semibold mb-2">Status</h2> {/* 상태 제목 */}
+                    <h2 className="text-xl font-semibold mb-2">구인 상태</h2> {/* 상태 제목 */}
                     <p className="text-gray-700">{jobData.status}</p> {/* 구인 상태 */}
                 </div>
                 {jobData.matchStatus && (
                     <div className="mb-4">
-                        <h2 className="text-xl font-semibold mb-2">Match Status</h2> {/* 매칭 상태 제목 */}
+                        <h2 className="text-xl font-semibold mb-2">매칭 상태</h2> {/* 매칭 상태 제목 */}
                         <p className="text-gray-700">{jobData.matchStatus}</p> {/* 매칭 상태 내용 */}
                     </div>
                 )}
-                {jobData.applicants && (
-                    <div className="mb-4">
-                        <h2 className="text-xl font-semibold mb-2">Applicants</h2> {/* 지원자 제목 */}
-                        <p className="text-gray-700">
-                            Total: {jobData.applicants.total}, Accepted: {jobData.applicants.accepted} {/* 총 지원자 수 및 수락된 지원자 수 */}
-                        </p>
-                    </div>
-                )}
+
+
             </div>
 
             {userRole === 'WORKER' && (

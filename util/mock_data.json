@@ -39,6 +39,46 @@
                     "updatedAt": "2023-10-06T12:00:00.000Z"
                 }
             ]
+        },
+        {
+            "id": "user3",
+            "email": "renika3105@codverts2.com",
+            "password": "aaaaaa",
+            "name": "Alice Worker",
+            "contact": "010-9876-5432",
+            "isActive": false,
+            "createdAt": "2023-10-06T12:00:00.000Z",
+            "updatedAt": "2023-10-06T12:00:00.000Z",
+            "roles": [
+                {
+                    "id": "role2",
+                    "userId": "id2",
+                    "role": "WORKER",
+                    "isActive": true,
+                    "createdAt": "2023-10-06T12:00:00.000Z",
+                    "updatedAt": "2023-10-06T12:00:00.000Z"
+                }
+            ]
+        },
+        {
+            "id": "user4",
+            "email": "renika3105@codverts3.com",
+            "password": "aaaaaa",
+            "name": "Alice Worker",
+            "contact": "010-9876-5432",
+            "isActive": false,
+            "createdAt": "2023-10-06T12:00:00.000Z",
+            "updatedAt": "2023-10-06T12:00:00.000Z",
+            "roles": [
+                {
+                    "id": "role2",
+                    "userId": "id2",
+                    "role": "WORKER",
+                    "isActive": true,
+                    "createdAt": "2023-10-06T12:00:00.000Z",
+                    "updatedAt": "2023-10-06T12:00:00.000Z"
+                }
+            ]
         }
     ],
     "farmList": [
@@ -86,10 +126,10 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.33554118941988,
-                "longitude": 127.78202251588115,
-                "farmName": "햇살 농장"
+                "longitude": 127.78202251588115
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2023-10-06T12:00:00.000Z",
             "updatedAt": "2023-10-06T12:00:00.000Z"
         },
@@ -111,10 +151,10 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.666915902592486,
-                "longitude": 131.06749372151432,
-                "farmName": "햇살 농장"
+                "longitude": 131.06749372151432
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2023-10-06T12:00:00.000Z",
             "updatedAt": "2023-10-06T12:00:00.000Z"
         },
@@ -136,8 +176,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.16880254626705,
-                "longitude": 128.28529732487758,
-                "farmName": "햇살 농장"
+                "longitude": 128.28529732487758
             },
             "status": "COMPLETED",
             "createdAt": "2025-02-07T11:45:31.561Z",
@@ -161,10 +200,10 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.11199655284226,
-                "longitude": 127.91445033566882,
-                "farmName": "햇살 농장"
+                "longitude": 127.91445033566882
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-07T11:45:46.981Z",
             "updatedAt": "2025-02-07T11:45:46.981Z"
         },
@@ -178,8 +217,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.70170900572304,
-                "longitude": 130.59023547957344,
-                "distance": 25
+                "longitude": 130.59023547957344
             },
             "workDate": {
                 "start": "2025-01-29",
@@ -190,6 +228,7 @@
                 "unit": "DAY"
             },
             "status": "COMPLETED",
+            "quota": 1,
             "createdAt": "2025-01-05T00:00:00Z"
         },
         {
@@ -200,8 +239,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.762196349751775,
-                "longitude": 128.73658300773224,
-                "distance": 30
+                "longitude": 128.73658300773224
             },
             "workDate": {
                 "start": "2025-02-05",
@@ -212,6 +250,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-06T00:00:00Z"
         },
         {
@@ -224,8 +263,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.55238797990534,
-                "longitude": 128.63583828335283,
-                "distance": 35
+                "longitude": 128.63583828335283
             },
             "workDate": {
                 "start": "2025-02-12",
@@ -236,6 +274,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-07T00:00:00Z"
         },
         {
@@ -248,8 +287,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.47834633113535,
-                "longitude": 128.72629526825258,
-                "distance": 40
+                "longitude": 128.72629526825258
             },
             "workDate": {
                 "start": "2025-02-19",
@@ -260,6 +298,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-08T00:00:00Z"
         },
         {
@@ -272,8 +311,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.86382830339196,
-                "longitude": 133.51850598906967,
-                "distance": 45
+                "longitude": 133.51850598906967
             },
             "workDate": {
                 "start": "2025-02-26",
@@ -296,8 +334,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.89417209605404,
-                "longitude": 130.445976095707,
-                "distance": 50
+                "longitude": 130.445976095707
             },
             "workDate": {
                 "start": "2025-03-05",
@@ -308,6 +345,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-10T00:00:00Z"
         },
         {
@@ -320,8 +358,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.52392541834522,
-                "longitude": 129.1564648477755,
-                "distance": 55
+                "longitude": 129.1564648477755
             },
             "workDate": {
                 "start": "2025-03-12",
@@ -332,6 +369,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-11T00:00:00Z"
         },
         {
@@ -344,8 +382,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.285778610141385,
-                "longitude": 128.18088059121388,
-                "distance": 60
+                "longitude": 128.18088059121388
             },
             "workDate": {
                 "start": "2025-03-19",
@@ -356,6 +393,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-12T00:00:00Z"
         },
         {
@@ -368,8 +406,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.84971204488078,
-                "longitude": 133.50327021558124,
-                "distance": 65
+                "longitude": 133.50327021558124
             },
             "workDate": {
                 "start": "2025-03-26",
@@ -380,6 +417,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-13T00:00:00Z"
         },
         {
@@ -392,8 +430,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.96075664132582,
-                "longitude": 130.26499744942555,
-                "distance": 70
+                "longitude": 130.26499744942555
             },
             "workDate": {
                 "start": "2025-04-02",
@@ -416,8 +453,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.656465126859814,
-                "longitude": 131.6458161520225,
-                "distance": 75
+                "longitude": 131.6458161520225
             },
             "workDate": {
                 "start": "2025-04-09",
@@ -428,6 +464,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-15T00:00:00Z"
         },
         {
@@ -440,8 +477,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.84926389457866,
-                "longitude": 131.74812802199196,
-                "distance": 80
+                "longitude": 131.74812802199196
             },
             "workDate": {
                 "start": "2025-04-16",
@@ -452,6 +488,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-16T00:00:00Z"
         },
         {
@@ -464,8 +501,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.58541499296093,
-                "longitude": 129.93221862190742,
-                "distance": 85
+                "longitude": 129.93221862190742
             },
             "workDate": {
                 "start": "2025-04-23",
@@ -476,6 +512,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-17T00:00:00Z"
         },
         {
@@ -488,8 +525,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.22075907666009,
-                "longitude": 128.78583651805513,
-                "distance": 90
+                "longitude": 128.78583651805513
             },
             "workDate": {
                 "start": "2025-04-30",
@@ -500,6 +536,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-18T00:00:00Z"
         },
         {
@@ -512,8 +549,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.5004567965802,
-                "longitude": 129.672085757613,
-                "distance": 95
+                "longitude": 129.672085757613
             },
             "workDate": {
                 "start": "2025-05-07",
@@ -524,6 +560,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-19T00:00:00Z"
         },
         {
@@ -536,8 +573,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.94125256229117,
-                "longitude": 132.36890201000242,
-                "distance": 100
+                "longitude": 132.36890201000242
             },
             "workDate": {
                 "start": "2025-05-14",
@@ -548,6 +584,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-20T00:00:00Z"
         },
         {
@@ -558,8 +595,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.25186598970013,
-                "longitude": 128.1559541881163,
-                "distance": 105
+                "longitude": 128.1559541881163
             },
             "workDate": {
                 "start": "2025-05-21",
@@ -570,6 +606,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-21T00:00:00Z"
         },
         {
@@ -582,8 +619,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.221596335788554,
-                "longitude": 127.76858580859422,
-                "distance": 110
+                "longitude": 127.76858580859422
             },
             "workDate": {
                 "start": "2025-05-28",
@@ -594,6 +630,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-22T00:00:00Z"
         },
         {
@@ -606,8 +643,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.74075669851089,
-                "longitude": 130.27064556050513,
-                "distance": 115
+                "longitude": 130.27064556050513
             },
             "workDate": {
                 "start": "2025-06-04",
@@ -618,6 +654,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-23T00:00:00Z"
         },
         {
@@ -630,8 +667,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.635649558023054,
-                "longitude": 129.57541913820785,
-                "distance": 120
+                "longitude": 129.57541913820785
             },
             "workDate": {
                 "start": "2025-06-11",
@@ -642,6 +678,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-24T00:00:00Z"
         },
         {
@@ -654,8 +691,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.52374864891023,
-                "longitude": 128.00454472646496,
-                "distance": 125
+                "longitude": 128.00454472646496
             },
             "workDate": {
                 "start": "2025-06-18",
@@ -666,6 +702,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-25T00:00:00Z"
         },
         {
@@ -678,8 +715,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.149400919201625,
-                "longitude": 128.38292356287,
-                "distance": 130
+                "longitude": 128.38292356287
             },
             "workDate": {
                 "start": "2025-06-25",
@@ -690,6 +726,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-26T00:00:00Z"
         },
         {
@@ -702,8 +739,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.82138868516104,
-                "longitude": 132.65233223831413,
-                "distance": 135
+                "longitude": 132.65233223831413
             },
             "workDate": {
                 "start": "2025-07-02",
@@ -714,6 +750,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-27T00:00:00Z"
         },
         {
@@ -726,8 +763,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.83390978964351,
-                "longitude": 129.3584762386719,
-                "distance": 140
+                "longitude": 129.3584762386719
             },
             "workDate": {
                 "start": "2025-07-09",
@@ -738,6 +774,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-28T00:00:00Z"
         },
         {
@@ -750,8 +787,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.96140405200087,
-                "longitude": 131.13285334602796,
-                "distance": 145
+                "longitude": 131.13285334602796
             },
             "workDate": {
                 "start": "2025-07-16",
@@ -762,6 +798,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-29T00:00:00Z"
         },
         {
@@ -774,8 +811,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.20322210993049,
-                "longitude": 128.21460950165874,
-                "distance": 150
+                "longitude": 128.21460950165874
             },
             "workDate": {
                 "start": "2025-07-23",
@@ -786,6 +822,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-30T00:00:00Z"
         },
         {
@@ -798,8 +835,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.48620075933753,
-                "longitude": 130.19044176611112,
-                "distance": 155
+                "longitude": 130.19044176611112
             },
             "workDate": {
                 "start": "2025-07-30",
@@ -810,6 +846,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-01-31T00:00:00Z"
         },
         {
@@ -822,8 +859,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.66625729752391,
-                "longitude": 131.62283901784687,
-                "distance": 160
+                "longitude": 131.62283901784687
             },
             "workDate": {
                 "start": "2025-08-06",
@@ -834,6 +870,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-01T00:00:00Z"
         },
         {
@@ -846,8 +883,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.63013445012765,
-                "longitude": 130.7881969183308,
-                "distance": 165
+                "longitude": 130.7881969183308
             },
             "workDate": {
                 "start": "2025-08-13",
@@ -858,6 +894,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-02T00:00:00Z"
         },
         {
@@ -870,8 +907,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.21263826192155,
-                "longitude": 128.06882808906798,
-                "distance": 170
+                "longitude": 128.06882808906798
             },
             "workDate": {
                 "start": "2025-08-20",
@@ -882,6 +918,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-03T00:00:00Z"
         },
         {
@@ -894,8 +931,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.77949673075679,
-                "longitude": 132.4898577480491,
-                "distance": 175
+                "longitude": 132.4898577480491
             },
             "workDate": {
                 "start": "2025-08-27",
@@ -906,6 +942,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-04T00:00:00Z"
         },
         {
@@ -918,8 +955,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.59487174715256,
-                "longitude": 130.96817889742633,
-                "distance": 180
+                "longitude": 130.96817889742633
             },
             "workDate": {
                 "start": "2025-09-03",
@@ -930,6 +966,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-05T00:00:00Z"
         },
         {
@@ -940,8 +977,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.47239021670129,
-                "longitude": 128.31741401211212,
-                "distance": 185
+                "longitude": 128.31741401211212
             },
             "workDate": {
                 "start": "2025-09-10",
@@ -952,6 +988,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-06T00:00:00Z"
         },
         {
@@ -964,8 +1001,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.70416661204915,
-                "longitude": 131.46692611613196,
-                "distance": 190
+                "longitude": 131.46692611613196
             },
             "workDate": {
                 "start": "2025-09-17",
@@ -976,6 +1012,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-07T00:00:00Z"
         },
         {
@@ -988,8 +1025,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.58798272140479,
-                "longitude": 131.36833262644166,
-                "distance": 195
+                "longitude": 131.36833262644166
             },
             "workDate": {
                 "start": "2025-09-24",
@@ -1000,6 +1036,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-08T00:00:00Z"
         },
         {
@@ -1010,8 +1047,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.731053034505706,
-                "longitude": 130.32491872470007,
-                "distance": 200
+                "longitude": 130.32491872470007
             },
             "workDate": {
                 "start": "2025-10-01",
@@ -1022,6 +1058,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-09T00:00:00Z"
         },
         {
@@ -1034,8 +1071,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.58247387174672,
-                "longitude": 131.6235731884454,
-                "distance": 205
+                "longitude": 131.6235731884454
             },
             "workDate": {
                 "start": "2025-10-08",
@@ -1046,6 +1082,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-10T00:00:00Z"
         },
         {
@@ -1058,8 +1095,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.74075669851089,
-                "longitude": 130.27064556050513,
-                "distance": 210
+                "longitude": 130.27064556050513
             },
             "workDate": {
                 "start": "2025-10-15",
@@ -1070,6 +1106,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-11T00:00:00Z"
         },
         {
@@ -1082,8 +1119,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.66625729752391,
-                "longitude": 131.62283901784687,
-                "distance": 215
+                "longitude": 131.62283901784687
             },
             "workDate": {
                 "start": "2025-10-22",
@@ -1094,6 +1130,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-12T00:00:00Z"
         },
         {
@@ -1106,8 +1143,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.63013445012765,
-                "longitude": 130.7881969183308,
-                "distance": 220
+                "longitude": 130.7881969183308
             },
             "workDate": {
                 "start": "2025-10-29",
@@ -1118,6 +1154,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-13T00:00:00Z"
         },
         {
@@ -1130,8 +1167,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.149400919201625,
-                "longitude": 128.38292356287,
-                "distance": 225
+                "longitude": 128.38292356287
             },
             "workDate": {
                 "start": "2025-11-05",
@@ -1142,6 +1178,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-14T00:00:00Z"
         },
         {
@@ -1154,8 +1191,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.666915902592486,
-                "longitude": 131.06749372151432,
-                "distance": 230
+                "longitude": 131.06749372151432
             },
             "workDate": {
                 "start": "2025-11-12",
@@ -1166,6 +1202,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-15T00:00:00Z"
         },
         {
@@ -1178,8 +1215,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.58247387174672,
-                "longitude": 131.6235731884454,
-                "distance": 235
+                "longitude": 131.6235731884454
             },
             "workDate": {
                 "start": "2025-11-19",
@@ -1190,6 +1226,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-16T00:00:00Z"
         },
         {
@@ -1202,8 +1239,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.14926389457866,
-                "longitude": 131.74812802199196,
-                "distance": 240
+                "longitude": 131.74812802199196
             },
             "workDate": {
                 "start": "2025-11-26",
@@ -1214,6 +1250,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-17T00:00:00Z"
         },
         {
@@ -1226,8 +1263,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.66625729752391,
-                "longitude": 131.62283901784687,
-                "distance": 245
+                "longitude": 131.62283901784687
             },
             "workDate": {
                 "start": "2025-12-03",
@@ -1238,6 +1274,7 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-18T00:00:00Z"
         },
         {
@@ -1250,8 +1287,7 @@
             "location": {
                 "address": "123 농장 도로, 시골",
                 "latitude": 35.731053034505706,
-                "longitude": 130.32491872470007,
-                "distance": 250
+                "longitude": 130.32491872470007
             },
             "workDate": {
                 "start": "2025-12-10",
@@ -1262,42 +1298,35 @@
                 "unit": "DAY"
             },
             "status": "OPEN",
+            "quota": 1,
             "createdAt": "2025-02-19T00:00:00Z"
+        },
+        {
+            "id": "51",
+            "type": "FARMER",
+            "userId": "user1",
+            "farmId": "farm1",
+            "title": "배 수확 인원 모집",
+            "description": "배 수확 인원 모집합니다.",
+            "location": {
+                "address": "하동 비파리",
+                "latitude": "35.067418",
+                "longitude": "127.758768"
+            },
+            "workDate": {
+                "start": "2025-02-27",
+                "end": "2025-03-06"
+            },
+            "payment": {
+                "amount": 100000,
+                "unit": "DAY"
+            },
+            "quota": 2,
+            "status": "OPEN",
+            "createdAt": "2025-02-26T07:02:23.899Z",
+            "updatedAt": "2025-02-26T07:02:23.899Z"
         }
     ],
-    "JobPostingDetail": {
-        "id": "job-001",
-        "type": "FARMER",
-        "title": "더미 수확 도우미 필요",
-        "description": "이것은 테스트 목적으로 작성된 더미 구인 게시물 설명입니다.",
-        "author": {
-            "id": "author-001",
-            "name": "John Farmer",
-            "profileImage": ""
-        },
-        "workDate": {
-            "start": "2025-09-01T00:00:00.000Z",
-            "end": "2025-09-30T00:00:00.000Z"
-        },
-        "payment": {
-            "amount": 150,
-            "unit": "DAY"
-        },
-        "location": {
-            "address": "123 농장 도로, 시골",
-            "latitude": 33.5563,
-            "longitude": 126.79581,
-            "farmName": "햇살 농장"
-        },
-        "status": "OPEN",
-        "matchStatus": "PENDING",
-        "applicants": {
-            "total": 5,
-            "accepted": 2
-        },
-        "createdAt": "2023-10-06T12:00:00.000Z",
-        "updatedAt": "2023-10-06T12:00:00.000Z"
-    },
     "openApplicants": [
         {
             "id": "applicant1",

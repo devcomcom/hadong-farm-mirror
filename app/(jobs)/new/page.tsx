@@ -18,6 +18,7 @@ interface JobPostFormValues {
     address: string;
     latitude: number;
     longitude: number;
+    quota: number;
 }
 
 export default function JobPostCreationPage() {
@@ -34,6 +35,7 @@ export default function JobPostCreationPage() {
             endDate: "",
             paymentAmount: 0,
             paymentUnit: "DAY",
+            quota: 0,
             address: "",
             latitude: 0,
             longitude: 0,
@@ -190,6 +192,25 @@ export default function JobPostCreationPage() {
                         {errors.paymentUnit && (
                             <p className="text-red-500 text-sm mt-1">
                                 {errors.paymentUnit.message}
+                            </p>
+                        )}
+                    </div>
+                    <div className="flex-1">
+                        <label className="block font-semibold mb-1">모집 인원</label>
+                        <Input
+                            type="number"
+                            fullWidth={true}
+                            color="grey"
+                            className="p-2 flex-direction-row justify-end"
+                            placeholder="모집 인원"
+                            {...register("quota", {
+                                required: "모집 인원은 필수입니다.",
+                                valueAsNumber: true,
+                            })}
+                        />
+                        {errors.paymentAmount && (
+                            <p className="text-red-500 text-sm mt-1">
+                                {errors.paymentAmount.message}
                             </p>
                         )}
                     </div>

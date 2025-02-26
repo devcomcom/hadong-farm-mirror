@@ -16,6 +16,7 @@ export async function POST(request: Request) {
             address,
             latitude,
             longitude,
+            quota,
         } = body;
 
         // 필수 항목 검증
@@ -27,7 +28,8 @@ export async function POST(request: Request) {
             !endDate ||
             !paymentAmount ||
             !paymentUnit ||
-            !address
+            !address ||
+            !quota
         ) {
             return NextResponse.json(
                 { error: "Missing required fields" },
@@ -60,6 +62,7 @@ export async function POST(request: Request) {
                 amount: paymentAmount,
                 unit: paymentUnit,
             },
+            quota,
             status: "OPEN",
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),

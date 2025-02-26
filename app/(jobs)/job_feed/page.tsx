@@ -30,6 +30,7 @@ interface JobListItem {
         amount: number; // 급여 금액
         unit: "DAY" | "HOUR"; // 급여 단위 (일/시간)
     };
+    quota: number; // 모집 인원
     status: "OPEN" | "CLOSED"; // 구인 상태 (모집중/마감)
     createdAt: string; // 작성일
 }

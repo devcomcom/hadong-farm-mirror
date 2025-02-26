@@ -8,6 +8,8 @@ import CustomLogoutButton from "@/components/common/button_logout";
 import CustomLoginButton from "@/components/common/button_login";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
     const [userRoleLocal, setUserRoleLocal] = useState<string | null>(null); // 사용자 역할 상태 관리
@@ -15,7 +17,7 @@ const Header = () => {
     const { isSignedIn } = useAuth();
     const { user } = useUser();
     const [loading, setLoading] = useState<boolean>(true);
-
+    const router = useRouter();
     const checkUserStatus = async () => {
         const isLoginPage = window.location.pathname === "/"; // 현재 페이지가 홈 페이지인지 확인
 
@@ -77,13 +79,8 @@ const Header = () => {
                             </NavigationMenuLink>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
-                            <NavigationMenuLink href="/new_job" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:shadow-md">
+                            <NavigationMenuLink href="/new" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:shadow-md">
                                 <Text>게시물 작성</Text>
-                            </NavigationMenuLink>
-                        </NavigationMenuItem>
-                        <NavigationMenuItem>
-                            <NavigationMenuLink href="/profile" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:shadow-md">
-                                <Text>프로필</Text>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
@@ -98,7 +95,23 @@ const Header = () => {
                         </NavigationMenuItem>
                         <NavigationMenuItem>
                             {isSignedIn ? (
-                                <CustomLogoutButton aria-label="로그아웃" />
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger className="flex items-center justify-center w-16 h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0">
+                                        <span className="flex items-center justify-center text-xl text-gray-500">
+                                            {user?.emailAddresses[0].emailAddress.charAt(0)}
+                                        </span>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                        <DropdownMenuItem onClick={() => router.push("/profile")}>
+                                            <Text>내 프로필</Text>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem>
+                                            <CustomLogoutButton aria-label="로그아웃" />
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+
                             ) : (
                                 <CustomLoginButton aria-label="로그인" />
                             )}

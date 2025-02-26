@@ -3,12 +3,8 @@ import "./globals.css";
 import Header from "@/components/layout/header";
 import {
     ClerkProvider,
-    SignInButton,
-    SignUpButton,
     SignedIn,
     SignedOut,
-    UserButton,
-    SignOutButton,
 } from '@clerk/nextjs'
 
 export const metadata = {
@@ -31,7 +27,6 @@ export default function RootLayout({
                         <Header />
                     </SignedOut>
                     <SignedIn>
-                        <UserButton />
                         <Header />
                     </SignedIn>
                     <main className="container mx-auto px-4">

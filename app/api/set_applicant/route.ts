@@ -4,18 +4,22 @@ import fs from "fs";
 import path from "path";
 
 export async function POST(request: Request) {
-    const { jobId, action } = await request.json(); // 요청 본문에서 jobId와 action을 가져옵니다.
+    const { jobId, applicantId, action } = await request.json(); // 요청 본문에서 jobId와 action을 가져옵니다.
     const mockDataPath = path.join(process.cwd(), "util", "mock_data.json");
     const mockData = JSON.parse(fs.readFileSync(mockDataPath, "utf-8"));
 
     // action이 'ACCEPTED' 또는 'REJECTED'인지 확인
-    if (action !== "ACCEPTED" && action !== "REJECTED") {
+    if (
+        action !== "ACCEPTED" &&
+        action !== "REJECTED" &&
+        action !== "WAITLIST"
+    ) {
         return NextResponse.json({ error: "Invalid action" }, { status: 400 });
     }
 
     // matches에서 해당 jobId를 가진 매치를 찾습니다.
     const matchIndex = mockData.matches.findIndex(
-        (match: any) => match.jobPostingId === jobId
+        (match: any) => match.id === jobId && match.workerId === applicantId
     );
 
     if (matchIndex === -1) {

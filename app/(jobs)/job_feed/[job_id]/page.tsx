@@ -214,7 +214,7 @@ export default function JobDetailPage() {
                                     },
                                     body: JSON.stringify({
                                         jobPostingId: jobData.id,
-                                        workerId: userId,
+                                        farmerId: userId,
                                     }),
                                 });
 

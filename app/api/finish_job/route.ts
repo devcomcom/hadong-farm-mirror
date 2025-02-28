@@ -1,27 +1,36 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { db } from "@/db"; // Drizzle ORM DB 인스턴스 가져오기
+import { jobPostings } from "@/db/schema/schema_job_postings"; // Job postings 스키마 가져오기
+import { matches } from "@/db/schema/schema_matches"; // Matches 스키마 가져오기
+import { eq, and } from "drizzle-orm";
 
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { jobPostingId, workerId } = body;
+        const { jobPostingId, farmerId } = body;
 
-        // mock_data.json 파일 경로
-        const mockDataPath = path.join(process.cwd(), "util", "mock_data.json");
-        const mockData = JSON.parse(fs.readFileSync(mockDataPath, "utf-8"));
+        // 데이터베이스에서 jobPosting과 match 데이터 찾기
+        const jobPosting = await db
+            .select()
+            .from(jobPostings)
+            .where(eq(jobPostings.id, jobPostingId))
+            .execute();
 
-        // jobPosting과 match 데이터 찾기
-        const jobPosting = mockData.jobPostings.find(
-            (job: any) => job.id === jobPostingId
-        );
-        const match = mockData.matches.find(
-            (match: any) =>
-                match.jobPostingId === jobPostingId &&
-                match.workerId === workerId
-        );
+        const match = await db
+            .select()
+            .from(matches)
+            .where(
+                and(
+                    eq(matches.jobPostingId, jobPostingId),
+                    eq(matches.farmerId, farmerId)
+                )
+            )
+            .execute();
 
-        if (!jobPosting || !match) {
+        console.log(jobPosting);
+        console.log(match);
+
+        if (jobPosting.length === 0 || match.length === 0) {
             return NextResponse.json(
                 { error: "Job posting or match not found." },
                 { status: 404 }
@@ -29,11 +38,22 @@ export async function POST(request: Request) {
         }
 
         // 작업 완료 상태로 변경
-        jobPosting.status = "COMPLETED";
-        match.status = "COMPLETED";
+        await db
+            .update(jobPostings)
+            .set({ status: "COMPLETED" })
+            .where(eq(jobPostings.id, jobPostingId))
+            .execute();
 
-        // mock_data.json 파일에 업데이트된 데이터 저장
-        fs.writeFileSync(mockDataPath, JSON.stringify(mockData, null, 2));
+        await db
+            .update(matches)
+            .set({ status: "COMPLETED" })
+            .where(
+                and(
+                    eq(matches.jobPostingId, jobPostingId),
+                    eq(matches.farmerId, farmerId)
+                )
+            )
+            .execute();
 
         return NextResponse.json({
             success: true,

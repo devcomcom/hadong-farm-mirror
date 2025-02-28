@@ -6,6 +6,7 @@ import Tabs from "../_components/tap";
 import CompletedJobList from "../_components/complet_job_list";
 import CompletedJobListByFarmer from "../_components/complet_job_list_by_farmer";
 import ApplicantList from "../_components/applicant_list";
+import ApplicantListByFarmer from "../_components/applicant_list_by_farmer";
 import Button from "@/components/common/button";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { useAuthStore } from "@/stores/auth";
@@ -201,6 +202,9 @@ export default function ProfilePage() {
                     )}
                     <div label="지원자 리스트">
                         <ApplicantList />
+                    </div>
+                    <div label="지원자 리스트(농장주)">
+                        <ApplicantListByFarmer />
                     </div>
                 </Tabs>
             </div>

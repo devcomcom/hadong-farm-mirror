@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Button from "@/components/common/button";
+import { useAuthStore } from "@/stores/auth";
 import {
     Dialog,
     DialogTrigger,
@@ -16,14 +17,10 @@ interface Job {
     id: string;
     title: string;
     description: string;
-    workDate: {
-        start: string;
-        end: string;
-    };
-    payment: {
-        amount: number;
-        unit: string;
-    };
+    workDateStart: string;
+    workDateEnd: string;
+    paymentAmount: number;
+    paymentUnit: string;
     status: string;
     isFarmerComment: boolean;
     isWorkerComment: boolean;
@@ -36,7 +33,7 @@ const CompletedJobListByFarmer: React.FC = () => {
     const [selectedJob, setSelectedJob] = useState<Job | null>(null);
     const [review, setReview] = useState<string>('');
     const { user } = useUser();
-
+    const { userId } = useAuthStore();
     const fetchCompletedJobs = async () => {
         try {
             const response = await fetch("/api/get_post_list");
@@ -44,13 +41,20 @@ const CompletedJobListByFarmer: React.FC = () => {
             // 완료 상태의 job 아이템만 필터링
             const completed = data.jobPostings.filter((job: Job) => job.status === "COMPLETED");
             setCompletedJobs(completed);
-            const matches = data.matches.filter((match: any) => match.status === "COMPLETED");
+            const matches = data.matches.filter((match: any) => match.status === "COMPLETED" && match.farmerId === userId);
             completed.map((job: Job) => {
                 const match = matches.find((match: any) => match.jobPostingId === job.id);
                 job.isFarmerComment = !!match.farmerComment;
                 job.isWorkerComment = !!match.workerComment;
                 job.workerComment = match.workerComment;
+                if (match.workDateStart) {
+                    job.workDateStart = match.workDateStart;
+                }
+                if (match.workDateEnd) {
+                    job.workDateEnd = match.workDateEnd;
+                }
             });
+            console.log('completed', completed);
         } catch (error) {
             console.error("Failed to fetch completed jobs:", error);
         } finally {
@@ -101,10 +105,10 @@ const CompletedJobListByFarmer: React.FC = () => {
                         <h3 className="text-lg font-bold">{job.title}</h3>
                         <p>{job.description}</p>
                         <p>
-                            {job.workDate.start} - {job.workDate.end}
+                            {job.workDateStart} - {job.workDateEnd}
                         </p>
                         <p>
-                            {job.payment.amount} {job.payment.unit}
+                            {job.paymentAmount} {job.paymentUnit}
                         </p>
                         <p>Status: {job.status}</p>
                         <p>

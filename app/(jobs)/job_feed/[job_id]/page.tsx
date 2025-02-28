@@ -18,19 +18,14 @@ interface JobPostingDetail {
         name: string; // 작성자 이름
         profileImage?: string; // 작성자 프로필 이미지 (선택적)
     };
-    workDate: {
-        start: string; // 근무 시작일
-        end: string; // 근무 종료일
-    };
-    payment: {
-        amount: number; // 급여 금액
-        unit: "DAY" | "HOUR"; // 급여 단위 (일/시간)
-    };
+    workStartDate: string; // 근무 시작일
+    workEndDate: string; // 근무 종료일
+    paymentAmount: number; // 급여 금액
+    paymentUnit: "DAY" | "HOUR"; // 급여 단위 (일/시간)
     location: {
         address: string; // 위치 주소
         latitude: number; // 위도
         longitude: number; // 경도
-        farmName?: string; // 농장 이름 (선택적)
     };
     status: "OPEN" | "CLOSED" | "COMPLETED"; // 구인 상태
     matchStatus?: "NONE" | "PENDING" | "ACCEPTED" | "REJECTED"; // 매칭 상태 (선택적)
@@ -62,11 +57,14 @@ export default function JobDetailPage() {
                 const res = await fetch(`/api/get_post_list`); // 구인 목록 API 호출
                 if (res.ok) {
                     const data = await res.json(); // JSON 데이터 파싱
-                    const jobPosting = data.jobPostings.find((job: JobPostingDetail) => job.id === job_id); // job_id에 해당하는 구인 데이터 찾기
+                    console.log('data', data);
+                    const jobPosting = data.jobPostings.find((job: JobPostingDetail) => {
+                        return job.id == job_id;
+                    }); // job_id에 해당하는 구인 데이터 찾기
 
                     if (jobPosting) {
                         setJobData(jobPosting); // 구인 데이터 설정
-                        const matchData = data.matches.find((match: any) => match.jobPostingId === job_id); // 해당 job의 match 데이터 찾기
+                        const matchData = data.matches.find((match: any) => match.jobPostingId == job_id); // 해당 job의 match 데이터 찾기
                         if (matchData) {
                             setIsApplied(true); // match 데이터가 있으면 지원 완료 상태를 true로 설정
                         }
@@ -122,15 +120,15 @@ export default function JobDetailPage() {
                 <div className="mb-4">
                     <h2 className="text-xl font-semibold mb-2">근무 기간</h2> {/* 근무 날짜 제목 */}
                     <p className="text-gray-700">
-                        {new Date(jobData.workDate.start).toLocaleDateString()} -{" "}
-                        {new Date(jobData.workDate.end).toLocaleDateString()} {/* 근무 시작일과 종료일 */}
+                        {new Date(jobData.workStartDate).toLocaleDateString()} -{" "}
+                        {new Date(jobData.workEndDate).toLocaleDateString()} {/* 근무 시작일과 종료일 */}
                     </p>
                 </div>
                 <div className="mb-4">
                     <h2 className="text-xl font-semibold mb-2">급여</h2> {/* 급여 제목 */}
                     <p className="text-gray-700">
-                        {jobData.payment.unit === "DAY" ? "일당 " : "시급 "}
-                        {jobData.payment.amount}원
+                        {jobData.paymentUnit === "DAY" ? "일당 " : "시급 "}
+                        {jobData.paymentAmount}원
                     </p>
                 </div>
                 <div className="mb-4">
@@ -148,9 +146,6 @@ export default function JobDetailPage() {
                 <div className="mb-4">
                     <h2 className="text-xl font-semibold mb-2">위치</h2> {/* 위치 제목 */}
                     <p className="text-gray-700">{jobData.location.address}</p> {/* 위치 주소 */}
-                    {jobData.location.farmName && (
-                        <p className="text-gray-700">Farm: {jobData.location.farmName}</p> // 농장 이름 (선택적)
-                    )}
                     <KakaoMap latitude={jobData.location.latitude} longitude={jobData.location.longitude} />
                     <p className="mt-2 text-gray-600">
                         Latitude: {jobData.location.latitude}, Longitude: {jobData.location.longitude} {/* 위도 및 경도 */}

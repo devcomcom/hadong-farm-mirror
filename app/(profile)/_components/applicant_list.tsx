@@ -7,14 +7,10 @@ interface Job {
     id: string;
     title: string;
     description: string;
-    workDate: {
-        start: string;
-        end: string;
-    };
-    payment: {
-        amount: number;
-        unit: string;
-    };
+    workDateStart: string;
+    workDateEnd: string;
+    paymentAmount: number;
+    paymentUnit: string;
     status: string;
     userId: string; // userId 추가
     matchStatus: string;
@@ -48,6 +44,7 @@ const ApplicantList: React.FC = () => {
             const matches = mockData.matches;
             const filteredMatches = matches.filter((match: any) => match.status !== "COMPLETED");
             const applicants = mockData.applicants; // 유저 리스트 가져오기
+
 
             // 매칭된 job 리스트를 가져오기
             const matched = filteredMatches.map((match: any) => {

@@ -47,7 +47,7 @@ export default function ProfilePage() {
                 name: userData.user.name,
                 email: userData.user.email,
                 contact: userData.user.contact,
-                role: userData.user.roles[0].role,
+                role: userData.user.role,
                 profileImage: userData.user.profileImage, // 이미지 URL이 있다면 사용
             };
             setProfile(profile);

@@ -13,11 +13,7 @@ interface JobPostingDetail {
     type: "FARMER" | "WORKER"; // 구인 유형
     title: string; // 구인 제목
     description: string; // 구인 설명
-    author: {
-        id: string; // 작성자 ID
-        name: string; // 작성자 이름
-        profileImage?: string; // 작성자 프로필 이미지 (선택적)
-    };
+    userId: string; // 작성자 ID
     workStartDate: string; // 근무 시작일
     workEndDate: string; // 근무 종료일
     paymentAmount: number; // 급여 금액
@@ -49,7 +45,7 @@ export default function JobDetailPage() {
     const { userRole } = useAuthStore(); // Zustand 스토어에서 userRole 가져오기
     const [isApplied, setIsApplied] = useState<boolean>(false); // 지원 완료 상태 관리
     const [isCompleted, setIsCompleted] = useState<boolean>(false); // 작업 완료 상태 관리
-
+    const { userId } = useAuthStore(); // Zustand 스토어에서 userData 가져오기
     // 구인 상세 정보를 가져오는 useEffect
     useEffect(() => {
         const fetchJobData = async () => {
@@ -179,7 +175,8 @@ export default function JobDetailPage() {
                                     },
                                     body: JSON.stringify({
                                         jobPostingId: jobData.id,
-                                        workerId: "user2" // 실제 사용자 ID로 변경 필요
+                                        workerId: userId,
+                                        farmerId: jobData.userId,
                                     }),
                                 });
 
@@ -217,7 +214,7 @@ export default function JobDetailPage() {
                                     },
                                     body: JSON.stringify({
                                         jobPostingId: jobData.id,
-                                        workerId: "user2" // 실제 사용자 ID로 변경 필요
+                                        workerId: userId,
                                     }),
                                 });
 

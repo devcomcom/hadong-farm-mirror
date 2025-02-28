@@ -1,37 +1,43 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { db } from "@/db"; // Drizzle ORM DB 인스턴스 가져오기
+import { matches } from "@/db/schema/schema_matches"; // Matches 스키마 가져오기
 
 export async function POST(request: Request) {
     try {
-        const { jobPostingId, workerId } = await request.json(); // 요청 본문에서 jobPostingId와 workerId 가져오기
-        const mockDataPath = path.join(process.cwd(), "util", "mock_data.json");
-        const mockData = JSON.parse(fs.readFileSync(mockDataPath, "utf-8"));
+        const { jobPostingId, farmerId, workerId } = await request.json();
 
-        // matches 배열에 새로운 매칭 추가
+        // 필수 항목 검증
+        if (!jobPostingId || !farmerId || !workerId) {
+            return NextResponse.json(
+                { error: "Missing required fields" },
+                { status: 400 }
+            );
+        }
+
+        // 새 매칭 객체 생성
         const newMatch = {
-            id: `match${mockData.matches.length + 1}`, // 새로운 매칭 ID 생성
             jobPostingId,
-            formerId: mockData.jobPostings.find(
-                (job) => job.id === jobPostingId
-            )?.userId, // 구인 게시물의 작성자 ID
+            farmerId,
             workerId,
             status: "PENDING", // 초기 상태는 PENDING
             workerScore: null, // 초기 점수는 null
+            workerComment: null, // 초기 코멘트는 null
             farmerScore: null, // 초기 점수는 null
-            appliedAt: new Date().toISOString(), // 지원 날짜
-            updatedAt: new Date().toISOString(), // 업데이트 날짜
+            farmerComment: null, // 초기 코멘트는 null
+            appliedAt: new Date(), // 지원 날짜
+            updatedAt: new Date(), // 업데이트 날짜
             completedAt: null, // 완료 날짜는 null
         };
 
-        mockData.matches.push(newMatch); // 새로운 매칭 추가
-        fs.writeFileSync(mockDataPath, JSON.stringify(mockData, null, 2)); // mock_data.json 파일에 저장
+        // Drizzle ORM을 사용하여 데이터베이스에 새 매칭 추가
+        await db.insert(matches).values(newMatch);
 
         return NextResponse.json(
-            { message: "지원이 성공적으로 추가되었습니다." },
-            { status: 200 }
+            { message: "Match created successfully." },
+            { status: 201 }
         );
     } catch (error: any) {
+        console.error("Error creating match:", error);
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }

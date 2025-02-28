@@ -17,14 +17,10 @@ interface Job {
     id: string;
     title: string;
     description: string;
-    workDate: {
-        start: string;
-        end: string;
-    };
-    payment: {
-        amount: number;
-        unit: string;
-    };
+    workDateStart: string;
+    workDateEnd: string;
+    paymentAmount: number;
+    paymentUnit: string;
     status: string;
     isFarmerComment: boolean;
     isWorkerComment: boolean;
@@ -48,18 +44,21 @@ const CompletedJobList: React.FC = () => {
             setCompletedJobs(completed);
             completed.map((job: Job) => {
                 const match = matches.find((match: any) => match.jobPostingId === job.id);
-                console.log('match', match);
                 if (!match) {
-                    console.log('match가 없습니다.');
                     // match가 없으면 해당 job을 삭제합니다.
                     setCompletedJobs((prevJobs) => prevJobs.filter((j) => j.id !== job.id));
                 } else {
                     job.isFarmerComment = !!match.farmerComment;
                     job.isWorkerComment = !!match.workerComment;
                     job.farmerComment = match.farmerComment;
+                    if (match.workDateStart) {
+                        job.workDateStart = match.workDateStart;
+                    }
+                    if (match.workDateEnd) {
+                        job.workDateEnd = match.workDateEnd;
+                    }
                 }
             });
-            console.log('completed', completed);
 
         } catch (error) {
             console.error("Failed to fetch completed jobs:", error);
@@ -82,7 +81,7 @@ const CompletedJobList: React.FC = () => {
                 body: JSON.stringify({
                     jobId: selectedJob.id,
                     review: review,
-                    userId: user?.emailAddresses[0].emailAddress,
+                    userId: userId,
                 }),
             });
 
@@ -111,10 +110,10 @@ const CompletedJobList: React.FC = () => {
                         <h3 className="text-lg font-bold">{job.title}</h3>
                         <p>{job.description}</p>
                         <p>
-                            {job.workDate.start} - {job.workDate.end}
+                            {job.workDateStart} - {job.workDateEnd}
                         </p>
                         <p>
-                            {job.payment.amount} {job.payment.unit}
+                            {job.paymentAmount} {job.paymentUnit}
                         </p>
                         <p>Status: {job.status}</p>
                         <p>

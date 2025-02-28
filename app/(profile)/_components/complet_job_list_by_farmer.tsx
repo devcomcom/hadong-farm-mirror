@@ -32,7 +32,6 @@ const CompletedJobListByFarmer: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [selectedJob, setSelectedJob] = useState<Job | null>(null);
     const [review, setReview] = useState<string>('');
-    const { user } = useUser();
     const { userId } = useAuthStore();
     const fetchCompletedJobs = async () => {
         try {
@@ -76,7 +75,7 @@ const CompletedJobListByFarmer: React.FC = () => {
                 body: JSON.stringify({
                     jobId: selectedJob.id,
                     review: review,
-                    userId: user?.emailAddresses[0].emailAddress,
+                    userId: userId,
                 }),
             });
 

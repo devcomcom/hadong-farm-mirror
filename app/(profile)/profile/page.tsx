@@ -203,9 +203,11 @@ export default function ProfilePage() {
                     <div label="지원자 리스트">
                         <ApplicantList />
                     </div>
-                    <div label="지원자 리스트(농장주)">
-                        <ApplicantListByFarmer />
-                    </div>
+                    {userRole === "FARMER" && (
+                        <div label="지원자 리스트(농장주)">
+                            <ApplicantListByFarmer />
+                        </div>
+                    )}
                 </Tabs>
             </div>
         </div>

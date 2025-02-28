@@ -10,10 +10,10 @@ export interface JobListItem {
         address: string;
         distance?: number;
     };
-    work_start_date: string;
-    work_end_date: string;
-    payment_amount: number;
-    payment_unit: "DAY" | "HOUR";
+    workStartDate: string;
+    workEndDate: string;
+    paymentAmount: number;
+    paymentUnit: "DAY" | "HOUR";
     status: "OPEN" | "CLOSED";
     quota: number;
     createdAt: string;
@@ -27,11 +27,11 @@ interface JobCardProps {
 const JobCard: React.FC<JobCardProps> = ({ job, onClick }) => {
     // 급여 단위를 한글로 변환
     const paymentUnitText =
-        job.payment_unit === "DAY" ? "일" : job.payment_unit === "HOUR" ? "시간" : job.payment_unit;
+        job.paymentUnit === "DAY" ? "일" : job.paymentUnit === "HOUR" ? "시간" : job.paymentUnit;
 
     // 근무 시작/종료일 포맷 (추후 Date 라이브러리 사용 고려)
-    const startDate = new Date(job.work_start_date).toLocaleDateString();
-    const endDate = new Date(job.work_end_date).toLocaleDateString();
+    const startDate = new Date(job.workStartDate).toLocaleDateString();
+    const endDate = new Date(job.workEndDate).toLocaleDateString();
 
     return (
         <div
@@ -59,7 +59,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, onClick }) => {
                 근무 기간: {startDate} ~ {endDate}
             </p>
             <p className="text-sm">
-                급여: {job.payment_amount}원/{paymentUnitText}
+                급여: {job.paymentAmount}원/{paymentUnitText}
             </p>
             <p className="text-sm">
                 모집 인원: {job.quota}명

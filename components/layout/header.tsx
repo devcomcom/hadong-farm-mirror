@@ -32,9 +32,9 @@ const Header = () => {
                     alert("로그아웃 상태입니다."); // 로그아웃 상태 메시지 출력
                     window.location.href = "/"; // 홈으로 리다이렉트
                 }
-                if (userData.user.roles.length > 0) {
-                    setRole(userData.user.roles[0].role);
-                    setUserRoleLocal(userData.user.roles[0].role);
+                if (userData.user.role !== null) {
+                    setRole(userData.user.role);
+                    setUserRoleLocal(userData.user.role);
                     setUserId(userData.user.id);
                 } else {
                     alert("사용자의 역할을 찾을 수 없습니다.");

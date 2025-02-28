@@ -22,14 +22,10 @@ interface JobListItem {
         address: string; // 위치 주소
         distance?: number; // 현재 위치 기준 거리 (선택적)
     };
-    workDate: {
-        start: string; // 근무 시작일
-        end: string; // 근무 종료일
-    };
-    payment: {
-        amount: number; // 급여 금액
-        unit: "DAY" | "HOUR"; // 급여 단위 (일/시간)
-    };
+    workDateStart: string; // 근무 시작일
+    workDateEnd: string; // 근무 종료일
+    paymentAmount: number; // 급여 금액
+    paymentUnit: "DAY" | "HOUR"; // 급여 단위 (일/시간)
     quota: number; // 모집 인원
     status: "OPEN" | "CLOSED"; // 구인 상태 (모집중/마감)
     createdAt: string; // 작성일
@@ -70,8 +66,8 @@ export default function JobFeedPage() {
     // 날짜 범위와 겹치는 아이템 필터링
     const filteredItems = items.filter((job) => {
         if (!dateRange.start || !dateRange.end) return true; // 날짜 범위가 설정되지 않은 경우 모든 아이템 표시
-        const jobStart = new Date(job.workDate.start);
-        const jobEnd = new Date(job.workDate.end);
+        const jobStart = new Date(job.workDateStart);
+        const jobEnd = new Date(job.workDateEnd);
         return (
             (jobStart <= dateRange.end && jobEnd >= dateRange.start) // 날짜 범위와 겹치는지 확인
         );

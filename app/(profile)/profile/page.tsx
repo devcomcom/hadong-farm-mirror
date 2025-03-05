@@ -10,13 +10,17 @@ import ApplicantListByFarmer from "../_components/applicant_list_by_farmer";
 import Button from "@/components/common/button";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { useAuthStore } from "@/stores/auth";
+import { Input } from "@/components/ui/input";
+
+
+
 
 interface UserProfile {
     name: string;
     email: string;
     contact: string;
     role: "FARMER" | "WORKER";
-    profileImage?: string;
+    profileImage?: FileList;
 }
 
 export default function ProfilePage() {
@@ -25,7 +29,7 @@ export default function ProfilePage() {
     const [isLoading, setIsLoading] = useState(true);
     const { isSignedIn } = useAuth();
     const { user } = useUser();
-    const { userRole } = useAuthStore();
+    const { userRole, userId } = useAuthStore();
 
     const {
         register,
@@ -60,9 +64,34 @@ export default function ProfilePage() {
         fetchUserProfile();
     }, [isSignedIn]);
 
-    const onSubmit: SubmitHandler<UserProfile> = (data) => {
-        // 모의 API를 통해 업데이트한 후, 상태를 갱신합니다.
+    const onSubmit: SubmitHandler<UserProfile> = async (data) => {
         setIsLoading(true);
+
+        // profileImage가 존재하는지 확인
+        if (data.profileImage && data.profileImage.length > 0) {
+            const formData = new FormData();
+            formData.append('userId', userId);
+            formData.append('profileImage', data.profileImage[0]);
+
+            const response = await fetch('/api/set_profile', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Error uploading profile image:', errorData.error);
+                alert('프로필 이미지를 업로드하는 데 실패했습니다.');
+                setIsLoading(false);
+                return;
+            }
+
+            const result = await response.json();
+            console.log('Upload result:', result);
+        } else {
+            console.error('프로필 이미지가 제공되지 않았습니다.');
+        }
+
         setTimeout(() => {
             setProfile(data);
             setIsEditing(false);
@@ -89,7 +118,7 @@ export default function ProfilePage() {
                             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                                 <div>
                                     <label className="block font-semibold mb-1">이름</label>
-                                    <input
+                                    <Input
                                         type="text"
                                         className="w-full border border-gray-300 rounded p-2"
                                         {...register("name", { required: "이름은 필수 입니다." })}
@@ -100,7 +129,7 @@ export default function ProfilePage() {
                                 </div>
                                 <div>
                                     <label className="block font-semibold mb-1">이메일</label>
-                                    <input
+                                    <Input
                                         type="email"
                                         className="w-full border border-gray-300 rounded p-2"
                                         {...register("email", { required: "이메일은 필수 입니다." })}
@@ -111,7 +140,7 @@ export default function ProfilePage() {
                                 </div>
                                 <div>
                                     <label className="block font-semibold mb-1">연락처</label>
-                                    <input
+                                    <Input
                                         type="text"
                                         className="w-full border border-gray-300 rounded p-2"
                                         {...register("contact", { required: "연락처는 필수 입니다." })}
@@ -121,17 +150,12 @@ export default function ProfilePage() {
                                     )}
                                 </div>
                                 <div>
-                                    <label className="block font-semibold mb-1">회원 유형</label>
-                                    <select
+                                    <label className="block font-semibold mb-1">프로필 이미지</label>
+                                    <Input
+                                        type="file"
                                         className="w-full border border-gray-300 rounded p-2"
-                                        {...register("role", { required: "회원 유형을 선택해주세요." })}
-                                    >
-                                        <option value="FARMER">농장주</option>
-                                        <option value="WORKER">근로자</option>
-                                    </select>
-                                    {errors.role && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.role.message}</p>
-                                    )}
+                                        {...register("profileImage")}
+                                    />
                                 </div>
                                 <div className="flex gap-4">
                                     <Button

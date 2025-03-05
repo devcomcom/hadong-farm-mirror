@@ -21,6 +21,7 @@ interface UserProfile {
     contact: string;
     role: "FARMER" | "WORKER";
     profileImage?: FileList;
+    profileImageUrl?: string;
 }
 
 export default function ProfilePage() {
@@ -53,7 +54,7 @@ export default function ProfilePage() {
                 email: userData.user.email,
                 contact: userData.user.contact,
                 role: userData.user.role,
-                profileImage: userData.user.profileImage, // 이미지 URL이 있다면 사용
+                profileImageUrl: userData.user.profileImage, // 이미지 URL이 있다면 사용
             };
             setProfile(profile);
             setIsLoading(false);
@@ -184,11 +185,21 @@ export default function ProfilePage() {
                             <div className="space-y-4">
                                 <div className="flex items-center">
                                     <div className="w-16 h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0">
-                                        {/* 프로필 이미지가 있을 경우 아래와 같이 img 태그를 사용할 수 있습니다.
-                <img src={profile?.profileImage} alt="프로필 이미지" className="w-full h-full object-cover rounded-full" /> */}
-                                        <span className="flex items-center justify-center text-xl text-gray-500">
-                                            {profile?.name.charAt(0)}
-                                        </span>
+                                        {/* 프로필 이미지가 있을 경우 아래와 같이 img 태그를 사용할 수 있습니다.*/}
+                                        {profile?.profileImageUrl && (
+                                            <img
+                                                src={profile?.profileImageUrl}
+                                                alt="프로필 이미지"
+                                                width={150}
+                                                height={150}
+                                                className="w-full h-full object-cover rounded-full"
+                                            />
+                                        )}
+                                        {!profile?.profileImageUrl && (
+                                            <span className="flex items-center justify-center text-xl text-gray-500">
+                                                {profile?.name.charAt(0)}
+                                            </span>
+                                        )}
                                     </div>
                                     <div>
                                         <h2 className="text-2xl font-bold">{profile?.name}</h2>

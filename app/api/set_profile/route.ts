@@ -10,17 +10,39 @@ export async function POST(request: NextRequest) {
         // profileImage가 File 객체인지 확인
         if (!profileImage || !(profileImage instanceof File)) {
             return NextResponse.json(
-                { error: "Invalid profile image" },
-                { status: 400 }
+                { data: "Invalid profile image" },
+                { status: 200 }
             );
         }
 
-        const { data, error } = await supabase.storage
-            .from("hadong-farm")
-            .upload(`profile/${userId}/${profileImage.name}`, profileImage);
+        const profileImageName = `${Date.now()}_${profileImage.name}`;
 
-        if (error) {
-            return NextResponse.json({ error: error.message }, { status: 500 });
+        // Supabase에 프로필 이미지 업로드
+        const { data, error: uploadError } = await supabase.storage
+            .from("hadong-farm")
+            .upload(`profile/${userId}/${profileImageName}`, profileImage);
+
+        if (uploadError) {
+            return NextResponse.json(
+                { error: uploadError.message },
+                { status: 500 }
+            );
+        }
+
+        // 프로필 이미지 URL 생성
+        const profileImageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/hadong-farm/profile/${userId}/${profileImageName}`;
+
+        // user 테이블의 profile_image 컬럼 업데이트
+        const { error: updateError } = await supabase
+            .from("users")
+            .update({ profile_image: profileImageUrl }) // profile_image 컬럼 업데이트
+            .eq("id", userId); // userId로 필터링
+
+        if (updateError) {
+            return NextResponse.json(
+                { error: updateError.message },
+                { status: 500 }
+            );
         }
 
         return NextResponse.json({ data });

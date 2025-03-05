@@ -10,7 +10,8 @@
     auth: 'Clerk',
     ui: 'shadcn/ui + Tailwind CSS',
     stateManagement: 'Zustand',
-    packageManager: 'npm'
+    packageManager: 'npm',
+    orm: 'drizzle-orm'
   }
   ```
 
@@ -21,6 +22,7 @@
   npm install @clerk/nextjs
   npx shadcn@latest init
   npm install zustand
+  npm install drizzle-orm
   ```
 
 ## 2. 코드 구조 및 명명 규칙
@@ -62,6 +64,7 @@
   import { NextResponse } from 'next/server';
   import { auth } from '@clerk/nextjs';
   import { db } from '@/lib/db';
+  import { eq } from 'drizzle-orm';
 
   export async function GET() {
     try {
@@ -73,10 +76,11 @@
         );
       }
       // 데이터베이스 조회 로직
-      const jobs = await db.query(
-        'SELECT * FROM jobs WHERE user_id = $1',
-        [userId]
-      );
+      const jobs = await db
+        .select()
+        .from('jobs')
+        .where(eq('user_id', userId))
+        .execute();
       return NextResponse.json({ jobs });
     } catch (error) {
       return NextResponse.json(

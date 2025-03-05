@@ -10,6 +10,7 @@ export const users = pgTable("users", {
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),
     role: text("role").notNull(),
+    profileImage: text("profile_image"),
 });
 
 export type InsertUser = typeof users.$inferInsert;

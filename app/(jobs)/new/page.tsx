@@ -2,10 +2,12 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
+import { MapPin, Calendar, DollarSign, Users, FileText, Building2, Clock } from "lucide-react";
 import KakaoMap from "@/components/common/kakao_map_location";
 import { useLocationStore } from "@/stores/location";
 import Button from "@/components/common/button";
 import Input from "@/components/common/input";
+import { useRouter } from "next/navigation";
 
 interface JobPostFormValues {
     title: string;
@@ -22,11 +24,14 @@ interface JobPostFormValues {
 }
 
 export default function JobPostCreationPage() {
+    const router = useRouter();
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        watch,
+        formState: { errors, isValid },
     } = useForm<JobPostFormValues>({
+        mode: "onChange",
         defaultValues: {
             title: "",
             description: "",
@@ -42,248 +47,325 @@ export default function JobPostCreationPage() {
         },
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [currentStep, setCurrentStep] = useState(1);
+    const totalSteps = 3;
+
+    const watchedFields = watch();
+
+    const renderProgressBar = () => (
+        <div className="w-full bg-gray-100 h-2 rounded-full mb-8">
+            <div
+                className="bg-blue-500 h-full rounded-full transition-all duration-300"
+                style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+            />
+        </div>
+    );
+
+    const renderStepIndicator = () => (
+        <div className="flex justify-between items-center mb-6 text-sm text-gray-500">
+            <span>Step {currentStep} of {totalSteps}</span>
+            <span>{getStepTitle(currentStep)}</span>
+        </div>
+    );
+
+    const getStepTitle = (step: number) => {
+        switch (step) {
+            case 1: return "기본 정보";
+            case 2: return "근무 조건";
+            case 3: return "위치 정보";
+            default: return "";
+        }
+    };
 
     const onSubmit: SubmitHandler<JobPostFormValues> = async (data) => {
         setIsSubmitting(true);
         try {
-            // 실제 API 호출 부분으로 변경 가능 (예: fetch POST 요청)
-            console.log("Submitting data:", data);
-
             data.latitude = useLocationStore.getState().latitude;
             data.longitude = useLocationStore.getState().longitude;
 
-            console.log("Submitting data:", data);
-
             const response = await fetch('/api/set_post', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            if (!response.ok) {
-                throw new Error("Failed to create job posting");
-            }
-            const result = await response.json();
-            console.log("Job posting created:", result);
-            alert("구해요 포스트가 성공적으로 작성되었습니다.");
-            // router.push("/jobs"); // 작성 완료 후 구해요 목록 페이지로 이동
+
+            if (!response.ok) throw new Error("Failed to create job posting");
+
+            alert("구인 게시글이 성공적으로 등록되었습니다.");
+            router.push("/job_feed");
         } catch (error) {
             console.error(error);
-            alert("포스트 작성 중 오류가 발생했습니다.");
+            alert("게시글 등록 중 오류가 발생했습니다.");
         } finally {
             setIsSubmitting(false);
         }
     };
 
+    const renderFormStep = () => {
+        switch (currentStep) {
+            case 1:
+                return (
+                    <div className="space-y-6">
+                        <div className="space-y-4">
+                            <div className="flex items-center space-x-2 text-lg font-semibold text-gray-700">
+                                <Building2 className="w-5 h-5" />
+                                <span>게시물 유형</span>
+                            </div>
+                            <select
+                                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                {...register("jobType", { required: "게시물 유형을 선택해주세요." })}
+                            >
+                                <option value="FARMER">농장주</option>
+                            </select>
+                            {errors.jobType && (
+                                <p className="text-red-500 text-sm">{errors.jobType.message}</p>
+                            )}
+                        </div>
+
+                        <div className="space-y-4">
+                            <div className="flex items-center space-x-2 text-lg font-semibold text-gray-700">
+                                <FileText className="w-5 h-5" />
+                                <span>제목</span>
+                            </div>
+                            <Input
+                                type="text"
+                                fullWidth={true}
+                                color="grey"
+                                className="p-3"
+                                placeholder="구인 글의 제목을 입력하세요"
+                                {...register("title", { required: "제목은 필수입니다." })}
+                            />
+                            {errors.title && (
+                                <p className="text-red-500 text-sm">{errors.title.message}</p>
+                            )}
+                        </div>
+
+                        <div className="space-y-4">
+                            <div className="flex items-center space-x-2 text-lg font-semibold text-gray-700">
+                                <FileText className="w-5 h-5" />
+                                <span>상세 설명</span>
+                            </div>
+                            <textarea
+                                className="w-full border border-gray-300 rounded-lg p-3 min-h-[150px] focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                placeholder="구인 조건과 업무 내용을 자세히 설명해주세요"
+                                {...register("description", { required: "설명은 필수입니다." })}
+                            />
+                            {errors.description && (
+                                <p className="text-red-500 text-sm">{errors.description.message}</p>
+                            )}
+                        </div>
+                    </div>
+                );
+
+            case 2:
+                return (
+                    <div className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-4">
+                                <div className="flex items-center space-x-2 text-lg font-semibold text-gray-700">
+                                    <Calendar className="w-5 h-5" />
+                                    <span>근무 시작일</span>
+                                </div>
+                                <Input
+                                    type="date"
+                                    fullWidth={true}
+                                    color="grey"
+                                    className="p-3"
+                                    {...register("startDate", { required: "시작일은 필수입니다." })}
+                                />
+                                {errors.startDate && (
+                                    <p className="text-red-500 text-sm">{errors.startDate.message}</p>
+                                )}
+                            </div>
+
+                            <div className="space-y-4">
+                                <div className="flex items-center space-x-2 text-lg font-semibold text-gray-700">
+                                    <Calendar className="w-5 h-5" />
+                                    <span>근무 종료일</span>
+                                </div>
+                                <Input
+                                    type="date"
+                                    fullWidth={true}
+                                    color="grey"
+                                    className="p-3"
+                                    {...register("endDate", { required: "종료일은 필수입니다." })}
+                                />
+                                {errors.endDate && (
+                                    <p className="text-red-500 text-sm">{errors.endDate.message}</p>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="space-y-4">
+                                <div className="flex items-center space-x-2 text-lg font-semibold text-gray-700">
+                                    <DollarSign className="w-5 h-5" />
+                                    <span>급여</span>
+                                </div>
+                                <Input
+                                    type="number"
+                                    fullWidth={true}
+                                    color="grey"
+                                    className="p-3"
+                                    placeholder="급여 금액"
+                                    {...register("paymentAmount", {
+                                        required: "급여는 필수입니다.",
+                                        min: { value: 1, message: "0보다 큰 금액을 입력하세요." }
+                                    })}
+                                />
+                                {errors.paymentAmount && (
+                                    <p className="text-red-500 text-sm">{errors.paymentAmount.message}</p>
+                                )}
+                            </div>
+
+                            <div className="space-y-4">
+                                <div className="flex items-center space-x-2 text-lg font-semibold text-gray-700">
+                                    <Clock className="w-5 h-5" />
+                                    <span>급여 단위</span>
+                                </div>
+                                <select
+                                    className="w-full border border-gray-300 rounded-lg p-3"
+                                    {...register("paymentUnit")}
+                                >
+                                    <option value="DAY">일급</option>
+                                    <option value="HOUR">시급</option>
+                                </select>
+                            </div>
+
+                            <div className="space-y-4">
+                                <div className="flex items-center space-x-2 text-lg font-semibold text-gray-700">
+                                    <Users className="w-5 h-5" />
+                                    <span>모집 인원</span>
+                                </div>
+                                <Input
+                                    type="number"
+                                    fullWidth={true}
+                                    color="grey"
+                                    className="p-3"
+                                    placeholder="필요 인원"
+                                    {...register("quota", {
+                                        required: "모집 인원은 필수입니다.",
+                                        min: { value: 1, message: "최소 1명 이상이어야 합니다." }
+                                    })}
+                                />
+                                {errors.quota && (
+                                    <p className="text-red-500 text-sm">{errors.quota.message}</p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                );
+
+            case 3:
+                return (
+                    <div className="space-y-6">
+                        <div className="space-y-4">
+                            <div className="flex items-center space-x-2 text-lg font-semibold text-gray-700">
+                                <MapPin className="w-5 h-5" />
+                                <span>근무 위치</span>
+                            </div>
+                            <div className="flex space-x-2">
+                                <Input
+                                    type="text"
+                                    fullWidth={true}
+                                    id="addressInput"
+                                    color="grey"
+                                    className="p-3"
+                                    placeholder="주소를 입력하세요"
+                                    {...register("address", { required: "주소는 필수입니다." })}
+                                />
+                                <Button
+                                    color="blue"
+                                    type="button"
+                                    onClick={() => {
+                                        const addressInput = document.getElementById('addressInput') as HTMLInputElement;
+                                        useLocationStore.getState().setAddress(addressInput.value);
+                                    }}
+                                >
+                                    검색
+                                </Button>
+                            </div>
+                            {errors.address && (
+                                <p className="text-red-500 text-sm">{errors.address.message}</p>
+                            )}
+                        </div>
+
+                        <div className="h-[400px] rounded-lg overflow-hidden border border-gray-300">
+                            <KakaoMap latitudeLocal={35.0634} longitudeLocal={127.7532} />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <Input
+                                type="number"
+                                step="any"
+                                fullWidth={true}
+                                color="grey"
+                                className="p-3"
+                                placeholder="위도"
+                                value={useLocationStore((state) => state.latitude) || 0}
+                                {...register("latitude")}
+                                disabled
+                            />
+                            <Input
+                                type="number"
+                                step="any"
+                                fullWidth={true}
+                                color="grey"
+                                className="p-3"
+                                placeholder="경도"
+                                value={useLocationStore((state) => state.longitude) || 0}
+                                {...register("longitude")}
+                                disabled
+                            />
+                        </div>
+                    </div>
+                );
+        }
+    };
+
     return (
-        <div className="flex flex-col items-center p-6" style={{ minHeight: 'calc(100vh - 400px)' }}>
-            <h1 className="text-3xl font-bold mb-6">게시물 작성</h1>
-            <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="w-full max-w-2xl bg-white shadow rounded p-6 space-y-4"
-            >
-                <div>
-                    <label className="block font-semibold mb-1">게시물 유형</label>
-                    <select
-                        className="w-full border border-gray-300 rounded p-2"
-                        {...register("jobType", { required: "게시물 유형을 선택해주세요." })}
-                    >
-                        <option value="FARMER">농장주</option>
-                        {/* <option value="WORKER">근로자</option> */}
-                    </select>
-                    {errors.jobType && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {errors.jobType.message}
-                        </p>
-                    )}
-                </div>
-                <div>
-                    <label className="block font-semibold mb-1">제목</label>
-                    <Input
-                        type="text"
-                        fullWidth={true}
-                        color="grey"
-                        className="p-2"
-                        placeholder="글 제목을 입력하세요."
-                        {...register("title", { required: "제목은 필수입니다." })}
-                    />
-                    {errors.title && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {errors.title.message}
-                        </p>
-                    )}
-                </div>
-                <div>
-                    <label className="block font-semibold mb-1">설명</label>
-                    <textarea
-                        className="w-full border border-gray-300 rounded p-2"
-                        placeholder="게시물 내용을 입력하세요."
-                        rows={5}
-                        {...register("description", { required: "설명은 필수입니다." })}
-                    />
-                    {errors.description && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {errors.description.message}
-                        </p>
-                    )}
-                </div>
-                <div className="flex gap-4">
-                    <div className="flex-1">
-                        <label className="block font-semibold mb-1">근무 시작일</label>
-                        <Input
-                            type="date"
-                            fullWidth={true}
-                            color="grey"
-                            className="p-2 flex-direction-row justify-end"
-                            {...register("startDate", { required: "시작일은 필수입니다." })}
-                        />
-                        {errors.startDate && (
-                            <p className="text-red-500 text-sm mt-1">
-                                {errors.startDate.message}
-                            </p>
+        <div className="min-h-screen bg-gray-50 py-8">
+            <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-sm p-8">
+                <h1 className="text-2xl font-bold text-gray-900 mb-6">구인 게시글 작성</h1>
+
+                {renderProgressBar()}
+                {renderStepIndicator()}
+
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+                    {renderFormStep()}
+
+                    <div className="flex justify-between pt-6">
+                        {currentStep > 1 && (
+                            <Button
+                                color="grey"
+                                onClick={() => setCurrentStep(prev => prev - 1)}
+                                type="button"
+                            >
+                                이전
+                            </Button>
+                        )}
+                        {currentStep < totalSteps ? (
+                            <Button
+                                color="blue"
+                                onClick={() => setCurrentStep(prev => prev + 1)}
+                                type="button"
+                                className="ml-auto"
+                            >
+                                다음
+                            </Button>
+                        ) : (
+                            <Button
+                                color="blue"
+                                type="submit"
+                                disabled={isSubmitting || !isValid}
+                                className="ml-auto"
+                            >
+                                {isSubmitting ? "등록 중..." : "게시글 등록"}
+                            </Button>
                         )}
                     </div>
-                    <div className="flex-1">
-                        <label className="block font-semibold mb-1">근무 종료일</label>
-                        <Input
-                            type="date"
-                            fullWidth={true}
-                            color="grey"
-                            className="p-2 flex-direction-row justify-end"
-                            {...register("endDate", { required: "종료일은 필수입니다." })}
-                        />
-                        {errors.endDate && (
-                            <p className="text-red-500 text-sm mt-1">
-                                {errors.endDate.message}
-                            </p>
-                        )}
-                    </div>
-                </div>
-                <div className="flex gap-4">
-                    <div className="flex-1">
-                        <label className="block font-semibold mb-1">급여 금액</label>
-                        <Input
-                            type="number"
-                            fullWidth={true}
-                            color="grey"
-                            className="p-2 flex-direction-row justify-end"
-                            placeholder="급여 금액"
-                            {...register("paymentAmount", {
-                                required: "급여 금액은 필수입니다.",
-                                valueAsNumber: true,
-                            })}
-                        />
-                        {errors.paymentAmount && (
-                            <p className="text-red-500 text-sm mt-1">
-                                {errors.paymentAmount.message}
-                            </p>
-                        )}
-                    </div>
-                    <div className="flex-1">
-                        <label className="block font-semibold mb-1">급여 단위</label>
-                        <select
-                            className="w-full border border-gray-300 rounded p-2"
-                            {...register("paymentUnit", { required: "급여 단위는 필수입니다." })}
-                        >
-                            <option value="DAY">일</option>
-                            <option value="HOUR">시간</option>
-                        </select>
-                        {errors.paymentUnit && (
-                            <p className="text-red-500 text-sm mt-1">
-                                {errors.paymentUnit.message}
-                            </p>
-                        )}
-                    </div>
-                    <div className="flex-1">
-                        <label className="block font-semibold mb-1">모집 인원</label>
-                        <Input
-                            type="number"
-                            fullWidth={true}
-                            color="grey"
-                            className="p-2 flex-direction-row justify-end"
-                            placeholder="모집 인원"
-                            {...register("quota", {
-                                required: "모집 인원은 필수입니다.",
-                                valueAsNumber: true,
-                            })}
-                        />
-                        {errors.paymentAmount && (
-                            <p className="text-red-500 text-sm mt-1">
-                                {errors.paymentAmount.message}
-                            </p>
-                        )}
-                    </div>
-                </div>
-                <div>
-                    <label className="block font-semibold mb-1">위치 (주소)</label>
-                    <Input
-                        type="text"
-                        fullWidth={true}
-                        id="addressInput"
-                        color="grey"
-                        className="p-2 mb-2 flex-direction-row justify-end"
-                        placeholder="예: 123 농장 도로, 시골"
-                        {...register("address", {
-                            required: "주소를 입력해주세요.",
-                        })}
-                    />
-                    <Button
-                        color="green"
-                        fullWidth={true}
-                        type="button"
-                        disabled={isSubmitting}
-                        onClick={() => {
-                            const addressInput = document.getElementById('addressInput') as HTMLInputElement;
-                            const address = addressInput.value;
-                            console.log(address);
-                            useLocationStore.getState().setAddress(address);
-                        }}
-                    >
-                        주소 입력
-                    </Button>
-                    <Input
-                        type="number"
-                        step="any"
-                        fullWidth={true}
-                        color="grey"
-                        className="p-2 mt-2 flex-direction-row justify-end"
-                        placeholder="위도 입력"
-                        value={useLocationStore((state) => state.latitude) || 0} // Zustand 상태값으로 변경
-                        {...register("latitude", {
-                            required: "",
-                        })}
-                    />
-                    <Input
-                        type="number"
-                        step="any"
-                        fullWidth={true}
-                        color="grey"
-                        className="p-2 mt-2 mb-2 flex-direction-row justify-end"
-                        placeholder="경도 입력"
-                        value={useLocationStore((state) => state.longitude) || 0} // Zustand 상태값으로 변경
-                        {...register("longitude", {
-                            required: "",
-                        })}
-                    />
-                    {errors.address && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {errors.address.message}
-                        </p>
-                    )}
-                    <KakaoMap latitudeLocal={35.0634} longitudeLocal={127.7532} />
-                </div>
-                <div>
-                    <Button
-                        color="blue"
-                        fullWidth={true}
-                        type="submit"
-                        disabled={isSubmitting}
-                    >
-                        {isSubmitting ? "작성 중..." : "작성하기"}
-                    </Button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     );
 } 

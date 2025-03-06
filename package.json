@@ -8,10 +8,9 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "supabase:login": "supabase login",
-        "edge-function": "supabase functions new hello-world",
-        "edge-function-local": "supabase login && supabase start && supabase functions serve hello-world --no-verify-jwt",
-        "edge-function-deploy": "supabase login && supabase functions deploy hello-world --project-ref ktqrlpycogsjbdfkbnbl"
+        "edge-function": "supabase functions new clerk-hook",
+        "edge-function-local": "supabase login && supabase start && supabase functions serve clerk-hook --no-verify-jwt",
+        "edge-function-deploy": "supabase login && supabase functions deploy clerk-hook --project-ref ktqrlpycogsjbdfkbnbl"
     },
     "dependencies": {
         "@clerk/nextjs": "^6.11.2",
@@ -32,6 +31,7 @@
         "date-fns": "^3.6.0",
         "dotenv": "^16.4.7",
         "drizzle-orm": "^0.40.0",
+        "framer-motion": "^12.4.10",
         "lucide-react": "^0.474.0",
         "next": "^15.1.7",
         "postgres": "^3.4.5",

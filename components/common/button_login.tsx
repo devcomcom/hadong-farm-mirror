@@ -12,7 +12,7 @@ const CustomLoginButton = () => {
 
     return (
         // 버튼 클릭 시 기본 동작을 방지하고 로그인 창을 엽니다.
-        <Button onClick={(event) => { event.preventDefault(); openSignIn(); }} color="blue">
+        <Button onClick={(event) => { event.preventDefault(); openSignIn({ signUpUrl: "http://localhost:3000/signup" }); }} color="blue">
             로그인
         </Button>
     );

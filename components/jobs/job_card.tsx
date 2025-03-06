@@ -1,4 +1,7 @@
 import React from "react";
+import { formatDistanceToNow } from "date-fns";
+import { ko } from "date-fns/locale";
+import { MapPin, Calendar, Users, Clock, Coins } from "lucide-react";
 
 // 구인 목록 아이템 인터페이스 (필요시 types로 분리 가능)
 export interface JobListItem {
@@ -25,48 +28,94 @@ interface JobCardProps {
 }
 
 const JobCard: React.FC<JobCardProps> = ({ job, onClick }) => {
-    // 급여 단위를 한글로 변환
-    const paymentUnitText =
-        job.paymentUnit === "DAY" ? "일" : job.paymentUnit === "HOUR" ? "시간" : job.paymentUnit;
-
-    // 근무 시작/종료일 포맷 (추후 Date 라이브러리 사용 고려)
+    const paymentUnitText = job.paymentUnit === "DAY" ? "일" : "시간";
     const startDate = new Date(job.workStartDate).toLocaleDateString();
     const endDate = new Date(job.workEndDate).toLocaleDateString();
+    const timeAgo = formatDistanceToNow(new Date(job.createdAt), {
+        addSuffix: true,
+        locale: ko
+    });
 
     return (
         <div
             onClick={onClick}
-            className="p-4 border rounded shadow cursor-pointer hover:bg-gray-50"
+            className="group relative p-6 bg-white border rounded-lg shadow-sm 
+                      transition-all duration-300 ease-in-out hover:shadow-md 
+                      hover:border-blue-200 cursor-pointer"
         >
-            <div className="flex justify-between items-center">
-                <h2 className="text-lg font-bold">{job.title}</h2>
+            {/* 상태 뱃지 */}
+            <div className="absolute top-4 right-4">
                 <span
-                    className={`px-2 py-1 text-sm rounded ${job.status === "OPEN" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-                        }`}
+                    className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                        ${job.status === "OPEN"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                        } transition-colors duration-200`}
                 >
                     {job.status === "OPEN" ? "모집중" : "마감"}
                 </span>
             </div>
-            <p className="text-sm text-gray-500">
-                {job.type === "FARMER" ? "오세요" : "갈게요"}
-                {job.farmName && ` - ${job.farmName}`}
-            </p>
-            <p className="text-sm">
-                위치: {job.location.address}{" "}
-                {job.location.distance ? `(${job.location.distance}km)` : ""}
-            </p>
-            <p className="text-sm">
-                근무 기간: {startDate} ~ {endDate}
-            </p>
-            <p className="text-sm">
-                급여: {job.paymentAmount}원/{paymentUnitText}
-            </p>
-            <p className="text-sm">
-                모집 인원: {job.quota}명
-            </p>
-            <p className="text-xs text-gray-400">
-                작성일: {new Date(job.createdAt).toLocaleDateString()}
-            </p>
+
+            {/* 메인 콘텐츠 */}
+            <div className="space-y-4">
+                {/* 제목 및 타입 */}
+                <div>
+                    <h2 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 
+                                 transition-colors duration-200">
+                        {job.title}
+                    </h2>
+                    <p className="mt-1 text-sm text-gray-600">
+                        {job.type === "FARMER" ? "오세요" : "갈게요"}
+                        {job.farmName && ` · ${job.farmName}`}
+                    </p>
+                </div>
+
+                {/* 주요 정보 */}
+                <div className="space-y-2">
+                    <div className="flex items-center text-gray-600">
+                        <MapPin className="w-4 h-4 mr-2" />
+                        <span className="text-sm">
+                            {job.location.address}
+                            {job.location.distance &&
+                                <span className="ml-1 text-blue-600 font-medium">
+                                    {job.location.distance}km
+                                </span>
+                            }
+                        </span>
+                    </div>
+
+                    <div className="flex items-center text-gray-600">
+                        <Calendar className="w-4 h-4 mr-2" />
+                        <span className="text-sm">
+                            {startDate} ~ {endDate}
+                        </span>
+                    </div>
+
+                    <div className="flex items-center text-gray-600">
+                        <Coins className="w-4 h-4 mr-2" />
+                        <span className="text-sm font-medium">
+                            {new Intl.NumberFormat('ko-KR').format(job.paymentAmount)}원/
+                            {paymentUnitText}
+                        </span>
+                    </div>
+
+                    <div className="flex items-center text-gray-600">
+                        <Users className="w-4 h-4 mr-2" />
+                        <span className="text-sm">모집 인원 {job.quota}명</span>
+                    </div>
+                </div>
+
+                {/* 작성 시간 */}
+                <div className="flex items-center text-gray-400 text-xs">
+                    <Clock className="w-3 h-3 mr-1" />
+                    {timeAgo}
+                </div>
+            </div>
+
+            {/* 호버 효과 */}
+            <div className="absolute inset-0 border-2 border-transparent 
+                          group-hover:border-blue-400 rounded-lg 
+                          transition-all duration-300 pointer-events-none" />
         </div>
     );
 };

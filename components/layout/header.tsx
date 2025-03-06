@@ -1,44 +1,47 @@
 "use client";
 
-import RoleToggle from "@/components/common/role_toggle";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/stores/auth";
-import Text from "@/components/common/text";
 import CustomLogoutButton from "@/components/common/button_logout";
 import CustomLoginButton from "@/components/common/button_login";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import { Home, Search, User, LogOut } from "lucide-react";
 
 const Header = () => {
-    const [userRoleLocal, setUserRoleLocal] = useState<string | null>(null); // 사용자 역할 상태 관리
-    const { setRole, setUserId } = useAuthStore(); // Zustand 스토어에서 setRole 함수 가져오기
+    const [userRoleLocal, setUserRoleLocal] = useState<string | null>(null);
+    const { setRole, setUserId } = useAuthStore();
     const { isSignedIn } = useAuth();
     const { user } = useUser();
     const [loading, setLoading] = useState<boolean>(true);
     const router = useRouter();
+    const pathname = usePathname();
+
     const checkUserStatus = async () => {
-        const isLoginPage = window.location.pathname === "/"; // 현재 페이지가 홈 페이지인지 확인
+        const isLoginPage = pathname === "/";
 
-        if (!isLoginPage && isSignedIn) {
-            const email = user?.emailAddresses[0].emailAddress; // 이메일을 파라미터로 추가
-            const response = await fetch(`/api/get_auth?email=${encodeURIComponent(email as string)}`); // 사용자 정보를 가져오는 API 호출
+        if (isSignedIn) {
+            try {
+                const email = user?.emailAddresses[0].emailAddress;
+                const response = await fetch(`/api/get_auth?email=${encodeURIComponent(email as string)}`);
 
-
-            if (response.ok) {
-                const userData = await response.json();
-                if (!userData) {
-                    alert("로그아웃 상태입니다."); // 로그아웃 상태 메시지 출력
-                    window.location.href = "/"; // 홈으로 리다이렉트
+                if (response.ok) {
+                    const userData = await response.json();
+                    if (!isLoginPage && !userData) {
+                        alert("로그아웃 상태입니다.");
+                        router.push("/");
+                        return;
+                    }
+                    if (userData.user.role !== null) {
+                        setRole(userData.user.role);
+                        setUserRoleLocal(userData.user.role);
+                        setUserId(userData.user.id);
+                    }
                 }
-                if (userData.user.role !== null) {
-                    setRole(userData.user.role);
-                    setUserRoleLocal(userData.user.role);
-                    setUserId(userData.user.id);
-                } else {
-                    alert("사용자의 역할을 찾을 수 없습니다.");
-                }
+            } catch (error) {
+                console.error("사용자 상태 확인 중 오류:", error);
             }
         }
         setLoading(false);
@@ -48,77 +51,100 @@ const Header = () => {
         checkUserStatus();
     }, [isSignedIn]);
 
-    return (
-        <header className="bg-white shadow">
-            <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-                <h1 className="text-2xl font-bold">품앗이</h1>
-                {loading ? (
-                    <div className="loader">로딩 중...</div>
-                ) : (
-                    userRoleLocal && (
-                        <p className="text-sm text-gray-600">
-                            로그인 상태의 유저 역할: {userRoleLocal}
-                        </p>
-                    )
-                )}
-                <NavigationMenu>
-                    <NavigationMenuList className="flex space-x-4 items-center">
-                        <NavigationMenuItem>
-                            <NavigationMenuLink href="/" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:shadow-md transition duration-200 ease-in-out">
-                                <Text>홈</Text>
-                            </NavigationMenuLink>
-                        </NavigationMenuItem>
-                        <NavigationMenuItem>
-                            <NavigationMenuLink href="/job_feed" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:shadow-md">
-                                <Text>구해요 피드</Text>
-                            </NavigationMenuLink>
-                        </NavigationMenuItem>
-                        <NavigationMenuItem>
-                            <NavigationMenuLink href="/worker_feed" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:shadow-md">
-                                <Text>갈게요 피드</Text>
-                            </NavigationMenuLink>
-                        </NavigationMenuItem>
-                        <NavigationMenuItem>
-                            <NavigationMenuLink href="/new" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:shadow-md">
-                                <Text>게시물 작성</Text>
-                            </NavigationMenuLink>
-                        </NavigationMenuItem>
-                        <NavigationMenuItem>
-                            <NavigationMenuLink href="/signup" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:shadow-md">
-                                <Text>회원가입</Text>
-                            </NavigationMenuLink>
-                        </NavigationMenuItem>
-                        <NavigationMenuItem>
-                            <NavigationMenuLink href="/meta_data" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:shadow-md">
-                                <Text>메타데이터 확인</Text>
-                            </NavigationMenuLink>
-                        </NavigationMenuItem>
-                        <NavigationMenuItem>
-                            {isSignedIn ? (
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger className="flex items-center justify-center w-16 h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0">
-                                        <span className="flex items-center justify-center text-xl text-gray-500">
-                                            {user?.emailAddresses[0].emailAddress.charAt(0)}
-                                        </span>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent>
-                                        <DropdownMenuItem onClick={() => router.push("/profile")}>
-                                            <Text>내 프로필</Text>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem>
-                                            <CustomLogoutButton aria-label="로그아웃" />
-                                        </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
+    const menuItems = [
+        { href: "/", label: "홈", icon: <Home className="w-4 h-4" /> },
+        { href: "/job_feed", label: "구해요", icon: <Search className="w-4 h-4" /> },
+        { href: "/worker_feed", label: "갈게요", icon: <Search className="w-4 h-4" /> },
+    ];
 
-                            ) : (
-                                <CustomLoginButton aria-label="로그인" />
-                            )}
-                        </NavigationMenuItem>
-                    </NavigationMenuList>
-                </NavigationMenu>
+    return (
+        <header className="sticky top-0 z-50 bg-white shadow-sm">
+            <div className="container mx-auto px-4">
+                <div className="flex items-center justify-between h-16">
+                    {/* 로고 */}
+                    <div
+                        className="text-2xl font-bold text-blue-600 cursor-pointer hover:text-blue-700 transition-colors"
+                        onClick={() => router.push("/")}
+                    >
+                        품앗이
+                    </div>
+
+                    {/* 네비게이션 메뉴 */}
+                    <NavigationMenu className="hidden md:flex">
+                        <NavigationMenuList className="flex space-x-1">
+                            {menuItems.map((item) => (
+                                <NavigationMenuItem key={item.href}>
+                                    <NavigationMenuLink
+                                        href={item.href}
+                                        className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-colors
+                                            ${pathname === item.href
+                                                ? "bg-blue-50 text-blue-600"
+                                                : "hover:bg-gray-50"}`}
+                                    >
+                                        {item.icon}
+                                        <span>{item.label}</span>
+                                    </NavigationMenuLink>
+                                </NavigationMenuItem>
+                            ))}
+                        </NavigationMenuList>
+                    </NavigationMenu>
+
+                    {/* 사용자 메뉴 */}
+                    <div className="flex items-center space-x-4">
+                        {!loading && userRoleLocal && (
+                            <span className="hidden md:block text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                                {userRoleLocal === "FARMER" ? "농장주" : "일손"}
+                            </span>
+                        )}
+
+                        {isSignedIn ? (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger className="flex items-center justify-center w-10 h-10 rounded-full overflow-hidden
+                                    bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:opacity-90 transition-opacity">
+                                    <span className="text-lg font-medium">
+                                        {user?.emailAddresses[0].emailAddress.charAt(0).toUpperCase()}
+                                    </span>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-56">
+                                    <DropdownMenuItem
+                                        className="flex items-center space-x-2 cursor-pointer"
+                                        onClick={() => router.push("/profile")}
+                                    >
+                                        <User className="w-4 h-4" />
+                                        <span>프로필</span>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem className="flex items-center space-x-2 text-red-500">
+                                        <LogOut className="w-4 h-4" />
+                                        <CustomLogoutButton />
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        ) : (
+                            <CustomLoginButton className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors" />
+                        )}
+                    </div>
+                </div>
             </div>
+
+            {/* 모바일 네비게이션 */}
+            <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t">
+                <div className="grid grid-cols-4 gap-1 p-2">
+                    {menuItems.map((item) => (
+                        <button
+                            key={item.href}
+                            onClick={() => router.push(item.href)}
+                            className={`flex flex-col items-center justify-center p-2 rounded-md
+                                ${pathname === item.href
+                                    ? "text-blue-600"
+                                    : "text-gray-600 hover:bg-gray-50"}`}
+                        >
+                            {item.icon}
+                            <span className="text-xs mt-1">{item.label}</span>
+                        </button>
+                    ))}
+                </div>
+            </nav>
         </header>
     );
 };

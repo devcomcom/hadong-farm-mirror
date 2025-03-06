@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { motion } from "framer-motion";
+import { User, Edit2, Save, X, Upload } from "lucide-react";
 import Tabs from "../_components/tap";
 import CompletedJobList from "../_components/complet_job_list";
 import CompletedJobListByFarmer from "../_components/complet_job_list_by_farmer";
@@ -10,10 +12,7 @@ import ApplicantListByFarmer from "../_components/applicant_list_by_farmer";
 import Button from "@/components/common/button";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { useAuthStore } from "@/stores/auth";
-import { Input } from "@/components/ui/input";
-
-
-
+import Input from "@/components/common/input";
 
 interface UserProfile {
     name: string;
@@ -94,10 +93,10 @@ export default function ProfilePage() {
         }
 
         setTimeout(() => {
-            setProfile(data);
             setIsEditing(false);
             setIsLoading(false);
             alert("프로필이 업데이트되었습니다.");
+            fetchUserProfile();
         }, 1000);
     };
 
@@ -110,140 +109,161 @@ export default function ProfilePage() {
     }
 
     return (
-        <div className="min-h-screen py-8 bg-gray-100">
-            <div className="max-w-2xl mx-auto bg-white shadow rounded-lg p-6">
-                <h1 className="text-3xl font-bold mb-4">프로필</h1>
-                <Tabs>
-                    <div label="기본 정보">
-                        {isEditing ? (
-                            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                                <div>
-                                    <label className="block font-semibold mb-1">이름</label>
-                                    <Input
-                                        type="text"
-                                        className="w-full border border-gray-300 rounded p-2"
-                                        {...register("name", { required: "이름은 필수 입니다." })}
-                                    />
-                                    {errors.name && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-                                    )}
-                                </div>
-                                <div>
-                                    <label className="block font-semibold mb-1">이메일</label>
-                                    <Input
-                                        type="email"
-                                        className="w-full border border-gray-300 rounded p-2"
-                                        {...register("email", { required: "이메일은 필수 입니다." })}
-                                    />
-                                    {errors.email && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-                                    )}
-                                </div>
-                                <div>
-                                    <label className="block font-semibold mb-1">연락처</label>
-                                    <Input
-                                        type="text"
-                                        className="w-full border border-gray-300 rounded p-2"
-                                        {...register("contact", { required: "연락처는 필수 입니다." })}
-                                    />
-                                    {errors.contact && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.contact.message}</p>
-                                    )}
-                                </div>
-                                <div>
-                                    <label className="block font-semibold mb-1">프로필 이미지</label>
-                                    <Input
-                                        type="file"
-                                        className="w-full border border-gray-300 rounded p-2"
-                                        {...register("profileImage")}
-                                    />
-                                </div>
-                                <div className="flex gap-4">
-                                    <Button
-                                        color="blue"
-                                        fullWidth={true}
-                                        type="submit"
-                                    >
-                                        저장
-                                    </Button>
-
-                                    <Button
-                                        color="grey"
-                                        fullWidth={true}
-                                        type="button"
-                                        onClick={() => {
-                                            setIsEditing(false);
-                                            reset(profile!);
-                                        }}
-                                        className="flex-1 bg-gray-300 text-gray-700 py-2 rounded hover:bg-gray-400"
-                                    >
-                                        취소
-                                    </Button>
-                                </div>
-                            </form>
-                        ) : (
-                            <div className="space-y-4">
-                                <div className="flex items-center">
-                                    <div className="w-16 h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0">
-                                        {/* 프로필 이미지가 있을 경우 아래와 같이 img 태그를 사용할 수 있습니다.*/}
-                                        {profile?.profileImageUrl && (
-                                            <img
-                                                src={profile?.profileImageUrl}
-                                                alt="프로필 이미지"
-                                                width={150}
-                                                height={150}
-                                                className="w-full h-full object-cover rounded-full"
-                                            />
-                                        )}
-                                        {!profile?.profileImageUrl && (
-                                            <span className="flex items-center justify-center text-xl text-gray-500">
-                                                {profile?.name.charAt(0)}
-                                            </span>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <h2 className="text-2xl font-bold">{profile?.name}</h2>
-                                        <p className="text-gray-600">{profile?.email}</p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p>
-                                        <span className="font-semibold">연락처:</span> {profile?.contact}
-                                    </p>
-                                </div>
-                                <div>
-                                    <p>
-                                        <span className="font-semibold">회원 유형:</span>{" "}
-                                        {profile?.role === "FARMER" ? "농장주" : "근로자"}
-                                    </p>
-                                </div>
-                                <Button
-                                    color="blue"
-                                    fullWidth={true}
-                                    onClick={() => setIsEditing(true)}
-                                >
-                                    프로필 수정
-                                </Button>
-                            </div>
+        <div className="min-h-screen bg-gray-50 py-8">
+            <div className="max-w-4xl mx-auto px-4">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-white rounded-xl shadow-sm p-8"
+                >
+                    <div className="flex items-center justify-between mb-8">
+                        <h1 className="text-2xl font-bold text-gray-900">프로필</h1>
+                        {!isEditing && (
+                            <Button
+                                color="blue"
+                                onClick={() => setIsEditing(true)}
+                                className="flex items-center"
+                            >
+                                <Edit2 className="w-4 h-4 mr-2" />
+                                프로필 수정
+                            </Button>
                         )}
                     </div>
-                    <div label="완료한 구해요 리스트">
-                        <CompletedJobList />
-                    </div>
-                    {userRole === "FARMER" && (
-                        <div label="완료한 구해요 리스트(농장주)">
-                            <CompletedJobListByFarmer />
+
+                    <Tabs>
+                        <div label="기본 정보">
+                            {isEditing ? (
+                                <motion.form
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    onSubmit={handleSubmit(onSubmit)}
+                                    className="space-y-6"
+                                >
+                                    <div className="space-y-6">
+                                        <div className="relative">
+                                            <label className="block text-sm font-medium text-gray-700 mb-3">
+                                                프로필 이미지
+                                            </label>
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-24 h-24 rounded-full bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden">
+                                                    {profile?.profileImageUrl ? (
+                                                        <img
+                                                            src={profile.profileImageUrl}
+                                                            alt="현재 프로필"
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    ) : (
+                                                        <User className="w-12 h-12 text-gray-400" />
+                                                    )}
+                                                </div>
+                                                <div className="flex-1">
+                                                    <Input
+                                                        type="file"
+                                                        accept="image/*"
+                                                        {...register("profileImage")}
+                                                        className="hidden"
+                                                        id="profile-upload"
+                                                    />
+                                                    <label
+                                                        htmlFor="profile-upload"
+                                                        className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"
+                                                    >
+                                                        <Upload className="w-4 h-4 mr-2" />
+                                                        이미지 업로드
+                                                    </label>
+                                                    <p className="mt-2 text-xs text-gray-500">
+                                                        권장: 500x500 이상의 정사각형 이미지 (최대 5MB)
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex gap-2">
+                                        <Button
+                                            type="submit"
+                                            color="blue"
+                                            className="flex items-center"
+                                        >
+                                            <Save className="w-4 h-4 mr-2" />
+                                            저장하기
+                                        </Button>
+                                        <Button
+                                            type="button"
+                                            color="grey"
+                                            onClick={() => setIsEditing(false)}
+                                            className="flex items-center"
+                                        >
+                                            <X className="w-4 h-4 mr-2" />
+                                            취소
+                                        </Button>
+                                    </div>
+                                </motion.form>
+                            ) : (
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    className="grid gap-6 md:grid-cols-2"
+                                >
+                                    <div className="flex items-center">
+                                        <div className="w-16 h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0">
+                                            {/* 프로필 이미지가 있을 경우 아래와 같이 img 태그를 사용할 수 있습니다.*/}
+                                            {profile?.profileImageUrl && (
+                                                <img
+                                                    src={profile?.profileImageUrl}
+                                                    alt="프로필 이미지"
+                                                    width={150}
+                                                    height={150}
+                                                    className="w-full h-full object-cover rounded-full"
+                                                />
+                                            )}
+                                            {!profile?.profileImageUrl && (
+                                                <span className="flex items-center justify-center text-xl text-gray-500">
+                                                    {profile?.name.charAt(0)}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <h2 className="text-2xl font-bold">{profile?.name}</h2>
+                                            <p className="text-gray-600">{profile?.email}</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p>
+                                            <span className="font-semibold">연락처:</span> {profile?.contact}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p>
+                                            <span className="font-semibold">회원 유형:</span>{" "}
+                                            {profile?.role === "FARMER" ? "농장주" : "근로자"}
+                                        </p>
+                                    </div>
+                                </motion.div>
+                            )}
                         </div>
-                    )}
-                    <div label="지원자 리스트">
-                        <ApplicantList />
-                    </div>
-                    {userRole === "FARMER" && (
-                        <div label="지원자 리스트(농장주)">
-                            <ApplicantListByFarmer />
+
+                        <div label="완료한 작업">
+                            <CompletedJobList />
                         </div>
-                    )}
-                </Tabs>
+
+                        {userRole === "FARMER" && (
+                            <div label="농장 완료 작업">
+                                <CompletedJobListByFarmer />
+                            </div>
+                        )}
+
+                        <div label="지원 현황">
+                            <ApplicantList />
+                        </div>
+
+                        {userRole === "FARMER" && (
+                            <div label="지원자 관리">
+                                <ApplicantListByFarmer />
+                            </div>
+                        )}
+                    </Tabs>
+                </motion.div>
             </div>
         </div>
     );

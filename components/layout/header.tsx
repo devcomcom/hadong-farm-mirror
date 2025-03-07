@@ -5,12 +5,29 @@ import { useAuthStore } from "@/stores/auth";
 import CustomLogoutButton from "@/components/common/button_logout";
 import CustomLoginButton from "@/components/common/button_login";
 import { useAuth, useUser } from "@clerk/nextjs";
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import {
+    NavigationMenu,
+    NavigationMenuList,
+    NavigationMenuItem,
+    NavigationMenuLink,
+} from "@/components/ui/navigation-menu";
+import {
+    DropdownMenu,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import { useRouter, usePathname } from "next/navigation";
-import { Home, Search, User, LogOut, Pickaxe } from "lucide-react";
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog"; // Dialog 컴포넌트 임포트
+import { Home, Search, User, LogOut, Pickaxe, Tractor } from "lucide-react";
+import {
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    DialogDescription,
+} from "@/components/ui/dialog"; // Dialog 컴포넌트 임포트
 import UserRegistrationForm from "@/components/layout/_components/user_registration_form"; // 유저 등록 폼 컴포넌트 임포트
+import FarmRegistrationForm from "@/components/layout/_components/farm_registration_form"; // 농장 등록 폼 컴포넌트 임포트
 
 const Header = () => {
     const [userRoleLocal, setUserRoleLocal] = useState<string | null>(null);
@@ -21,6 +38,7 @@ const Header = () => {
     const router = useRouter();
     const pathname = usePathname();
     const [isUserDialogOpen, setIsUserDialogOpen] = useState(false); // 유저 등록 다이얼로그 상태 관리
+    const [isFarmDialogOpen, setIsFarmDialogOpen] = useState(false); // 농장 등록 다이얼로그 상태 관리
 
     const checkUserStatus = async () => {
         const isLoginPage = pathname === "/";
@@ -28,7 +46,9 @@ const Header = () => {
         if (isSignedIn) {
             try {
                 const email = user?.emailAddresses[0].emailAddress;
-                const response = await fetch(`/api/get_auth?email=${encodeURIComponent(email as string)}`);
+                const response = await fetch(
+                    `/api/get_auth?email=${encodeURIComponent(email as string)}`
+                );
 
                 if (response.ok) {
                     const userData = await response.json();
@@ -56,8 +76,16 @@ const Header = () => {
 
     const menuItems = [
         { href: "/", label: "홈", icon: <Home className="w-4 h-4" /> },
-        { href: "/job_feed", label: "구해요", icon: <Search className="w-4 h-4" /> },
-        { href: "/worker_feed", label: "갈게요", icon: <Search className="w-4 h-4" /> },
+        {
+            href: "/job_feed",
+            label: "구해요",
+            icon: <Search className="w-4 h-4" />,
+        },
+        {
+            href: "/worker_feed",
+            label: "갈게요",
+            icon: <Search className="w-4 h-4" />,
+        },
     ];
 
     return (
@@ -82,7 +110,8 @@ const Header = () => {
                                         className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-colors
                                             ${pathname === item.href
                                                 ? "bg-blue-50 text-blue-600"
-                                                : "hover:bg-gray-50"}`}
+                                                : "hover:bg-gray-50"
+                                            }`}
                                     >
                                         {item.icon}
                                         <span>{item.label}</span>
@@ -96,19 +125,30 @@ const Header = () => {
                     <div className="flex items-center space-x-4">
                         {!loading && userRoleLocal && (
                             <span className="hidden md:block text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                                {userRoleLocal === "FARMER" ? "농장주" : userRoleLocal === "WORKER" ? "일꾼" : "신규 회원"}
+                                {userRoleLocal === "FARMER"
+                                    ? "농장주"
+                                    : userRoleLocal === "WORKER"
+                                        ? "일꾼"
+                                        : "신규 회원"}
                             </span>
                         )}
 
                         {isSignedIn ? (
                             <DropdownMenu>
-                                <DropdownMenuTrigger className="flex items-center justify-center w-10 h-10 rounded-full overflow-hidden
-                                    bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:opacity-90 transition-opacity">
+                                <DropdownMenuTrigger
+                                    className="flex items-center justify-center w-10 h-10 rounded-full overflow-hidden
+                                    bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:opacity-90 transition-opacity"
+                                >
                                     <span className="text-lg font-medium">
-                                        {user?.emailAddresses[0].emailAddress.charAt(0).toUpperCase()}
+                                        {user?.emailAddresses[0].emailAddress
+                                            .charAt(0)
+                                            .toUpperCase()}
                                     </span>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="w-56">
+                                <DropdownMenuContent
+                                    align="end"
+                                    className="w-56"
+                                >
                                     <DropdownMenuItem
                                         className="flex items-center space-x-2 cursor-pointer"
                                         onClick={() => router.push("/profile")}
@@ -119,10 +159,23 @@ const Header = () => {
                                     {userRoleLocal === "ROLELESS" && (
                                         <DropdownMenuItem
                                             className="flex items-center space-x-2 cursor-pointer"
-                                            onClick={() => setIsUserDialogOpen(true)} // 유저 등록 다이얼로그 열기
+                                            onClick={() =>
+                                                setIsUserDialogOpen(true)
+                                            } // 유저 등록 다이얼로그 열기
                                         >
                                             <Pickaxe className="w-4 h-4" />
                                             <span>일꾼 등록</span>
+                                        </DropdownMenuItem>
+                                    )}
+                                    {userRoleLocal === "WORKER" && (
+                                        <DropdownMenuItem
+                                            className="flex items-center space-x-2 cursor-pointer"
+                                            onClick={() =>
+                                                setIsFarmDialogOpen(true)
+                                            } // 농장 등록 다이얼로그 열기
+                                        >
+                                            <Tractor className="w-4 h-4" />
+                                            <span>농장 등록</span>
                                         </DropdownMenuItem>
                                     )}
 
@@ -147,10 +200,28 @@ const Header = () => {
                     <DialogDescription>
                         아래 정보를 입력하여 일꾼으로 등록하세요.
                     </DialogDescription>
-                    <UserRegistrationForm onClose={() => {
-                        setIsUserDialogOpen(false);
-                        checkUserStatus();
-                    }} />
+                    <UserRegistrationForm
+                        onClose={() => {
+                            setIsUserDialogOpen(false);
+                            checkUserStatus();
+                        }}
+                    />
+                </DialogContent>
+            </Dialog>
+
+            {/* 농장 등록 다이얼로그 */}
+            <Dialog open={isFarmDialogOpen} onOpenChange={setIsFarmDialogOpen}>
+                <DialogContent>
+                    <DialogTitle>농장 등록</DialogTitle>
+                    <DialogDescription>
+                        아래 정보를 입력하여 농장을 등록하세요.
+                    </DialogDescription>
+                    <FarmRegistrationForm
+                        onClose={() => {
+                            setIsFarmDialogOpen(false);
+                            checkUserStatus();
+                        }}
+                    />
                 </DialogContent>
             </Dialog>
 
@@ -164,7 +235,8 @@ const Header = () => {
                             className={`flex flex-col items-center justify-center p-2 rounded-md
                                 ${pathname === item.href
                                     ? "text-blue-600"
-                                    : "text-gray-600 hover:bg-gray-50"}`}
+                                    : "text-gray-600 hover:bg-gray-50"
+                                }`}
                         >
                             {item.icon}
                             <span className="text-xs mt-1">{item.label}</span>

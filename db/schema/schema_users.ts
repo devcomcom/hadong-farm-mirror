@@ -4,12 +4,12 @@ import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 export const users = pgTable("users", {
     id: serial("id").primaryKey(),
     email: text("email").notNull().unique(),
-    password: text("password").notNull(),
-    name: text("name").notNull(),
+    password: text("password"),
+    name: text("name"),
     contact: text("contact"),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),
-    role: text("role").notNull(),
+    role: text("role"),
     profileImage: text("profile_image"),
 });
 

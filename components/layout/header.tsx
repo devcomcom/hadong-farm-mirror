@@ -8,7 +8,9 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { useRouter, usePathname } from "next/navigation";
-import { Home, Search, User, LogOut } from "lucide-react";
+import { Home, Search, User, LogOut, Pickaxe } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog"; // Dialog 컴포넌트 임포트
+import UserRegistrationForm from "@/components/layout/_components/user_registration_form"; // 유저 등록 폼 컴포넌트 임포트
 
 const Header = () => {
     const [userRoleLocal, setUserRoleLocal] = useState<string | null>(null);
@@ -18,6 +20,7 @@ const Header = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const router = useRouter();
     const pathname = usePathname();
+    const [isUserDialogOpen, setIsUserDialogOpen] = useState(false); // 유저 등록 다이얼로그 상태 관리
 
     const checkUserStatus = async () => {
         const isLoginPage = pathname === "/";
@@ -93,7 +96,7 @@ const Header = () => {
                     <div className="flex items-center space-x-4">
                         {!loading && userRoleLocal && (
                             <span className="hidden md:block text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                                {userRoleLocal === "FARMER" ? "농장주" : "일손"}
+                                {userRoleLocal === "FARMER" ? "농장주" : userRoleLocal === "WORKER" ? "일꾼" : "신규 회원"}
                             </span>
                         )}
 
@@ -113,6 +116,16 @@ const Header = () => {
                                         <User className="w-4 h-4" />
                                         <span>프로필</span>
                                     </DropdownMenuItem>
+                                    {userRoleLocal === "ROLELESS" && (
+                                        <DropdownMenuItem
+                                            className="flex items-center space-x-2 cursor-pointer"
+                                            onClick={() => setIsUserDialogOpen(true)} // 유저 등록 다이얼로그 열기
+                                        >
+                                            <Pickaxe className="w-4 h-4" />
+                                            <span>일꾼 등록</span>
+                                        </DropdownMenuItem>
+                                    )}
+
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem className="flex items-center space-x-2 text-red-500">
                                         <LogOut className="w-4 h-4" />
@@ -126,6 +139,20 @@ const Header = () => {
                     </div>
                 </div>
             </div>
+
+            {/* 유저 등록 다이얼로그 */}
+            <Dialog open={isUserDialogOpen} onOpenChange={setIsUserDialogOpen}>
+                <DialogContent>
+                    <DialogTitle>일꾼 등록</DialogTitle>
+                    <DialogDescription>
+                        아래 정보를 입력하여 일꾼으로 등록하세요.
+                    </DialogDescription>
+                    <UserRegistrationForm onClose={() => {
+                        setIsUserDialogOpen(false);
+                        checkUserStatus();
+                    }} />
+                </DialogContent>
+            </Dialog>
 
             {/* 모바일 네비게이션 */}
             <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t">

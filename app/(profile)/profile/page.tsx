@@ -357,7 +357,7 @@ export default function ProfilePage() {
                                     <motion.div
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
-                                        className="grid gap-6 md:grid-cols-2"
+                                        className="grid gap-6 md:grid-cols-1"
                                     >
                                         <div className="flex items-center">
                                             <div className="w-16 h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0">

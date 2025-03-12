@@ -147,7 +147,7 @@ const Header = () => {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent
                                     align="end"
-                                    className="w-56"
+                                    className="w-36"
                                 >
                                     <DropdownMenuItem
                                         className="flex items-center space-x-2 cursor-pointer"
@@ -227,7 +227,7 @@ const Header = () => {
 
             {/* 모바일 네비게이션 */}
             <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t">
-                <div className="grid grid-cols-4 gap-1 p-2">
+                <div className="grid grid-cols-3 gap-1 p-2">
                     {menuItems.map((item) => (
                         <button
                             key={item.href}

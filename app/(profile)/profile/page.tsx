@@ -223,10 +223,10 @@ export default function ProfilePage() {
                                     <motion.div
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
-                                        className="grid gap-6 md:grid-cols-2"
+                                        className="flex flex-row"
                                     >
                                         <div className="flex items-center">
-                                            <div className="w-16 h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0">
+                                            <div className="w-24 h-24 bg-gray-200 rounded-full mr-4 flex-shrink-0">
                                                 {profile?.profileImageUrl && (
                                                     <img
                                                         src={profile?.profileImageUrl}
@@ -242,18 +242,16 @@ export default function ProfilePage() {
                                                     </span>
                                                 )}
                                             </div>
-                                            <div>
-                                                <h2 className="text-2xl font-bold">{profile?.name}</h2>
-                                                <p className="text-gray-600">{profile?.email}</p>
-                                            </div>
                                         </div>
-                                        <div>
-                                            <p>
+                                        <div className="flex flex-col items-start h-full w-full">
+                                            <h2 className="text-2xl font-bold">{profile?.name}</h2>
+                                            <p className="mt-2">
+                                                <span className="font-semibold">이메일:</span> {profile?.email}
+                                            </p>
+                                            <p className="mt-2">
                                                 <span className="font-semibold">연락처:</span> {profile?.contact}
                                             </p>
-                                        </div>
-                                        <div>
-                                            <p>
+                                            <p className="mt-2">
                                                 <span className="font-semibold">회원 유형:</span>{" "}
                                                 {profile?.role === "FARMER" ? "농장주" : "근로자"}
                                             </p>
@@ -357,10 +355,10 @@ export default function ProfilePage() {
                                     <motion.div
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
-                                        className="grid gap-6 md:grid-cols-1"
+                                        className="grid gap-6 grid-cols-1"
                                     >
-                                        <div className="flex items-center">
-                                            <div className="w-16 h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0">
+                                        <div className="flex items-center w-full">
+                                            <div className="w-64 h-64 bg-gray-200 rounded-full mr-4 flex-shrink-0">
                                                 {profile?.profileImageUrl && (
                                                     <img
                                                         src={profile?.profileImageUrl}
@@ -376,21 +374,19 @@ export default function ProfilePage() {
                                                     </span>
                                                 )}
                                             </div>
-                                            <div>
+                                            <div className="flex flex-col items-start h-full w-full">
                                                 <h2 className="text-2xl font-bold">{profile?.name}</h2>
-                                                <p className="text-gray-600">{profile?.email}</p>
+                                                <p className="mt-2">
+                                                    <span className="font-semibold">이메일:</span> {profile?.email}
+                                                </p>
+                                                <p className="mt-2">
+                                                    <span className="font-semibold">연락처:</span> {profile?.contact}
+                                                </p>
+                                                <p className="mt-2">
+                                                    <span className="font-semibold">회원 유형:</span>{" "}
+                                                    {profile?.role === "FARMER" ? "농장주" : "근로자"}
+                                                </p>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <p>
-                                                <span className="font-semibold">연락처:</span> {profile?.contact}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p>
-                                                <span className="font-semibold">회원 유형:</span>{" "}
-                                                {profile?.role === "FARMER" ? "농장주" : "근로자"}
-                                            </p>
                                         </div>
                                     </motion.div>
                                 )}

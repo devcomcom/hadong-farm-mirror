@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/dialog"; // Dialog 컴포넌트 임포트
 import UserRegistrationForm from "@/components/layout/_components/user_registration_form"; // 유저 등록 폼 컴포넌트 임포트
 import FarmRegistrationForm from "@/components/layout/_components/farm_registration_form"; // 농장 등록 폼 컴포넌트 임포트
+import { Menu } from "lucide-react";
 
 const Header = () => {
     const [userRoleLocal, setUserRoleLocal] = useState<string | null>(null);
@@ -132,6 +133,32 @@ const Header = () => {
                                         : "신규 회원"}
                             </span>
                         )}
+
+                        {/* 모바일 네비게이션 버튼 */}
+                        <div className="md:hidden">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger
+                                    className="flex items-center justify-center w-10 h-10 "
+                                >
+                                    <Menu className="w-4 h-4" />
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                    align="end"
+                                    className="w-36"
+                                >
+                                    {menuItems.map((item) => (
+                                        <DropdownMenuItem
+                                            className="flex items-center space-x-2 cursor-pointer"
+                                            onClick={() => router.push(item.href)}
+                                            key={item.href}
+                                        >
+                                            {item.icon}
+                                            <span>{item.label}</span>
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
 
                         {isSignedIn ? (
                             <DropdownMenu>

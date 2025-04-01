@@ -8,6 +8,7 @@ import { useLocationStore } from "@/stores/location";
 import Button from "@/components/common/button";
 import Input from "@/components/common/input";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/stores/auth";
 
 interface JobPostFormValues {
     title: string;
@@ -25,6 +26,8 @@ interface JobPostFormValues {
 
 export default function JobPostCreationPage() {
     const router = useRouter();
+    const latitude = useLocationStore((state) => state.latitude) || 0;
+    const longitude = useLocationStore((state) => state.longitude) || 0;
     const {
         register,
         handleSubmit,
@@ -49,8 +52,7 @@ export default function JobPostCreationPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
     const totalSteps = 3;
-
-    const watchedFields = watch();
+    const { userId } = useAuthStore();
 
     const renderProgressBar = () => (
         <div className="w-full bg-gray-100 h-2 rounded-full mb-8">
@@ -80,18 +82,18 @@ export default function JobPostCreationPage() {
     const onSubmit: SubmitHandler<JobPostFormValues> = async (data) => {
         setIsSubmitting(true);
         try {
-            data.latitude = useLocationStore.getState().latitude;
-            data.longitude = useLocationStore.getState().longitude;
+            data.latitude = latitude;
+            data.longitude = longitude;
 
             const response = await fetch('/api/set_post', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
+                body: JSON.stringify({ ...data, userId: userId }),
             });
 
             if (!response.ok) throw new Error("Failed to create job posting");
 
-            alert("구인 게시글이 성공적으로 등록되었습니다.");
+            alert("구해요 게시글이 성공적으로 등록되었습니다.");
             router.push("/job_feed");
         } catch (error) {
             console.error(error);
@@ -302,7 +304,7 @@ export default function JobPostCreationPage() {
                                 color="grey"
                                 className="p-3"
                                 placeholder="위도"
-                                value={useLocationStore((state) => state.latitude) || 0}
+                                value={latitude}
                                 {...register("latitude")}
                                 disabled
                             />
@@ -313,7 +315,7 @@ export default function JobPostCreationPage() {
                                 color="grey"
                                 className="p-3"
                                 placeholder="경도"
-                                value={useLocationStore((state) => state.longitude) || 0}
+                                value={longitude}
                                 {...register("longitude")}
                                 disabled
                             />

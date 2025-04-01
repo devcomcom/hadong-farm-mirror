@@ -42,6 +42,7 @@ const ApplicantListByFarmer: React.FC = () => {
 
             // mockData에서 matches 리스트 가져오기
             const matches = mockData.matches;
+            console.log('matches', matches);
             const filteredMatches = matches.filter((match: any) => match.status !== "COMPLETED");
             const applicants = mockData.applicants; // 유저 리스트 가져오기
 

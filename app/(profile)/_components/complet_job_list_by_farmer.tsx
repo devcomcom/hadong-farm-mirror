@@ -121,7 +121,7 @@ const CompletedJobListByFarmer: React.FC = () => {
                 body: JSON.stringify({
                     jobId: selectedJob.id,
                     review: review,
-                    type: 'FARMER'
+                    userId: userId
                 }),
             });
 

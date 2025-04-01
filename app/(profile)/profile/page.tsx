@@ -226,7 +226,7 @@ export default function ProfilePage() {
                                         className="flex flex-row"
                                     >
                                         <div className="flex items-center">
-                                            <div className="w-24 h-24 bg-gray-200 rounded-full mr-4 flex-shrink-0">
+                                            <div className="flex items-center justify-center w-24 h-24 bg-gray-200 rounded-full mr-4 flex-shrink-0">
                                                 {profile?.profileImageUrl && (
                                                     <img
                                                         src={profile?.profileImageUrl}
@@ -358,7 +358,7 @@ export default function ProfilePage() {
                                         className="grid gap-6 grid-cols-1"
                                     >
                                         <div className="flex items-center w-full">
-                                            <div className="w-64 h-64 bg-gray-200 rounded-full mr-4 flex-shrink-0">
+                                            <div className="flex items-center justify-center w-64 h-64 bg-gray-200 rounded-full mr-4 flex-shrink-0 p-8">
                                                 {profile?.profileImageUrl && (
                                                     <img
                                                         src={profile?.profileImageUrl}

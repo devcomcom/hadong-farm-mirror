@@ -13,15 +13,20 @@ import {
 } from "@/components/ui/dialog";
 import Button from "@/components/common/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useUser } from "@clerk/nextjs";
 import { useAuthStore } from "@/stores/auth";
+
+interface Location {
+    address: string;
+    latitude: number;
+    longitude: number;
+}
 
 interface Job {
     id: string;
     title: string;
     description: string;
-    workDateStart: string;
-    workDateEnd: string;
+    workStartDate: string;
+    workEndDate: string;
     paymentAmount: number;
     paymentUnit: string;
     status: string;
@@ -29,7 +34,7 @@ interface Job {
     isWorkerComment: boolean;
     farmerComment: string;
     workerComment: string;
-    location: string;
+    location: Location | string;
 }
 
 const CompletedJobList: React.FC = () => {
@@ -37,7 +42,6 @@ const CompletedJobList: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [selectedJob, setSelectedJob] = useState<Job | null>(null);
     const [review, setReview] = useState<string>("");
-    const { user } = useUser();
     const { userId } = useAuthStore();
 
     const container = {
@@ -53,6 +57,13 @@ const CompletedJobList: React.FC = () => {
     const item = {
         hidden: { opacity: 0, y: 20 },
         show: { opacity: 1, y: 0 }
+    };
+
+    const getLocationString = (location: Location | string): string => {
+        if (typeof location === 'string') {
+            return location;
+        }
+        return location.address || '주소 정보 없음';
     };
 
     const fetchCompletedJobs = async () => {
@@ -73,11 +84,11 @@ const CompletedJobList: React.FC = () => {
                     job.isWorkerComment = !!match.workerComment;
                     job.farmerComment = match.farmerComment;
                     job.workerComment = match.workerComment;
-                    if (match.workDateStart) {
-                        job.workDateStart = match.workDateStart;
+                    if (match.workStartDate) {
+                        job.workStartDate = match.workStartDate;
                     }
-                    if (match.workDateEnd) {
-                        job.workDateEnd = match.workDateEnd;
+                    if (match.workEndDate) {
+                        job.workEndDate = match.workEndDate;
                     }
                     if (match.location) {
                         job.location = match.location;
@@ -108,7 +119,7 @@ const CompletedJobList: React.FC = () => {
                 body: JSON.stringify({
                     jobId: selectedJob.id,
                     review: review,
-                    type: 'WORKER'
+                    userId: userId
                 }),
             });
 
@@ -170,14 +181,14 @@ const CompletedJobList: React.FC = () => {
                                     <div className="flex items-center text-gray-600">
                                         <Calendar className="w-4 h-4 mr-2" />
                                         <span className="text-sm">
-                                            {new Date(job.workDateStart).toLocaleDateString()} ~
-                                            {new Date(job.workDateEnd).toLocaleDateString()}
+                                            {new Date(job.workStartDate).toLocaleDateString()} ~
+                                            {new Date(job.workEndDate).toLocaleDateString()}
                                         </span>
                                     </div>
 
                                     <div className="flex items-center text-gray-600">
                                         <MapPin className="w-4 h-4 mr-2" />
-                                        <span className="text-sm">{job.location}</span>
+                                        <span className="text-sm">{getLocationString(job.location)}</span>
                                     </div>
 
                                     <div className="flex items-center text-gray-600">
@@ -254,7 +265,7 @@ const CompletedJobList: React.FC = () => {
                                                     </DialogHeader>
                                                     <div className="mt-4 p-4 bg-gray-50 rounded-lg">
                                                         <p className="text-gray-700 whitespace-pre-wrap">
-                                                            {job.workerComment}
+                                                            {job.farmerComment || '후기가 없습니다.'}
                                                         </p>
                                                     </div>
                                                     <DialogFooter>

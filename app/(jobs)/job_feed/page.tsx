@@ -11,6 +11,7 @@ import JobCard from "@/components/jobs/job_card";
 import LoadingCard from "@/components/jobs/loading_card";
 import MapView from "./_components/map_view"; // 지도 뷰 컴포넌트 임포트
 import { DateRange } from "@/components/common/date_range_picker"; // DateRange 타입 임포트
+import { useAuthStore } from "@/stores/auth";
 
 // 구인 목록 아이템 인터페이스 (명세서 참고)
 interface JobListItem {
@@ -47,6 +48,7 @@ export default function JobFeedPage() {
     const [hasMore, setHasMore] = useState(true); // 더 많은 데이터 여부 상태
     const [dateRange, setDateRange] = useState<DateRange>({ start: null, end: null }); // 날짜 범위 상태 추가
     const [viewMode, setViewMode] = useState<"list" | "map">("list"); // 뷰 모드 상태 추가
+    const { userRole } = useAuthStore();
 
     // 다음 페이지 데이터를 불러오는 함수 (에러 핸들링 추가)
     const fetchNextPage = async () => {
@@ -77,12 +79,14 @@ export default function JobFeedPage() {
         <div className="space-y-4 p-4">
             <div className="flex flex-col md:flex-row md:justify-between items-start gap-4">
                 <FilterSection dateRange={dateRange} setDateRange={setDateRange} /> {/* 날짜 범위 상태 전달 */}
-                <Button
-                    color="blue"
-                    onClick={() => router.push("/new")}
-                >
-                    새 글 작성
-                </Button>
+                {userRole === 'FARMER' && (
+                    <Button
+                        color="blue"
+                        onClick={() => router.push("/new")}
+                    >
+                        새 글 작성
+                    </Button>
+                )}
                 <div className="flex space-x-2">
                     <Button
                         color="grey"

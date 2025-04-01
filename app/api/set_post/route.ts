@@ -5,6 +5,7 @@ import { jobPostings } from "@/db/schema/schema_job_postings"; // Job postings �
 export async function POST(request: Request) {
     try {
         const body = await request.json();
+
         const {
             title,
             description,
@@ -17,6 +18,7 @@ export async function POST(request: Request) {
             latitude,
             longitude,
             quota,
+            userId,
         } = body;
 
         // 필수 항목 검증
@@ -39,7 +41,7 @@ export async function POST(request: Request) {
 
         // 새 구인 포스트 객체 생성
         const newJobPosting = {
-            userId: 1, // 실제 사용자 ID로 변경 예정
+            userId: userId,
             farmId: 1, // 실제 농장 ID로 변경 예정
             title,
             description,

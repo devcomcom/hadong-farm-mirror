@@ -24,6 +24,7 @@ interface UserProfile {
     profileImageUrl?: string;
 }
 
+// 프로필 페이지
 export default function ProfilePage() {
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [isEditing, setIsEditing] = useState(false);

@@ -4,7 +4,7 @@ import { Input as ShadcnInput } from "@/components/ui/input";
 import classNames from "classnames";
 
 // 입력 필드의 속성을 정의하는 인터페이스입니다.
-interface Props extends React.ComponentPropsWithoutRef<'input'> {
+interface Props extends Omit<React.ComponentPropsWithoutRef<'input'>, 'size'> {
     /**
      * 입력 필드의 크기를 지정합니다. (기본값: 'md')
      */

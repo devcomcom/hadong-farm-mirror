@@ -4,6 +4,8 @@
 
 // Setup type definitions for built-in Supabase Runtime APIs
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+
+// @ts-ignore: Suppress lint error for importing Supabase client
 import { createClient } from "https://cdn.skypack.dev/@supabase/supabase-js";
 
 // Supabase 클라이언트 설정
@@ -14,6 +16,7 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 console.log("Hello from Functions!");
 
+// @ts-expect-error: Suppress lint error for importing Supabase client
 Deno.serve(async (req) => {
     if (req.method === "POST") {
         try {
@@ -57,9 +60,13 @@ Deno.serve(async (req) => {
             );
         } catch (error) {
             console.error("Error processing webhook:", error);
+            const errorMessage =
+                error instanceof Error
+                    ? error.message
+                    : "Internal server error";
             return new Response(
                 JSON.stringify({
-                    error: error.message || "Internal server error",
+                    error: errorMessage,
                 }),
                 { status: 500 }
             );

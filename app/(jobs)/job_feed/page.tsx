@@ -22,9 +22,11 @@ interface JobListItem {
     location: {
         address: string; // 위치 주소
         distance?: number; // 현재 위치 기준 거리 (선택적)
+        latitude: number; // 위도
+        longitude: number; // 경도
     };
-    workDateStart: string; // 근무 시작일
-    workDateEnd: string; // 근무 종료일
+    workStartDate: string; // 근무 시작일
+    workEndDate: string; // 근무 종료일
     paymentAmount: number; // 급여 금액
     paymentUnit: "DAY" | "HOUR"; // 급여 단위 (일/시간)
     quota: number; // 모집 인원
@@ -68,8 +70,8 @@ export default function JobFeedPage() {
     // 날짜 범위와 겹치는 아이템 필터링
     const filteredItems = items.filter((job) => {
         if (!dateRange.start || !dateRange.end) return true; // 날짜 범위가 설정되지 않은 경우 모든 아이템 표시
-        const jobStart = new Date(job.workDateStart);
-        const jobEnd = new Date(job.workDateEnd);
+        const jobStart = new Date(job.workStartDate);
+        const jobEnd = new Date(job.workEndDate);
         return (
             (jobStart <= dateRange.end && jobEnd >= dateRange.start) // 날짜 범위와 겹치는지 확인
         );
@@ -129,7 +131,15 @@ export default function JobFeedPage() {
                         </div>
                     </InfiniteScroll>
                 ) : (
-                    <MapView items={filteredItems} /> // 지도 뷰 출력
+                    <MapView items={filteredItems.map(job => ({
+                        id: job.id,
+                        title: job.title,
+                        location: {
+                            address: job.location.address,
+                            latitude: job.location.latitude,
+                            longitude: job.location.longitude,
+                        }
+                    }))} /> // 지도 뷰 출력
                 )}
             </div>
         </div>

@@ -32,10 +32,10 @@ export async function GET(request: Request) {
             const jobLat = job.location.latitude;
             const jobLng = job.location.longitude;
             const distance = haversineDistance(
-                userLat,
-                userLng,
-                jobLat,
-                jobLng
+                Number(userLat),
+                Number(userLng),
+                Number(jobLat),
+                Number(jobLng)
             );
             return { ...job, distance }; // 거리 추가
         })

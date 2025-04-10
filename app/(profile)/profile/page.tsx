@@ -152,7 +152,7 @@ export default function ProfilePage() {
                             </SelectContent>
                         </Select>
                         <div className="flex flex-col gap-4 mt-4">
-                            <div style={{ display: selectedTab === "기본 정보" ? "block" : "none" }} label="기본 정보">
+                            <div style={{ display: selectedTab === "기본 정보" ? "block" : "none" }}>
                                 {isEditing ? (
                                     <motion.form
                                         initial={{ opacity: 0 }}
@@ -261,22 +261,22 @@ export default function ProfilePage() {
                                 )}
                             </div>
 
-                            <div label="완료한 작업">
+                            <div>
                                 {selectedTab === "완료한 작업" && <CompletedJobList />}
                             </div>
 
                             {userRole === "FARMER" && (
-                                <div label="농장 완료 작업">
+                                <div>
                                     {selectedTab === "농장 완료 작업" && <CompletedJobListByFarmer />}
                                 </div>
                             )}
 
-                            <div label="지원 현황">
+                            <div>
                                 {selectedTab === "지원 현황" && <ApplicantList />}
                             </div>
 
                             {userRole === "FARMER" && (
-                                <div label="지원자 관리">
+                                <div>
                                     {selectedTab === "지원자 관리" && <ApplicantListByFarmer />}
                                 </div>
                             )}
@@ -284,7 +284,7 @@ export default function ProfilePage() {
                     </div>
                     <div className="hidden md:block">
                         <Tabs>
-                            <div label="기본 정보">
+                            <div>
                                 {isEditing ? (
                                     <motion.form
                                         initial={{ opacity: 0 }}
@@ -393,22 +393,22 @@ export default function ProfilePage() {
                                 )}
                             </div>
 
-                            <div label="완료한 작업">
+                            <div>
                                 <CompletedJobList />
                             </div>
 
                             {userRole === "FARMER" && (
-                                <div label="농장 완료 작업">
+                                <div>
                                     <CompletedJobListByFarmer />
                                 </div>
                             )}
 
-                            <div label="지원 현황">
+                            <div>
                                 <ApplicantList />
                             </div>
 
                             {userRole === "FARMER" && (
-                                <div label="지원자 관리">
+                                <div>
                                     <ApplicantListByFarmer />
                                 </div>
                             )}

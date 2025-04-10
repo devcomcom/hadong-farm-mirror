@@ -1,20 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar, MapPin, DollarSign, CheckCircle2, MessageSquare } from "lucide-react";
 import { motion } from "framer-motion";
 import {
     Dialog,
     DialogTrigger,
     DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogDescription,
-    DialogFooter,
-    DialogClose,
 } from "@/components/ui/dialog";
 import Button from "@/components/common/button";
 
+interface Job {
+    id: string;
+    title: string;
+    description: string;
+    workDateStart: string;
+    workDateEnd: string;
+    paymentAmount: number;
+    paymentUnit: string;
+    status: string;
+    isWorkerComment: boolean;
+    workerComment: string;
+    location: string;
+}
+
 const CompletedJobList: React.FC = () => {
-    // ... (기존 상태 관리 코드 유지)
+    const [completedJobs, setCompletedJobs] = useState<Job[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const fetchCompletedJobs = async () => {
+        try {
+            const response = await fetch("/api/get_completed_jobs");
+            const data = await response.json();
+            setCompletedJobs(data.completedJobs);
+        } catch (error) {
+            console.error("Failed to fetch completed jobs:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchCompletedJobs();
+    }, []);
 
     const container = {
         hidden: { opacity: 0 },
@@ -111,7 +137,7 @@ const CompletedJobList: React.FC = () => {
                                                     </Button>
                                                 </DialogTrigger>
                                                 <DialogContent>
-                                                    {/* ... (기존 Dialog 내용 유지) */}
+                                                    {/* ... (Dialog 내용) */}
                                                 </DialogContent>
                                             </Dialog>
                                         ) : (
@@ -126,7 +152,7 @@ const CompletedJobList: React.FC = () => {
                                                     </Button>
                                                 </DialogTrigger>
                                                 <DialogContent>
-                                                    {/* ... (기존 Dialog 내용 유지) */}
+                                                    {/* ... (Dialog 내용) */}
                                                 </DialogContent>
                                             </Dialog>
                                         )}

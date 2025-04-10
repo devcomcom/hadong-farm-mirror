@@ -1,12 +1,12 @@
 "use client";
 
 // 필요한 훅을 임포트합니다.
-/*global kakao*/
 import Script from "next/script";
 import { useLocationStore } from "@/stores/location";
 import { useEffect, useState } from "react";
 declare global {
     interface Window {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         kakao: any;
     }
 }
@@ -14,21 +14,22 @@ declare global {
 // KakaoMap 컴포넌트 정의
 export default function KakaoMap({ latitudeLocal, longitudeLocal }: { latitudeLocal: number; longitudeLocal: number }) {
     const { setLocation } = useLocationStore();
-    const [address, setAddress] = useState('');
-    const [map, setMap] = useState<window.kakao.maps.Map | null>(null);
-    const [marker, setMarker] = useState<window.kakao.maps.Marker | null>(null);
-    const [geocoder, setGeocoder] = useState<window.kakao.maps.services.Geocoder | null>(null);
+    const [map, setMap] = useState<typeof window.kakao.maps.Map | null>(null);
+    const [marker, setMarker] = useState<typeof window.kakao.maps.Marker | null>(null);
+    const [geocoder, setGeocoder] = useState<typeof window.kakao.maps.services.Geocoder | null>(null);
     // 주소를 위경도로 변환하는 함수
     const getCoordinates = (address: string) => {
         if (!geocoder) {
             console.error("Geocoder is not initialized.");
             return;
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         geocoder.addressSearch(address, (result: any, status: any) => {
             if (status === window.kakao.maps.services.Status.OK) {
                 const { x, y } = result[0]; // 경도, 위도
-                console.log('x, y', x, y);
-                setLocation(address, parseFloat(y).toFixed(6), parseFloat(x).toFixed(6)); // 상태 업데이트
+                const latitude = parseFloat(y);
+                const longitude = parseFloat(x);
+                setLocation(address, latitude, longitude); // 상태 업데이트
 
                 map?.setCenter(new window.kakao.maps.LatLng(parseFloat(y), parseFloat(x)));
 

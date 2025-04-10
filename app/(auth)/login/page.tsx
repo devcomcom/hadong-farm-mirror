@@ -3,7 +3,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import Link from "next/link";
 interface LoginFormValues {
     email: string;
     password: string;
@@ -39,8 +39,12 @@ export default function LoginPage() {
 
             // 로그인 성공 시 홈 페이지로 이동
             router.push("/");
-        } catch (error: any) {
-            setLoginError(error.message || "로그인에 실패하였습니다.");
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                setLoginError(error.message || "로그인에 실패하였습니다.");
+            } else {
+                setLoginError("로그인에 실패하였습니다.");
+            }
         } finally {
             setIsSubmitting(false);
         }
@@ -95,9 +99,9 @@ export default function LoginPage() {
                 <div className="text-center">
                     <p className="text-sm">
                         계정이 없으신가요?{" "}
-                        <a href="/signup" className="text-blue-600 hover:underline">
+                        <Link href="/signup" className="text-blue-600 hover:underline">
                             회원가입
-                        </a>
+                        </Link>
                     </p>
                 </div>
             </div>

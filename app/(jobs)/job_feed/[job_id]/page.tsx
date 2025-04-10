@@ -35,6 +35,15 @@ interface JobPostingDetail {
     updatedAt: string; // 수정일
 }
 
+// Match 인터페이스 정의
+interface Match {
+    jobPostingId: string; // 구인 게시물 ID
+    workerId: string; // 지원자 ID
+    farmerId: string; // 농장주 ID
+    status: "PENDING" | "ACCEPTED" | "REJECTED"; // 매칭 상태
+    // 필요한 다른 필드 추가
+}
+
 // 구인 게시물 상세 페이지 컴포넌트
 export default function JobDetailPage() {
     const router = useRouter(); // 라우터 훅 사용
@@ -61,7 +70,7 @@ export default function JobDetailPage() {
 
                     if (jobPosting) {
                         setJobData(jobPosting); // 구인 데이터 설정
-                        const matchData = data.matches.find((match: any) => match.jobPostingId == job_id); // 해당 job의 match 데이터 찾기
+                        const matchData = data.matches.find((match: Match) => match.jobPostingId == job_id); // 해당 job의 match 데이터 찾기
                         if (matchData) {
                             setIsApplied(true); // match 데이터가 있으면 지원 완료 상태를 true로 설정
                         }
@@ -73,8 +82,12 @@ export default function JobDetailPage() {
                         setJobData(data.JobPostingDetail); // JobPostingDetail 배열 변수를 구인 데이터로 설정
                     }
                 }
-            } catch (err: any) {
-                setError(err.message); // 에러 메시지 설정
+            } catch (err: unknown) {
+                if (err instanceof Error) {
+                    setError(err.message); // 에러 메시지 설정
+                } else {
+                    setError("오류가 발생했습니다.");
+                }
             } finally {
                 setIsLoading(false); // 로딩 상태 종료
             }

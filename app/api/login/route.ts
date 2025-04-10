@@ -8,12 +8,13 @@ export async function POST(request: Request) {
         const mockDataPath = path.join(process.cwd(), "util", "mock_data.json");
         const mockData = JSON.parse(fs.readFileSync(mockDataPath, "utf-8"));
 
-        mockData.users.forEach((user) => {
+        mockData.users.forEach((user: { isActive: boolean }) => {
             user.isActive = false; // 모든 유저의 isActive를 false로 설정
         });
         // 사용자 인증
         const user = mockData.users.find(
-            (user) => user.email === email && user.password === password
+            (user: { email: string; password: string }) =>
+                user.email === email && user.password === password
         );
 
         if (!user) {
@@ -32,7 +33,13 @@ export async function POST(request: Request) {
             success: true,
             user: { id: user.id, name: user.name },
         });
-    } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            return NextResponse.json({ error: error.message }, { status: 500 });
+        }
+        return NextResponse.json(
+            { error: "An unknown error occurred" },
+            { status: 500 }
+        );
     }
 }

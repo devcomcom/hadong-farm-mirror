@@ -37,6 +37,13 @@ interface Job {
     location: Location | string;
 }
 
+interface Match {
+    jobPostingId: string; // 구인 게시물 ID
+    workerId: string; // 지원자 ID
+    farmerId: string; // 농장주 ID
+    status: "PENDING" | "ACCEPTED" | "REJECTED" | "COMPLETED"; // 매칭 상태
+}
+
 const CompletedJobList: React.FC = () => {
     const [completedJobs, setCompletedJobs] = useState<Job[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -72,10 +79,10 @@ const CompletedJobList: React.FC = () => {
             const data = await response.json();
             // 완료 상태의 job 아이템만 필터링
             const completed = data.jobPostings.filter((job: Job) => job.status === "COMPLETED");
-            const matches = data.matches.filter((match: any) => match.status === "COMPLETED" && match.workerId === userId);
+            const matches = data.matches.filter((match: Match) => match.status === "COMPLETED" && match.workerId === userId);
             setCompletedJobs(completed);
             completed.map((job: Job) => {
-                const match = matches.find((match: any) => match.jobPostingId === job.id);
+                const match = matches.find((match: Match) => match.jobPostingId === job.id);
                 if (!match) {
                     // match가 없으면 해당 job을 삭제합니다.
                     setCompletedJobs((prevJobs) => prevJobs.filter((j) => j.id !== job.id));

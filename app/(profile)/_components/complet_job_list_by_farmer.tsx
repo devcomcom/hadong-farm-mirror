@@ -36,6 +36,23 @@ interface Job {
     location: Location | string;
     workerName: string;
     workerContact: string;
+    userId: string;
+}
+
+interface Match {
+    jobPostingId: string; // 구인 게시물 ID
+    workerId: string; // 지원자 ID
+    farmerId: string; // 농장주 ID
+    status: "PENDING" | "ACCEPTED" | "REJECTED" | "COMPLETED"; // 매칭 상태
+}
+
+interface User {
+    id: string;
+    name: string;
+    email: string;
+    contact: string;
+    location: string;
+    role: "FARMER" | "WORKER";
 }
 
 const CompletedJobListByFarmer: React.FC = () => {
@@ -78,13 +95,13 @@ const CompletedJobListByFarmer: React.FC = () => {
             );
 
             // 매칭 정보와 작업자 정보 추가
-            const matches = data.matches.filter((match: any) => match.status === "COMPLETED");
+            const matches = data.matches.filter((match: Match) => match.status === "COMPLETED");
             const workers = data.applicants;
 
             const enhancedJobs = completed.map((job: Job) => {
-                const match = matches.find((m: any) => m.jobPostingId === job.id);
+                const match = matches.find((m: Match) => m.jobPostingId === job.id);
                 if (match) {
-                    const worker = workers.find((w: any) => w.id === match.workerId);
+                    const worker = workers.find((w: User) => w.id === match.workerId);
                     return {
                         ...job,
                         isFarmerComment: !!match.farmerComment,

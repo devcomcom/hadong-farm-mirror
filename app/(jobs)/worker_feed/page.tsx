@@ -159,7 +159,7 @@ export default function WorkerFeedPage() {
                             >
                                 <Select
                                     value={filters.sortBy}
-                                    onValueChange={(value: any) =>
+                                    onValueChange={(value: "latest" | "payment" | "distance") =>
                                         setFilters(prev => ({ ...prev, sortBy: value }))
                                     }
                                 >
@@ -175,7 +175,7 @@ export default function WorkerFeedPage() {
 
                                 <Select
                                     value={filters.paymentUnit}
-                                    onValueChange={(value: any) =>
+                                    onValueChange={(value: "ALL" | "DAY" | "HOUR") =>
                                         setFilters(prev => ({ ...prev, paymentUnit: value }))
                                     }
                                 >
@@ -191,7 +191,7 @@ export default function WorkerFeedPage() {
 
                                 <Select
                                     value={filters.status}
-                                    onValueChange={(value: any) =>
+                                    onValueChange={(value: "ALL" | "OPEN" | "CLOSED") =>
                                         setFilters(prev => ({ ...prev, status: value }))
                                     }
                                 >
@@ -209,46 +209,34 @@ export default function WorkerFeedPage() {
                     </AnimatePresence>
                 </motion.div>
 
-                <InfiniteScroll
-                    dataLength={items.length}
-                    next={fetchNextPage}
-                    hasMore={hasMore}
-                    loader={
-                        <div className="space-y-4 mt-4">
-                            {[1, 2].map((i) => (
-                                <LoadingCard key={i} />
-                            ))}
-                        </div>
-                    }
-                    endMessage={
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            className="text-center py-8 text-gray-500"
-                        >
-                            모든 구해요 포스트를 불러왔습니다.
-                        </motion.p>
-                    }
-                >
-                    <motion.div
-                        className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-                        layout
+                {isLoading ? (
+                    <div className="flex items-center justify-center min-h-screen">
+                        <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full" />
+                        <p className="text-gray-600">로딩 중...</p>
+                    </div>
+                ) : (
+                    <InfiniteScroll
+                        dataLength={items.length}
+                        next={fetchNextPage}
+                        hasMore={hasMore}
+                        loader={<LoadingCard />}
+                        endMessage={
+                            <p className="text-center py-4 text-gray-500">
+                                모든 구해요 포스트를 불러왔습니다.
+                            </p>
+                        }
                     >
-                        {filteredItems.map((job, index) => (
-                            <motion.div
-                                key={job.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.1 }}
-                            >
+                        <motion.div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            {filteredItems.map((job) => (
                                 <JobCard
+                                    key={job.id}
                                     job={job}
                                     onClick={() => router.push(`/jobs/${job.id}`)}
                                 />
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </InfiniteScroll>
+                            ))}
+                        </motion.div>
+                    </InfiniteScroll>
+                )}
             </div>
 
             <motion.button

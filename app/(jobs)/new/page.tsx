@@ -31,7 +31,6 @@ export default function JobPostCreationPage() {
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors, isValid },
     } = useForm<JobPostFormValues>({
         mode: "onChange",

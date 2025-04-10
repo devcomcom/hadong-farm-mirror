@@ -20,6 +20,23 @@ interface Job {
     applicantId: string;
 }
 
+// Match 인터페이스 정의
+interface Match {
+    jobPostingId: string; // 구인 게시물 ID
+    workerId: string; // 지원자 ID
+    farmerId: string; // 농장주 ID
+    status: "PENDING" | "ACCEPTED" | "REJECTED" | "COMPLETED"; // 매칭 상태
+}
+
+interface User {
+    id: string;
+    name: string;
+    email: string;
+    contact: string;
+    location: string;
+    role: "FARMER" | "WORKER";
+}
+
 const ApplicantListByFarmer: React.FC = () => {
     const [matchedJobs, setMatchedJobs] = useState<Job[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -43,18 +60,18 @@ const ApplicantListByFarmer: React.FC = () => {
             // mockData에서 matches 리스트 가져오기
             const matches = mockData.matches;
             console.log('matches', matches);
-            const filteredMatches = matches.filter((match: any) => match.status !== "COMPLETED");
+            const filteredMatches = matches.filter((match: Match) => match.status !== "COMPLETED");
             const applicants = mockData.applicants; // 유저 리스트 가져오기
 
 
             // 매칭된 job 리스트를 가져오기
-            const matched = filteredMatches.map((match: any) => {
+            const matched = filteredMatches.map((match: Match) => {
                 if (match.farmerId === userId) {
                     console.log('match', match);
                     const job = mockData.jobPostings.find((job: Job) => job.id === match.jobPostingId);
                     if (job) {
                         // 해당 match의 workerId로 유저 정보 찾기
-                        const applicant = applicants.find((applicant: any) => applicant.id === match.workerId);
+                        const applicant = applicants.find((applicant: User) => applicant.id === match.workerId);
                         return {
                             ...job,
                             matchStatus: match.status,

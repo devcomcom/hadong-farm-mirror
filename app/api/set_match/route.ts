@@ -36,8 +36,14 @@ export async function POST(request: Request) {
             { message: "Match created successfully." },
             { status: 201 }
         );
-    } catch (error: any) {
-        console.error("Error creating match:", error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.error("Error creating match:", error);
+            return NextResponse.json({ error: error.message }, { status: 500 });
+        }
+        return NextResponse.json(
+            { error: "An unknown error occurred" },
+            { status: 500 }
+        );
     }
 }

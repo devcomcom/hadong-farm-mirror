@@ -1,15 +1,24 @@
 "use client";
 
 // 필요한 훅을 임포트합니다.
-/*global kakao*/
 import Script from "next/script";
 import { useLocationStore } from "@/stores/location";
 import React from "react";
 
 declare global {
     interface Window {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         kakao: any;
     }
+}
+
+interface JobPosting {
+    id: string;
+    title: string;
+    location: {
+        latitude: number;
+        longitude: number;
+    };
 }
 
 // KakaoMap 컴포넌트 정의
@@ -106,7 +115,7 @@ export default function KakaoMap({
                                 );
 
                                 // 마커 클러스터에 마커 추가
-                                const markers = data.jobPostings.map((job: any) => {
+                                const markers = data.jobPostings.map((job: JobPosting) => {
                                     const position =
                                         new window.kakao.maps.LatLng(
                                             job.location.latitude,

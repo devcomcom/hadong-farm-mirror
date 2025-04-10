@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import KakaoMap from "@/components/common/kakao_map_search"; // KakaoMap 컴포넌트 임포트
 
 interface MapViewProps {

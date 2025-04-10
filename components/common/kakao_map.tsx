@@ -1,12 +1,12 @@
 "use client";
 
 // 필요한 훅을 임포트합니다.
-/*global kakao*/
 import Script from "next/script";
 
 declare global {
     interface Window {
-        kakao: any;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        kakao: any; // kakao의 타입을 구체적으로 정의하는 것이 좋습니다.
     }
 }
 
